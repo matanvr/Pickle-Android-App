@@ -1,0 +1,166 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/newPostLay"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    tools:context="com.teamtreehouse.ribbit.NewPost$PlaceholderFragment" >
+
+    <TableLayout
+        android:id="@+id/m_table_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#F0F0F0"
+        android:padding="0dp"
+        android:stretchColumns="*" >
+
+        <!--
+    <ImageView
+        android:id="@+id/cameraButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+        android:src="@drawable/ic_action_camera_black" />
+        -->
+
+        <CheckBox
+            android:id="@+id/anonymousCheckBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Ask Anonymously"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:id="@+id/editTextLayout"
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+				android:layout_height="wrap_content"
+				 
+
+
+                android:background="@android:color/white"
+
+                android:padding="10dp" >
+
+                <EditText
+                    android:id="@+id/questionString"
+  					android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+ 
+                    
+                    android:hint="Ask Something..."
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#5d3e85" >
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#5d3e85" >
+
+                <View
+                    android:id="@+id/buttonDivider"
+                    android:layout_width="1dp"
+                    android:layout_height="fill_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/light_purple_button" />
+
+                <EditText
+                    android:id="@+id/ThisCaption"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="0dp"
+                    android:layout_toLeftOf="@id/buttonDivider"
+                    android:gravity="center"
+                    android:text="THIS"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#fff" />
+
+                <EditText
+                    android:id="@+id/ThatCaption"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@id/buttonDivider"
+                    android:gravity="center"
+                    android:text="THAT"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="#fff" />
+            </RelativeLayout>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.033" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:layout_weight=".45"
+                android:background="@drawable/pic_border" >
+
+                <ImageView
+                    android:id="@+id/backgroundPictureThis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_menu_camera" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.033" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:layout_weight=".45"
+                android:background="@drawable/pic_border" >
+
+                <ImageView
+                    android:id="@+id/backgroundPictureThat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_menu_camera" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.033" />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

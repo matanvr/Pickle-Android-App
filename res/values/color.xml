@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="list_item_title">#fff</color>
+    <color name="list_background">#303030</color>
+    <color name="list_background_pressed">#992416</color>
+    <color name="list_divider">#272727</color>
+    <color name="counter_text_bg">#626262</color>
+    <color name="counter_text_color">#c5c4c4</color>
+    <color name="blue">#00abea</color>
+    <color name="white">#ffffff</color>
+    <color name="light_purple_button">#e1d2f3</color>
+    <color name="pressed_purple_button">#ba9dda</color>
+    <color name="focused_purple_button">#d6c3ed</color>
+    <color name="swipeRefresh1">#482c6f</color>
+    <color name="swipeRefresh2">#ad78d9</color>
+    <color name="swipeRefresh3">#dcadf4</color>
+    <color name="swipeRefresh4">#ad78d9</color>
+        <color name="light_gray"> #BBBBBB</color>
+
+</resources>

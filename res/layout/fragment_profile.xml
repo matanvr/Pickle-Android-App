@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+			<LinearLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="150dp"
+			    android:background="#5d3e85"
+			    android:orientation="vertical"
+			    android:padding="10dp" >
+
+	            <ImageView
+	                android:id="@+id/profilePic"
+	                android:layout_width="80dp"
+	                android:layout_height="80dp"
+	                android:layout_gravity="center"
+	                android:gravity="center"
+	                android:background="@drawable/pic_border"
+	                android:src="@drawable/avatar_empty"/>
+
+	            <TextView
+	                android:id="@+id/profileName"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:ems="10"
+	                android:gravity="center"
+	                android:inputType="textPersonName"
+	                android:text="Matan Vardi"
+	                android:textColor="#FFF" />
+
+            </LinearLayout>
+
+            <TableLayout
+                android:id="@+id/tableRow3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+			    <TableRow
+			        android:id="@+id/tableRow4"
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:padding="5dip" >
+
+			        <TextView
+			            android:id="@+id/editText1"
+			            android:layout_width="0dp"
+			            android:layout_weight=".5"
+			            android:layout_height="wrap_content"
+			            android:ems="10" 
+			            android:gravity="center"
+						android:text="Total posts : 2 ">
+			            <requestFocus />
+			        </TextView>
+
+			        <TextView
+			            android:id="@+id/editText2"
+			            android:layout_width="0dp"
+			            android:layout_weight=".5"
+			            android:layout_height="wrap_content"
+			            android:ems="10"
+			            android:gravity="center"
+			            android:text="Total votes : 10 "
+			            />
+			
+			    </TableRow>
+			    <!-- display this button in 3rd column via layout_column(zero based) -->
+
+		   </TableLayout>
+
+</LinearLayout>

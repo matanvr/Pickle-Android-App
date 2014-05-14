@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.myteam.thisorthat"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <application
+        android:name="com.myteam.thisorthat.ThisOrThatApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Theme" >
+        <activity
+            android:name="com.myteam.thisorthat.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.myteam.thisorthat.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.myteam.thisorthat.SignUpActivity"
+            android:label="@string/title_activity_sign_up"
+            android:parentActivityName="com.myteam.thisorthat.LoginActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.myteam.thisorthat.EditFriendsActivity"
+            android:label="@string/title_activity_edit_friends"
+            android:parentActivityName="com.myteam.thisorthat.MainActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.myteam.thisorthat.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.myteam.thisorthat.RecipientsActivity"
+            android:label="@string/title_activity_recipients"
+            android:parentActivityName="com.myteam.thisorthat.NewPost"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.myteam.thisorthat.MainActivity" />
+        </activity>
+
+        <activity
+            android:name="com.myteam.thisorthat.NewPost"
+            android:label="@string/title_activity_new_post"
+            android:parentActivityName="com.myteam.thisorthat.MainActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.myteam.thisorthat.MainActivity" />
+        </activity>
+        <activity android:name="com.myteam.thisorthat.AndroidCustomGalleryActivity"
+            android:label="@string/title_activity_android_custom_gallery"
+            android:screenOrientation="portrait"
+            android:parentActivityName="com.myteam.thisorthat.NewPost">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.myteam.thisorthat.NewPost" />
+        </activity>
+      
+      <activity android:name="com.android.camera.CropImage"
+          		android:label="@string/title_activity_view_image"/>
+       <activity
+            android:name="com.myteam.thisorthat.GoogleImageActivity"
+            android:label="@string/google_image_title"
+            android:screenOrientation="portrait" 
+            android:parentActivityName="com.myteam.thisorthat.NewPost">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.myteam.thisorthat.NewPost" />
+        </activity>
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
+    </application>
+
+</manifest>
