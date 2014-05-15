@@ -27,8 +27,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="0.50" >
 
                     <ImageView
@@ -36,7 +36,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:background="@drawable/circle"
-                        android:src="@drawable/avatar_empty" />
+                        android:src="@drawable/default_avatar" />
 
                     <TextView
                         android:id="@+id/FromLabelView"
@@ -54,7 +54,7 @@
                 android:id="@+id/tableRow3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp" >
+                android:padding="10dp" >
 
                 <TextView
                     android:id="@+id/Question"
@@ -75,16 +75,16 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:background="#5d3e85" >
+                    android:background="#F1F3F7" >
 
                     <View
                         android:id="@+id/buttonDivider"
                         android:layout_width="1dp"
                         android:layout_height="fill_parent"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/light_purple_button" />
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="#CBCDD3" />
 
                     <TextView
                         android:id="@+id/thisLabel"
@@ -96,7 +96,7 @@
                         android:gravity="center"
                         android:text="THIS"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="#fff" />
+                        android:textColor="#62656F" />
 
                     <TextView
                         android:id="@+id/thatLabel"
@@ -107,7 +107,7 @@
                         android:gravity="center"
                         android:text="THAT"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="#fff" />
+                        android:textColor="#62656F" />
 
                     <View
                         android:id="@+id/view1"
@@ -131,8 +131,8 @@
                         android:layout_marginLeft="3dp"
                         android:layout_marginRight="3dp"
                         android:layout_toLeftOf="@+id/thatLabel"
-                        android:visibility="invisible"
-                        android:background="@drawable/button_custom" />
+                        android:background="@drawable/button_custom"
+                        android:visibility="invisible" />
                 </RelativeLayout>
             </TableRow>
 
@@ -157,17 +157,18 @@
 
                     <TextView
                         android:id="@+id/thisVotes"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
                         android:layout_marginBottom="18dp"
                         android:layout_marginLeft="18dp"
-                        android:background="@drawable/circle"
+                        android:background="@drawable/votedbutton"
                         android:gravity="center"
                         android:text="1"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="#604087" />
+                        android:textColor="#62656F"
+                        android:textStyle="bold" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -187,17 +188,18 @@
 
                     <TextView
                         android:id="@+id/thatVotes"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="18dp"
                         android:layout_marginRight="18dp"
-                        android:background="@drawable/circle"
+                        android:background="@drawable/votedbutton"
                         android:gravity="center"
                         android:text="1"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="#604087" />
+                        android:textColor="#62656F"
+                        android:textStyle="bold" />
                 </RelativeLayout>
             </TableRow>
 
@@ -221,7 +223,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginRight="10dp"
                         android:layout_toLeftOf="@+id/comment_button"
-                        android:src="@drawable/ic_menu_overflow" />
+                        android:src="@drawable/more" />
 
                     <TextView
                         android:id="@+id/textView1"
@@ -230,7 +232,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:text="12"
-                        android:textColor="#5d3e85"
+                        android:textColor="#62656F"
                         android:textStyle="bold" />
 
                     <ImageView
@@ -250,7 +252,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_toLeftOf="@+id/heart_button"
                         android:text="2"
-                        android:textColor="#5d3e85"
+                        android:textColor="#62656F"
                         android:textStyle="bold" />
 
                     <ImageView
