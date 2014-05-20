@@ -1,4 +1,4 @@
-package com.myteam.thisorthat;
+package com.myteam.adapter;
 
 import java.util.ArrayList;
 
@@ -13,6 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.myteam.model.ImageItem;
+import com.myteam.thisorthat.R;
+import com.myteam.thisorthat.R.id;
 import com.squareup.picasso.Picasso;
 
 /**

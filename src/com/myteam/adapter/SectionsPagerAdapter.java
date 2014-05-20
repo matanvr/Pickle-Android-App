@@ -1,6 +1,11 @@
-package com.myteam.thisorthat;
+package com.myteam.adapter;
 
 import java.util.Locale;
+
+import com.myteam.thisorthat.FriendsFragment;
+import com.myteam.thisorthat.InboxFragment;
+import com.myteam.thisorthat.R;
+import com.myteam.thisorthat.R.string;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

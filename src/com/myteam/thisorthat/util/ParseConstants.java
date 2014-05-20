@@ -1,4 +1,4 @@
-package com.myteam.thisorthat;
+package com.myteam.thisorthat.util;
 
 public final class ParseConstants {
 	// Class name
@@ -28,5 +28,7 @@ public final class ParseConstants {
 	public static final String KEY_POST_ID = "postid";
 	public static final String KEY_THIS_CAPTION = "thisCaption";
 	public static final String KEY_THAT_CAPTION = "thatCaption";
+	public static final String KEY_IS_FOLLOWER  = "follower_vote";
+	public static final String KEY_FOLLOWERS  = "followers";
 	
 }

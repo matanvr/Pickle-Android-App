@@ -1,4 +1,4 @@
-package com.myteam.thisorthat;
+package com.myteam.thisorthat.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

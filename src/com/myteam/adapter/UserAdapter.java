@@ -11,8 +11,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.myteam.thisorthat.MD5Util;
 import com.myteam.thisorthat.R;
+import com.myteam.thisorthat.util.MD5Util;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 

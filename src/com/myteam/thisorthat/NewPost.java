@@ -31,12 +31,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.myteam.thisorthat.util.FileHelper;
+import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
+
 
 
 
@@ -80,12 +86,7 @@ public class NewPost extends Activity  {
 		super.onCreate(savedInstanceState);
 		System.gc(); 
 		setContentView(R.layout.activity_new_post);
-       /* final ActionBar actionBar = getActionBar();
-        actionBar.setCustomView(R.layout.actionbar_custom_view_home);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        getActionBar().setIcon(R.drawable.action_exit);
-        getActionBar().setDisplayShowTitleEnabled(false);*/
+
 		mBackgroundImageThis = (ImageView) findViewById(R.id.backgroundPictureThis);
 		mBackgroundImageThat = (ImageView) findViewById(R.id.backgroundPictureThat);
 		mThisCaption = (EditText) findViewById(R.id.ThisCaption);
@@ -366,29 +367,7 @@ public class NewPost extends Activity  {
 	    return resizedBitmap;
 	}
 	/*
-	Bitmap ShrinkBitmap(String file, int width, int height){
 
-		BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
-		bmpFactoryOptions.inJustDecodeBounds = true;
-		Bitmap bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
-
-		int heightRatio = (int)Math.ceil(bmpFactoryOptions.outHeight/(float)height);
-		int widthRatio = (int)Math.ceil(bmpFactoryOptions.outWidth/(float)width);
-
-		if (heightRatio > 1 || widthRatio > 1)
-		{
-			if (heightRatio > widthRatio)
-			{
-				bmpFactoryOptions.inSampleSize = heightRatio;
-			} else {
-				bmpFactoryOptions.inSampleSize = widthRatio; 
-			}
-		}
-
-		bmpFactoryOptions.inJustDecodeBounds = false;
-		bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
-		return bitmap;
-	}
 	
 	public ParseFile getParseFile(String filePath){
 		
@@ -545,7 +524,17 @@ public class NewPost extends Activity  {
 		}
 	};
 	
-
+	protected void sendPushNotifications() {
+		ParseQuery<ParseInstallation> query = ParseInstallation.getQuery();
+		query.whereNotEqualTo(ParseConstants.KEY_USER_ID, ParseUser.getCurrentUser());
+		
+		// send push notification
+		ParsePush push = new ParsePush();
+		push.setQuery(query);
+		push.setMessage(getString(R.string.push_message, 
+				ParseUser.getCurrentUser().getUsername()));
+		push.sendInBackground();
+	}
 }
 	
 

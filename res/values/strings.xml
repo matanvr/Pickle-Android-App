@@ -4,7 +4,7 @@
     <string name="app_name">This Or That</string>
     <string name="action_settings">Settings</string>
     <string name="subtitle"> Decide Better</string>
-    
+    <string name="push_message">%s needs to make a decision!</string>
     <string name="title_section1">All</string>
     <string name="title_section2">Following</string>
     <string name="title_activity_login">LoginActivity</string>
@@ -79,6 +79,6 @@
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="google_image_title">Search Images</string>
-    <string name="profile_settings">Settings</string>
+    <string name="profile_settings">Edit</string>
 
 </resources>
