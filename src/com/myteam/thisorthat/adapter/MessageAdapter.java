@@ -5,9 +5,16 @@ import java.util.List;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -140,7 +147,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			 mHolder.thatVoteDisplay.setVisibility(View.VISIBLE);
 			 mHolder.extrasRow.setVisibility(View.VISIBLE);
 				Log.d(postId, "user vote is: " + (mUserVotesMap.get(postId)).getInt(ParseConstants.KEY_USER_VOTE) + "  "+ mUserVotesMap.size());
-			 
+				Drawable drawablePic = new BitmapDrawable(mContext.getResources(),CreateBlurredImage(50));
+				mHolder.thisVoteDisplay.setBackground(drawablePic);
 			if((mUserVotesMap.get(postId)).getInt(ParseConstants.KEY_USER_VOTE) == THIS_IMAGE){
 				mHolder.ThatCaption.setTextColor(Color.BLACK);
 				mHolder.ThisCaption.setTextColor(Color.WHITE);
@@ -363,6 +371,25 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				0f, 1f);
 		animation3.setDuration(2000);
 		animation3.start();
+	}
+	
+	private Bitmap CreateBlurredImage (int radius)
+	{
+
+	    Drawable blankDrawable = mContext.getResources().getDrawable(R.drawable.votedbutton);
+
+		Bitmap inputBitmap = ((BitmapDrawable)blankDrawable).getBitmap();
+		Bitmap outputBitmap = ((BitmapDrawable)blankDrawable).getBitmap();
+		RenderScript rs = RenderScript.create(mContext);
+		ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));;
+		Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
+		Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
+		theIntrinsic.setRadius(12.f);
+		theIntrinsic.setInput(tmpIn);
+		theIntrinsic.forEach(tmpOut);
+		tmpOut.copyTo(outputBitmap);
+		
+		return outputBitmap;
 	}
 
 }
