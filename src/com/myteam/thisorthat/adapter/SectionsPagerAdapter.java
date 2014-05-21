@@ -1,4 +1,4 @@
-package com.myteam.adapter;
+package com.myteam.thisorthat.adapter;
 
 import java.util.Locale;
 

@@ -1,4 +1,4 @@
-package com.myteam.model;
+package com.myteam.thisorthat.model;
 
 import android.graphics.Bitmap;
 

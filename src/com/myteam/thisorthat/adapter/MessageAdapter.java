@@ -1,4 +1,4 @@
-package com.myteam.adapter;
+package com.myteam.thisorthat.adapter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -129,6 +130,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mHolder.ThatCaption.setBackgroundColor(0);
 			mHolder.ThisCaption.setTextColor(Color.BLACK);
 			mHolder.ThatCaption.setTextColor(Color.BLACK);
+			mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+			mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
 			
 		} else {
 			mHolder.thatVot.setVisibility(View.VISIBLE);
@@ -143,12 +146,15 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				mHolder.ThisCaption.setTextColor(Color.WHITE);
 				mHolder.ThatCaption.setBackgroundColor(0);
 				mHolder.ThisCaption.setBackgroundColor(mContext.getResources().getColor(R.color.purple_dark));
-				
+				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
+				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
 			}
 			else{
 
 				mHolder.ThatCaption.setTextColor(Color.WHITE);
 				mHolder.ThisCaption.setTextColor(Color.BLACK);
+				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
+				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
 				
 				mHolder.ThatCaption.setBackgroundColor(mContext.getResources().getColor(R.color.purple_dark));
 				mHolder.ThisCaption.setBackgroundColor(0);

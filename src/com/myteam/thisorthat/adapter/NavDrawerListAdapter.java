@@ -1,4 +1,4 @@
-package com.myteam.adapter;
+package com.myteam.thisorthat.adapter;
 
 
 
@@ -13,8 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.myteam.model.NavDrawerItem;
 import com.myteam.thisorthat.R;
+import com.myteam.thisorthat.model.NavDrawerItem;
 
 public class NavDrawerListAdapter extends BaseAdapter {
 	

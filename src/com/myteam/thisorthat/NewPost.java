@@ -526,7 +526,7 @@ public class NewPost extends Activity  {
 	
 	protected void sendPushNotifications() {
 		ParseQuery<ParseInstallation> query = ParseInstallation.getQuery();
-		query.whereNotEqualTo(ParseConstants.KEY_USER_ID, ParseUser.getCurrentUser());
+		query.whereEqualTo(ParseConstants.KEY_USER_ID, ParseUser.getCurrentUser().getUsername());
 		
 		// send push notification
 		ParsePush push = new ParsePush();

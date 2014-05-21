@@ -27,9 +27,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.myteam.adapter.NavDrawerListAdapter;
-import com.myteam.adapter.SectionsPagerAdapter;
-import com.myteam.model.NavDrawerItem;
+import com.myteam.thisorthat.adapter.NavDrawerListAdapter;
+import com.myteam.thisorthat.adapter.SectionsPagerAdapter;
+import com.myteam.thisorthat.model.NavDrawerItem;
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 

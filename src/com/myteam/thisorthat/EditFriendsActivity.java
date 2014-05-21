@@ -15,7 +15,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.myteam.adapter.UserAdapter;
+import com.myteam.thisorthat.adapter.UserAdapter;
 import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.FindCallback;
 import com.parse.ParseException;

@@ -12,8 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.myteam.adapter.GridViewAdapter;
-import com.myteam.model.ImageItem;
+import com.myteam.thisorthat.adapter.GridViewAdapter;
+import com.myteam.thisorthat.model.ImageItem;
 import com.parse.ParseObject;
 
 import android.net.Uri;

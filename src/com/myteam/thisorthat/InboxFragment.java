@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.myteam.adapter.MessageAdapter;
+import com.myteam.thisorthat.adapter.MessageAdapter;
 import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.FindCallback;
 import com.parse.ParseException;
