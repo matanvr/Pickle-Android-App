@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:state_activated="true"  android:color="@color/pressed_purple_button" />     
-	<item  android:state_active="true" android:color="@color/pressed_purple_button" />
-	<item android:state_selected="true" android:color="@color/pressed_purple_button" />
-	<item android:color="#fff" />  
+	<item android:state_activated="true"  android:color="@color/menu_selected" />     
+	<item  android:state_active="true" android:color="@color/menu_selected" />
+	<item android:state_selected="true" android:color="@color/menu_selected" />
+	<item android:color="@color/menu_unselected" />  
 </selector>

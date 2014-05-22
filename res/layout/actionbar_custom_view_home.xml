@@ -1,19 +1,24 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="horizontal" >
+    android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/actionBarLogo"
+    <ImageView
+        android:id="@+id/menuButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-		android:textColor="@android:color/white"
-        android:textSize="43sp"
-        android:layout_gravity="center"
-        android:textScaleX=".9"
-		android:text="dilemmapp"
+        android:layout_height="45dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:src="@drawable/ic_drawer" />
 
-	 />
+    <ImageView
+        android:id="@+id/mytext"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="33dp"
+        android:paddingTop="10dp"
+        android:src="@drawable/logo" />
 
-</LinearLayout>
+</RelativeLayout>

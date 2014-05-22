@@ -11,7 +11,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:background="@drawable/list_selector"
+        
         android:contentDescription="@string/desc_list_item_icon"
         android:src="@drawable/ic_home"
         android:layout_centerVertical="true" />
@@ -21,11 +21,15 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toRightOf="@id/icon"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:textColor="@color/list_selector_font"
         android:gravity="center_vertical"
-        android:paddingRight="40dp"/>
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingRight="40dp"
+        android:shadowDx="-2"
+        android:shadowDy="2"
+        android:shadowRadius="0.01"
+        android:text="boy"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textColor="@color/list_selector_font" />
     
     <TextView android:id="@+id/counter"
         android:layout_width="wrap_content"
@@ -35,5 +39,14 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="8dp"
         android:textColor="@color/counter_text_color"/>
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="50dp"
+         android:layout_marginRight="50dp"
+        android:layout_alignParentBottom="true"
+        />
 
 </RelativeLayout>

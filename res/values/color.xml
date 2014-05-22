@@ -18,5 +18,7 @@
     <color name="swipeRefresh3">#dcadf4</color>
     <color name="swipeRefresh4">#ad78d9</color>
         <color name="light_gray"> #BBBBBB</color>
+        <color name="menu_selected">#fff</color>
+        <color name="menu_unselected">#60ffffff</color>
 
 </resources>

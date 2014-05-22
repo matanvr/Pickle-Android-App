@@ -7,9 +7,16 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -133,7 +140,7 @@ public class MainActivity extends FragmentActivity implements
  
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
- 
+        mDrawerList.setBackground(getResources().getDrawable(R.drawable.background_menu));
         navDrawerItems = new ArrayList<NavDrawerItem>();
  
         // adding nav drawer items to array
@@ -142,7 +149,8 @@ public class MainActivity extends FragmentActivity implements
         // Find People
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-         
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));  
  
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -156,7 +164,7 @@ public class MainActivity extends FragmentActivity implements
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
        // getActionBar().setDisplayShowHomeEnabled(false);
-
+        
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.drawable.ic_drawer, //nav menu toggle icon
                 R.string.app_name, // nav drawer open - description for accessibility
@@ -422,9 +430,9 @@ public class MainActivity extends FragmentActivity implements
 	            
 	            break;
 	        case 2:
-	        	MENU_STATE = MENU_FRIENDS;
-	        	this.invalidateOptionsMenu();
-	            fragment = new FriendsFragment();
+
+	        	Intent intent = new Intent(this, NewPost.class);
+				startActivity(intent);
 	            break;
 
 	 
@@ -447,5 +455,24 @@ public class MainActivity extends FragmentActivity implements
 	            Log.e("MainActivity", "Error in creating fragment");
 	        }
 	    }
+	    
+		private Bitmap CreateBlurredImage (int radius)
+		{
+
+		    Drawable blankDrawable = getResources().getDrawable(R.drawable.votedbutton);
+
+			Bitmap inputBitmap = ((BitmapDrawable)blankDrawable).getBitmap();
+			Bitmap outputBitmap = ((BitmapDrawable)blankDrawable).getBitmap();
+			RenderScript rs = RenderScript.create(this);
+			ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));;
+			Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
+			Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
+			theIntrinsic.setRadius(12.f);
+			theIntrinsic.setInput(tmpIn);
+			theIntrinsic.forEach(tmpOut);
+			tmpOut.copyTo(outputBitmap);
+			
+			return outputBitmap;
+		}
 
 }

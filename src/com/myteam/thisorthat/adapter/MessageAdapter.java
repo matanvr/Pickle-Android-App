@@ -90,6 +90,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mHolder.thisVoteDisplay = (RelativeLayout) convertView.findViewById(R.id.thisCircle);
 			mHolder.thatVoteDisplay = (RelativeLayout) convertView.findViewById(R.id.thatCircle);
 			mHolder.extrasRow = (TableRow) convertView.findViewById(R.id.extrasRow);
+			mHolder.thatPercentage = (TextView) convertView.findViewById(R.id.that_percentage);
+			mHolder.thisPercentage = (TextView) convertView.findViewById(R.id.this_percentage);
 			Typeface myTypeface = Typeface.createFromAsset(
 					mContext.getAssets(), "fonts/Roboto-Regular.ttf");
 			Typeface myThickTypeface = Typeface.createFromAsset(
@@ -103,7 +105,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mHolder.ThisCaption.setTypeface(myTypeface);
 			mHolder.ThatCaption.setTypeface(myTypeface);
 			mHolder.From.setTypeface(myThickTypeface);
-
+			mHolder.thatPercentage.setTypeface(myTypeface);
+			mHolder.thisPercentage.setTypeface(myTypeface);
 			convertView.setTag(mHolder);
 
 		} else {
@@ -147,8 +150,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			 mHolder.thatVoteDisplay.setVisibility(View.VISIBLE);
 			 mHolder.extrasRow.setVisibility(View.VISIBLE);
 				Log.d(postId, "user vote is: " + (mUserVotesMap.get(postId)).getInt(ParseConstants.KEY_USER_VOTE) + "  "+ mUserVotesMap.size());
-				Drawable drawablePic = new BitmapDrawable(mContext.getResources(),CreateBlurredImage(50));
-				mHolder.thisVoteDisplay.setBackground(drawablePic);
+				//Drawable drawablePic = new BitmapDrawable(mContext.getResources(),CreateBlurredImage(50));
+			//	mHolder.thisVoteDisplay.setBackground(drawablePic);
 			if((mUserVotesMap.get(postId)).getInt(ParseConstants.KEY_USER_VOTE) == THIS_IMAGE){
 				mHolder.ThatCaption.setTextColor(Color.BLACK);
 				mHolder.ThisCaption.setTextColor(Color.WHITE);
@@ -360,6 +363,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		RelativeLayout thisVoteDisplay;
 		RelativeLayout thatVoteDisplay;
 		TableRow extrasRow;
+		TextView thisPercentage;
+		TextView thatPercentage;
 	}
 
 	public void toggleAnimation(TextView textView) {
@@ -373,23 +378,6 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		animation3.start();
 	}
 	
-	private Bitmap CreateBlurredImage (int radius)
-	{
 
-	    Drawable blankDrawable = mContext.getResources().getDrawable(R.drawable.votedbutton);
-
-		Bitmap inputBitmap = ((BitmapDrawable)blankDrawable).getBitmap();
-		Bitmap outputBitmap = ((BitmapDrawable)blankDrawable).getBitmap();
-		RenderScript rs = RenderScript.create(mContext);
-		ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));;
-		Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
-		Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
-		theIntrinsic.setRadius(12.f);
-		theIntrinsic.setInput(tmpIn);
-		theIntrinsic.forEach(tmpOut);
-		tmpOut.copyTo(outputBitmap);
-		
-		return outputBitmap;
-	}
 
 }

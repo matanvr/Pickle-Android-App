@@ -165,38 +165,55 @@
                     <RelativeLayout
                         android:id="@+id/thisCircle"
                         android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_height="30dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
-                        android:layout_marginBottom="18dp"
-                        android:layout_marginLeft="18dp"
-                        android:background="@drawable/votedbutton"
-                        android:gravity="center"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="#62656F"
-                        android:textStyle="bold" >
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/voteheader"
+                        android:gravity="center" >
 
                         <ImageView
-                            android:id="@+id/buttonImageThis"
+                            android:id="@+id/thumb_this"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentRight="true"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
                             android:layout_alignParentTop="true"
-                            android:layout_marginRight="15dp"
+                            android:layout_marginRight="115dp"
                             android:src="@drawable/likethis" />
 
                         <TextView
                             android:id="@+id/thisVote"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:layout_alignLeft="@+id/thumb_this"
                             android:layout_alignParentTop="true"
-                            android:layout_alignRight="@id/buttonImageThis"
-                            android:layout_marginLeft="10dp"
-                            android:gravity="center|right"
-                            android:paddingLeft="10dp"
-                            android:text="1"
-                            android:textColor="#000"
+                            android:layout_marginLeft="31dp"
+                            android:gravity="center|left"
+                            android:text="21"
+                            android:textColor="#fff"
                             android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/this_percentage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginRight="14dp"
+                            android:gravity="center|left"
+                            android:text="100%"
+                            android:textColor="#fff"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/thisDivider"
+                            android:layout_width="1dp"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="6dp"
+                            android:background="#fff" />
                     </RelativeLayout>
                 </RelativeLayout>
 
@@ -217,37 +234,55 @@
 
                     <RelativeLayout
                         android:id="@+id/thatCircle"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
-                        android:layout_marginBottom="18dp"
-                        android:layout_marginRight="18dp"
-                        android:background="@drawable/votedbutton"
+                        android:background="@drawable/voteheader"
                         android:gravity="center"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="#62656F" >
 
+                        <TextView
+                            android:id="@+id/that_percentage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="14dp"
+                            android:gravity="center|left"
+                            android:text="100%"
+                            android:textColor="#fff"
+                            android:textStyle="bold" />
+
                         <ImageView
-                            android:id="@+id/buttonImageThis"
+                            android:id="@+id/thumb_that"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentTop="true"
-                            android:layout_marginLeft="15dp"
                             android:src="@drawable/like" />
 
                         <TextView
                             android:id="@+id/thatVote"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_alignLeft="@id/buttonImageThis"
                             android:layout_alignParentTop="true"
+                            android:layout_toLeftOf="@+id/thumb_that"
                             android:gravity="center|left"
-                            android:paddingRight="10dp"
-                            android:text="1"
-                            android:textColor="#000"
+                            android:text="21"
+                            android:textColor="#fff"
                             android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/View01"
+                            android:layout_width="1dp"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="6dp"
+                            android:background="#fff" />
                     </RelativeLayout>
                 </RelativeLayout>
             </TableRow>
