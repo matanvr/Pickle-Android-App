@@ -35,6 +35,13 @@ public class LoginActivity extends Activity {
 	protected static final String TAG = LoginActivity.class.getSimpleName();
 	
 	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
+	}
+	
+	
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -108,13 +115,6 @@ public class LoginActivity extends Activity {
 				}
 			}
 		});
-	}
-	
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
 	}
 
 	private void onLoginButtonClicked() {

@@ -15,18 +15,18 @@ public class Message{
 	
 
 
-	public String getSender() {
-		return mSender;
-	}
-	public void setSender(String sender) {
-		mSender = sender;
-	}
-	
 	public String getQuestion() {
 		return mQuestion;
 	}
+	public String getSender() {
+		return mSender;
+	}
+	
 	public void setQuestion(String question) {
 		mQuestion = question;
+	}
+	public void setSender(String sender) {
+		mSender = sender;
 	}
 	
 	

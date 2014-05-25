@@ -26,6 +26,27 @@ public class InternalStorageContentProvider extends ContentProvider {
 	}
 
 	@Override
+	public int delete(Uri uri, String selection, String[] selectionArgs) {
+		return 0;
+	}
+	
+	@Override
+	public String getType(Uri uri) {
+		String path = uri.toString();
+		for (String extension : MIME_TYPES.keySet()) {
+			if (path.endsWith(extension)) {
+				return (MIME_TYPES.get(extension));
+			}
+		}
+		return (null);
+	}
+	
+	@Override
+	public Uri insert(Uri uri, ContentValues values) {
+		return null;
+	}
+	
+	@Override
 	public boolean onCreate() {
 		try {
 			File mFile = new File(getContext().getFilesDir(), NewPost.TEMP_PHOTO_FILE_NAME);
@@ -41,33 +62,12 @@ public class InternalStorageContentProvider extends ContentProvider {
 	}
 	
 	@Override
-	public String getType(Uri uri) {
-		String path = uri.toString();
-		for (String extension : MIME_TYPES.keySet()) {
-			if (path.endsWith(extension)) {
-				return (MIME_TYPES.get(extension));
-			}
-		}
-		return (null);
-	}
-	
-	@Override
 	public ParcelFileDescriptor openFile(Uri uri, String mode) throws FileNotFoundException {
 		File f = new File(getContext().getFilesDir(), NewPost.TEMP_PHOTO_FILE_NAME);
 		if (f.exists()) {
 			return (ParcelFileDescriptor.open(f, ParcelFileDescriptor.MODE_READ_WRITE));
 		}
 		throw new FileNotFoundException(uri.getPath());
-	}
-	
-	@Override
-	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		return 0;
-	}
-	
-	@Override
-	public Uri insert(Uri uri, ContentValues values) {
-		return null;
 	}
 	
 	@Override

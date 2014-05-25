@@ -43,27 +43,40 @@ import com.parse.ParseUser;
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 	
-	public static final String TAG = MainActivity.class.getSimpleName();
+	/**
+	 * Slide menu item click listener
+	 * */
+	private class SlideMenuClickListener implements
+	        ListView.OnItemClickListener {
+	    @Override
+	    public void onItemClick(AdapterView<?> parent, View view, int position,
+	            long id) {
+	        // display view for selected nav drawer item
+	        displayView(position);
+	    }
+	}
 	
+	public static final String TAG = MainActivity.class.getSimpleName();
 	public static final int TAKE_PHOTO_REQUEST = 0;
 	public static final int TAKE_VIDEO_REQUEST = 1;
 	public static final int PICK_PHOTO_REQUEST = 2;
+	
 	public static final int PICK_VIDEO_REQUEST = 3;
-	
 	public static final int MEDIA_TYPE_IMAGE = 4;
-	public static final int MEDIA_TYPE_VIDEO = 5;
 	
+	public static final int MEDIA_TYPE_VIDEO = 5;
 	private int MENU_HOME = 1;
 	private int MENU_PROFILE = 0;
 	private int MENU_FRIENDS = 2;
 	private int MENU_STATE = MENU_HOME;
-	public static final int FILE_SIZE_LIMIT = 1024*1024*10; // 10 MB
 	
-	protected Uri mMediaUri;
-	protected Menu mMenu; 
+	public static final int FILE_SIZE_LIMIT = 1024*1024*10; // 10 MB
+	protected Uri mMediaUri; 
 
+    protected Menu mMenu;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+ 
     private ActionBarDrawerToggle mDrawerToggle;
  
     // nav drawer title
@@ -71,14 +84,14 @@ public class MainActivity extends FragmentActivity implements
  
     // used to store app title
     private CharSequence mTitle;
- 
     // slide menu items
     private String[] navMenuTitles;
-    private TypedArray navMenuIcons;
  
+    private TypedArray navMenuIcons;
     private ArrayList<NavDrawerItem> navDrawerItems;
-    private NavDrawerListAdapter adapter;
 	
+	private NavDrawerListAdapter adapter;
+
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a
@@ -93,7 +106,143 @@ public class MainActivity extends FragmentActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	
 
+
+	private Bitmap CreateBlurredImage (int radius)
+	{
+
+	    Drawable blankDrawable = getResources().getDrawable(R.drawable.votedbutton);
+
+		Bitmap inputBitmap = ((BitmapDrawable)blankDrawable).getBitmap();
+		Bitmap outputBitmap = ((BitmapDrawable)blankDrawable).getBitmap();
+		RenderScript rs = RenderScript.create(this);
+		ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));;
+		Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
+		Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
+		theIntrinsic.setRadius(12.f);
+		theIntrinsic.setInput(tmpIn);
+		theIntrinsic.forEach(tmpOut);
+		tmpOut.copyTo(outputBitmap);
+		
+		return outputBitmap;
+	}
+
+	/**
+	 * Diplaying fragment view for selected nav drawer list item
+	 * */
+	private void displayView(int position) {
+	    // update the main content by replacing fragments
+	    Fragment fragment = null;
+	    Intent intent;
+	    Bundle args; 
+	    switch (position) {
+	    case 0:
+	    	MENU_STATE = MENU_PROFILE;
+	    	this.invalidateOptionsMenu();
+	    	fragment = new ProfileFragment();
+	    	
+	    	break;
+	    case 1:
+	    	MENU_STATE = MENU_HOME;
+	    	this.invalidateOptionsMenu();
+	    	args = new Bundle();
+	    	args.putInt("feedType", InboxFragment.NEWSFEED);
+	        fragment = new InboxFragment();
+	        fragment.setArguments(args);
+	        break;
+	    case 2:
+
+	    	intent = new Intent(this, NewPost.class);
+			startActivity(intent);
+	        break;
+
+	    case 3:
+	    	MENU_STATE = MENU_HOME;
+	    	this.invalidateOptionsMenu();
+	    	args = new Bundle();
+	    	args.putInt("feedType", InboxFragment.FAVORITES);
+	        fragment = new InboxFragment();
+	        fragment.setArguments(args);
+	    	break;
+ 
+	    default:
+	        break;
+	    }
+ 
+	    if (fragment != null) {
+	        FragmentManager fragmentManager = getSupportFragmentManager();
+	        fragmentManager.beginTransaction()
+	                .replace(R.id.frame_container, fragment).commit();
+ 
+	        // update selected item and title, then close the drawer
+	        mDrawerList.setItemChecked(position, true);
+	        mDrawerList.setSelection(position);
+	       // setTitle(navMenuTitles[position]);
+	        mDrawerLayout.closeDrawer(mDrawerList);
+	    } else {
+	        // error in creating fragment
+	        Log.e("MainActivity", "Error in creating fragment");
+	    }
+	}
+	
+	private void navigateToLogin() {
+		Intent intent = new Intent(this, LoginActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		startActivity(intent);
+	}
+
+	private void nullViewDrawable(View view)
+	  {
+	    try
+	    {
+	      view.setBackgroundDrawable(null);
+	    }
+	    catch(Exception e)
+	    {          
+	    }
+	    
+	    try
+	    {
+	      ImageView imageView = (ImageView)view;
+	      imageView.setImageDrawable(null);
+	      imageView.setBackgroundDrawable(null);
+	    }
+	    catch(Exception e)
+	    {          
+	    }
+	  }
+
+	private void nullViewDrawablesRecursive(View view)
+	  {
+	    if(view != null)
+	    {
+	      try
+	      {
+	        ViewGroup viewGroup = (ViewGroup)view;
+	        
+	        int childCount = viewGroup.getChildCount();
+	        for(int index = 0; index < childCount; index++)
+	        {
+	          View child = viewGroup.getChildAt(index);
+	          nullViewDrawablesRecursive(child);
+	        }
+	      }
+	      catch(Exception e)
+	      {          
+	      }
+	      
+	      nullViewDrawable(view);
+	    }    
+	  }
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	    super.onConfigurationChanged(newConfig);
+	    // Pass any configuration change to the drawer toggls
+	    mDrawerToggle.onConfigurationChanged(newConfig);
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -226,18 +375,8 @@ public class MainActivity extends FragmentActivity implements
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}*/
-	}
-	
-
-
-	private void navigateToLogin() {
-		Intent intent = new Intent(this, LoginActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		startActivity(intent);
-	}
-
-	@Override
+	}  
+	  @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
@@ -260,8 +399,20 @@ public class MainActivity extends FragmentActivity implements
 		mMenu = menu;
 		return true;
 	}
-	
-	@Override
+	  @Override
+	  protected void onDestroy()
+	  {
+	    super.onDestroy();
+	    
+	    // Fixes android memory  issue 8488 :
+	    // http://code.google.com/p/android/issues/detail?id=8488
+	    nullViewDrawablesRecursive(mViewPager);
+	    
+	    mViewPager = null;
+	    System.gc();
+	  }
+
+	  @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
@@ -286,98 +437,12 @@ public class MainActivity extends FragmentActivity implements
 		
 		return super.onOptionsItemSelected(item);
 	}
-
-	@Override
-	public void onTabSelected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-		// When the given tab is selected, switch to the corresponding page in
-		// the ViewPager.
-		mViewPager.setCurrentItem(tab.getPosition());
-	}
-
-	@Override
-	public void onTabUnselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-	}
-
-	@Override
-	public void onTabReselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-	}
-	@Override  
+	   @Override  
 	protected void onPause()  
 	{  
 		super.onPause();  
 		System.gc();  
-	}  
-	  @Override
-	  protected void onDestroy()
-	  {
-	    super.onDestroy();
-	    
-	    // Fixes android memory  issue 8488 :
-	    // http://code.google.com/p/android/issues/detail?id=8488
-	    nullViewDrawablesRecursive(mViewPager);
-	    
-	    mViewPager = null;
-	    System.gc();
-	  }
-	  private void nullViewDrawablesRecursive(View view)
-	  {
-	    if(view != null)
-	    {
-	      try
-	      {
-	        ViewGroup viewGroup = (ViewGroup)view;
-	        
-	        int childCount = viewGroup.getChildCount();
-	        for(int index = 0; index < childCount; index++)
-	        {
-	          View child = viewGroup.getChildAt(index);
-	          nullViewDrawablesRecursive(child);
-	        }
-	      }
-	      catch(Exception e)
-	      {          
-	      }
-	      
-	      nullViewDrawable(view);
-	    }    
-	  }
-
-	  private void nullViewDrawable(View view)
-	  {
-	    try
-	    {
-	      view.setBackgroundDrawable(null);
-	    }
-	    catch(Exception e)
-	    {          
-	    }
-	    
-	    try
-	    {
-	      ImageView imageView = (ImageView)view;
-	      imageView.setImageDrawable(null);
-	      imageView.setBackgroundDrawable(null);
-	    }
-	    catch(Exception e)
-	    {          
-	    }
-	  }
-	   @Override
-	    public boolean onPrepareOptionsMenu(Menu menu) {
-	        // if nav drawer is opened, hide the action items
-	        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-	     //   menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
-	        return super.onPrepareOptionsMenu(menu);
-	    }
-	 
-	    @Override
-	    public void setTitle(CharSequence title) {
-	        mTitle = title;
-	        getActionBar().setTitle(mTitle);
-	    }
+	}
 	 
 	    /**
 	     * When using the ActionBarDrawerToggle, you must call it during
@@ -392,99 +457,34 @@ public class MainActivity extends FragmentActivity implements
 	    }
 	 
 	    @Override
-	    public void onConfigurationChanged(Configuration newConfig) {
-	        super.onConfigurationChanged(newConfig);
-	        // Pass any configuration change to the drawer toggls
-	        mDrawerToggle.onConfigurationChanged(newConfig);
-	    }
-	    /**
-	     * Slide menu item click listener
-	     * */
-	    private class SlideMenuClickListener implements
-	            ListView.OnItemClickListener {
-	        @Override
-	        public void onItemClick(AdapterView<?> parent, View view, int position,
-	                long id) {
-	            // display view for selected nav drawer item
-	            displayView(position);
-	        }
-	    }
+		    public boolean onPrepareOptionsMenu(Menu menu) {
+		        // if nav drawer is opened, hide the action items
+		        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+		     //   menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+		        return super.onPrepareOptionsMenu(menu);
+		    }
 	 
-	     /**
-	     * Diplaying fragment view for selected nav drawer list item
-	     * */
-	    private void displayView(int position) {
-	        // update the main content by replacing fragments
-	        Fragment fragment = null;
-	        Intent intent;
-	        Bundle args; 
-	        switch (position) {
-	        case 0:
-	        	MENU_STATE = MENU_PROFILE;
-	        	this.invalidateOptionsMenu();
-	        	fragment = new ProfileFragment();
-	        	
-	        	break;
-	        case 1:
-	        	MENU_STATE = MENU_HOME;
-	        	this.invalidateOptionsMenu();
-	        	args = new Bundle();
-	        	args.putInt("feedType", InboxFragment.NEWSFEED);
-	            fragment = new InboxFragment();
-	            fragment.setArguments(args);
-	            break;
-	        case 2:
-
-	        	intent = new Intent(this, NewPost.class);
-				startActivity(intent);
-	            break;
-
-	        case 3:
-	        	MENU_STATE = MENU_HOME;
-	        	this.invalidateOptionsMenu();
-	        	args = new Bundle();
-	        	args.putInt("feedType", InboxFragment.FAVORITES);
-	            fragment = new InboxFragment();
-	            fragment.setArguments(args);
-	        	break;
-	 
-	        default:
-	            break;
-	        }
-	 
-	        if (fragment != null) {
-	            FragmentManager fragmentManager = getSupportFragmentManager();
-	            fragmentManager.beginTransaction()
-	                    .replace(R.id.frame_container, fragment).commit();
-	 
-	            // update selected item and title, then close the drawer
-	            mDrawerList.setItemChecked(position, true);
-	            mDrawerList.setSelection(position);
-	           // setTitle(navMenuTitles[position]);
-	            mDrawerLayout.closeDrawer(mDrawerList);
-	        } else {
-	            // error in creating fragment
-	            Log.e("MainActivity", "Error in creating fragment");
-	        }
-	    }
-	    
-		private Bitmap CreateBlurredImage (int radius)
-		{
-
-		    Drawable blankDrawable = getResources().getDrawable(R.drawable.votedbutton);
-
-			Bitmap inputBitmap = ((BitmapDrawable)blankDrawable).getBitmap();
-			Bitmap outputBitmap = ((BitmapDrawable)blankDrawable).getBitmap();
-			RenderScript rs = RenderScript.create(this);
-			ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));;
-			Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
-			Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
-			theIntrinsic.setRadius(12.f);
-			theIntrinsic.setInput(tmpIn);
-			theIntrinsic.forEach(tmpOut);
-			tmpOut.copyTo(outputBitmap);
-			
-			return outputBitmap;
+	    @Override
+		public void onTabReselected(ActionBar.Tab tab,
+				FragmentTransaction fragmentTransaction) {
 		}
+	    @Override
+		public void onTabSelected(ActionBar.Tab tab,
+				FragmentTransaction fragmentTransaction) {
+			// When the given tab is selected, switch to the corresponding page in
+			// the ViewPager.
+			mViewPager.setCurrentItem(tab.getPosition());
+		}
+	 
+	     @Override
+		public void onTabUnselected(ActionBar.Tab tab,
+				FragmentTransaction fragmentTransaction) {
+		}
+	    
+		@Override
+	    public void setTitle(CharSequence title) {
+	        mTitle = title;
+	        getActionBar().setTitle(mTitle);
+	    }
 
 }

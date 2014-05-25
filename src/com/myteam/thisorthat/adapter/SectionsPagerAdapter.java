@@ -26,6 +26,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 	}
 
 	@Override
+	public int getCount() {
+		return 2;
+	}
+
+	@Override
 	public Fragment getItem(int position) {
 		// getItem is called to instantiate the fragment for the given page.
 		// Return a DummySectionFragment (defined as a static inner class
@@ -39,11 +44,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		}
 
 		return null;
-	}
-
-	@Override
-	public int getCount() {
-		return 2;
 	}
 
 	@Override

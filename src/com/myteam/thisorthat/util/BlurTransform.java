@@ -18,6 +18,11 @@ public class BlurTransform implements Transformation {
     }
  
     @Override
+    public String key() {
+        return "blur";
+    }
+ 
+    @Override
     public Bitmap transform(Bitmap bitmap) {
         // Create another bitmap that will hold the results of the filter.
         Bitmap blurredBitmap = Bitmap.createBitmap(bitmap);
@@ -41,11 +46,6 @@ public class BlurTransform implements Transformation {
         bitmap.recycle();
  
         return blurredBitmap;
-    }
- 
-    @Override
-    public String key() {
-        return "blur";
     }
  
 }
