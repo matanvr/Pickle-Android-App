@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
@@ -96,7 +95,7 @@ public class EditFriendsActivity extends Activity {
 		setupActionBar();
 		
 		mGridView = (GridView)findViewById(R.id.friendsGrid);
-		mGridView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+		mGridView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
 		mGridView.setOnItemClickListener(mOnItemClickListener);
 		
 		TextView emptyTextView = (TextView)findViewById(android.R.id.empty);

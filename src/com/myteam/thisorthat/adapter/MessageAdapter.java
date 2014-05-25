@@ -5,7 +5,10 @@ import java.util.List;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+
 import android.content.Intent;
+import android.graphics.Bitmap;
+
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -21,8 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.myteam.thisorthat.CommentsActivity;
 import com.myteam.thisorthat.InboxFragment;
+
+import com.myteam.thisorthat.CommentsActivity;
+import com.myteam.thisorthat.LoginActivity;
+
 import com.myteam.thisorthat.R;
 import com.myteam.thisorthat.R.drawable;
 import com.myteam.thisorthat.util.ParseConstants;
@@ -227,9 +233,11 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				}else if(mView.getId() == R.id.comment_button){
 					postId = message.getObjectId();
 					userId = currentUser.getObjectId();
+					String userName = currentUser.getUsername();
 					Intent intent = new Intent(mContext, CommentsActivity.class);
 					intent.putExtra("postId", postId);
 					intent.putExtra("userId", postId);
+					intent.putExtra("userName", userName);
 					mContext.startActivity(intent);
 				} else {
 

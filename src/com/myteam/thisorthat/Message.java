@@ -1,7 +1,8 @@
 package com.myteam.thisorthat;
 
-import com.google.gson.annotations.SerializedName;
+import android.net.Uri;
 
+import com.google.gson.annotations.SerializedName;
 
 public class Message{
 	@SerializedName("question")

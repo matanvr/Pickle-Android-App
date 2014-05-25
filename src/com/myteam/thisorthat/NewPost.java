@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 import android.app.Activity;
@@ -16,6 +19,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -217,7 +221,7 @@ public class NewPost extends Activity  {
                     fileOutputStream.close();
                     inputStream.close();
 
-                    //startCropImage();
+                    startCropImage();
 
                 } catch (Exception e) {
 
@@ -227,7 +231,7 @@ public class NewPost extends Activity  {
                 break;
             case REQUEST_CODE_TAKE_PICTURE:
 
-                //startCropImage();
+                startCropImage();
                 break;
             case REQUEST_CODE_CROP_IMAGE:
 
@@ -368,8 +372,7 @@ public class NewPost extends Activity  {
 		System.gc();  
 	}
 
-    @Override
-	protected void onResume()  
+    protected void onResume()  
 	{  
 		System.gc();  
 		super.onResume();  
@@ -415,7 +418,7 @@ public class NewPost extends Activity  {
 				ParseUser.getCurrentUser().getUsername()));
 		push.sendInBackground();
 	}
-	/*private void startCropImage() {
+	private void startCropImage() {
 
         Intent intent = new Intent(this, CropImage.class);
         intent.putExtra(CropImage.IMAGE_PATH, mFileTemp.getPath());
@@ -425,7 +428,7 @@ public class NewPost extends Activity  {
         intent.putExtra(CropImage.ASPECT_Y, 3);
 
         startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
-    }*/
+    }
 	
 	private void takePicture() {
 

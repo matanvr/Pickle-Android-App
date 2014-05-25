@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myteam.thisorthat.R;
+import com.myteam.thisorthat.R.id;
 import com.myteam.thisorthat.model.ImageItem;
 import com.squareup.picasso.Picasso;
 

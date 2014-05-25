@@ -48,13 +48,13 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
-		/*loginButton = (Button) findViewById(R.id.facebookLogin);
+		loginButton = (Button) findViewById(R.id.facebookLogin);
 		loginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				onLoginButtonClicked();
 			}
-		});*/
+		});
 
 		mSignUpTextView = (TextView)findViewById(R.id.signUpText);
 		mSignUpTextView.setOnClickListener(new View.OnClickListener() {
@@ -143,8 +143,8 @@ public class LoginActivity extends Activity {
 	}
 
 	private void showUserDetailsActivity() {
-		//Intent intent = new Intent(this, FacebookRegistration.class);
-		//startActivity(intent);
+		Intent intent = new Intent(this, FacebookRegistration.class);
+		startActivity(intent);
 	}
 	
 }

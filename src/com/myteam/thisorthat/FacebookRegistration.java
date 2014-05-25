@@ -34,6 +34,51 @@ public class FacebookRegistration extends Activity {
 	ParseUser newUser;
 	public static final String TAG = FacebookRegistration.class.getSimpleName();
 
+	private void makeMeRequest() {
+		Request request = Request.newMeRequest(ParseFacebookUtils.getSession(),
+				new Request.GraphUserCallback() {
+					@Override
+					public void onCompleted(GraphUser user, Response response) {
+						if (user != null) {
+							// Create a JSON object to hold the profile info
+							JSONObject userProfile = new JSONObject();
+							try {
+								// Populate the JSON object
+								userProfile.put("facebookId", user.getId());
+								userProfile.put("name", user.getName());
+
+								// Save the user profile info in a user property
+								ParseUser currentUser = ParseUser
+										.getCurrentUser();
+								currentUser.put("profile", userProfile);
+								currentUser.saveInBackground();
+
+								// Show the user info
+								updateViewsWithProfileInfo();
+							} catch (JSONException e) {
+								Log.d(FacebookRegistration.TAG,
+										"Error parsing returned user data.");
+							}
+
+						} else if (response.getError() != null) {
+							if ((response.getError().getCategory() == FacebookRequestError.Category.AUTHENTICATION_RETRY)
+									|| (response.getError().getCategory() == FacebookRequestError.Category.AUTHENTICATION_REOPEN_SESSION)) {
+								Log.d(FacebookRegistration.TAG,
+										"The facebook session was invalidated.");
+								onLogoutButtonClicked();
+							} else {
+								Log.d(FacebookRegistration.TAG,
+										"Some other error: "
+												+ response.getError()
+														.getErrorMessage());
+							}
+						}
+					}
+				});
+		request.executeAsync();
+
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,6 +101,30 @@ public class FacebookRegistration extends Activity {
 		Session session = ParseFacebookUtils.getSession();
 		if (session != null && session.isOpened()) {
 			makeMeRequest();
+		}
+	}
+
+	private void onLogoutButtonClicked() {
+		// Log the user out
+		ParseUser.logOut();
+
+		// Go to the login view
+		startLoginActivity();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		ParseUser currentUser = ParseUser.getCurrentUser();
+		if (currentUser != null) {
+			// Check if the user is currently logged
+			// and show any cached content
+			updateViewsWithProfileInfo();
+		} else {
+			// If the user is not logged in, go to the
+			// activity showing the login view.
+			startLoginActivity();
 		}
 	}
 
@@ -122,65 +191,11 @@ public class FacebookRegistration extends Activity {
 
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-
-		ParseUser currentUser = ParseUser.getCurrentUser();
-		if (currentUser != null) {
-			// Check if the user is currently logged
-			// and show any cached content
-			updateViewsWithProfileInfo();
-		} else {
-			// If the user is not logged in, go to the
-			// activity showing the login view.
-			startLoginActivity();
-		}
-	}
-
-	private void makeMeRequest() {
-		Request request = Request.newMeRequest(ParseFacebookUtils.getSession(),
-				new Request.GraphUserCallback() {
-					@Override
-					public void onCompleted(GraphUser user, Response response) {
-						if (user != null) {
-							// Create a JSON object to hold the profile info
-							JSONObject userProfile = new JSONObject();
-							try {
-								// Populate the JSON object
-								userProfile.put("facebookId", user.getId());
-								userProfile.put("name", user.getName());
-
-								// Save the user profile info in a user property
-								ParseUser currentUser = ParseUser
-										.getCurrentUser();
-								currentUser.put("profile", userProfile);
-								currentUser.saveInBackground();
-
-								// Show the user info
-								updateViewsWithProfileInfo();
-							} catch (JSONException e) {
-								Log.d(FacebookRegistration.TAG,
-										"Error parsing returned user data.");
-							}
-
-						} else if (response.getError() != null) {
-							if ((response.getError().getCategory() == FacebookRequestError.Category.AUTHENTICATION_RETRY)
-									|| (response.getError().getCategory() == FacebookRequestError.Category.AUTHENTICATION_REOPEN_SESSION)) {
-								Log.d(FacebookRegistration.TAG,
-										"The facebook session was invalidated.");
-								onLogoutButtonClicked();
-							} else {
-								Log.d(FacebookRegistration.TAG,
-										"Some other error: "
-												+ response.getError()
-														.getErrorMessage());
-							}
-						}
-					}
-				});
-		request.executeAsync();
-
+	private void startLoginActivity() {
+		Intent intent = new Intent(this, LoginActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
 	}
 
 	private void updateViewsWithProfileInfo() {
@@ -208,20 +223,5 @@ public class FacebookRegistration extends Activity {
 			}
 
 		}
-	}
-
-	private void onLogoutButtonClicked() {
-		// Log the user out
-		ParseUser.logOut();
-
-		// Go to the login view
-		startLoginActivity();
-	}
-
-	private void startLoginActivity() {
-		Intent intent = new Intent(this, LoginActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(intent);
 	}
 }

@@ -3,35 +3,47 @@ package com.myteam.thisorthat;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.view.View.OnClickListener;
+
+import com.parse.FindCallback;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.parse.FindCallback;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
+
 public class CommentsActivity extends Activity {
 	Button addComment;
-	TextView comment;
-	ListView commentList; 
+	TextView comment; 
 	String postId;
 	String userId;
-	ArrayAdapter<String> adapter;
+	String userName;
+	
+	
 	SwipeRefreshLayout mSwipeRefreshLayout;
+	ArrayAdapter<String> adapter;
 	protected OnRefreshListener mOnRefreshListener = new OnRefreshListener() {
 		@Override
 		public void onRefresh() {
-			refresh();
+			 
+				refresh();
+		
 		}
 	};
 	
@@ -41,6 +53,7 @@ public class CommentsActivity extends Activity {
 		setContentView(R.layout.activity_comments);
 		postId = getIntent().getStringExtra("postId");
 		userId = getIntent().getStringExtra("userId");
+		userName = getIntent().getStringExtra("userName");
 		comment = (TextView)findViewById(R.id.commentInputText);
 		mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
 		mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
@@ -50,6 +63,8 @@ public class CommentsActivity extends Activity {
 				R.color.swipeRefresh3,
 				R.color.swipeRefresh4);
 		refresh();
+		
+		
 		addComment = (Button)findViewById(R.id.addComment);
 		addComment.setOnClickListener(new OnClickListener() {
                 @Override
@@ -59,6 +74,7 @@ public class CommentsActivity extends Activity {
             		parse.put("postId", postId);
             		parse.put("userId", userId);
             		parse.put("commentText", comment.getText().toString());
+            		parse.put("username", userName);
             		parse.saveInBackground();
             		refresh();
             		comment.setText("");
@@ -73,22 +89,21 @@ public class CommentsActivity extends Activity {
 		
 		
 	}
-	
+
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.comments, menu);
 		return true;
 	}
-
-
+	
 	private void populateListView(ArrayList<String> list){
 		adapter = new ArrayAdapter<String>(this, R.layout.comment_item, list);
 		ListView commentListV = (ListView) findViewById(R.id.commentListView);
 		commentListV.setAdapter(adapter);
 		
 	}
-	
 	private void refresh(){
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
 		query.whereEqualTo("postId", postId);
@@ -99,7 +114,7 @@ public class CommentsActivity extends Activity {
 			public void done(List<ParseObject> commentList, com.parse.ParseException e) {
 				ArrayList<String> list = new ArrayList<String>();
 				for(ParseObject comment : commentList){
-					list.add(comment.getString("commentText"));
+					list.add(comment.getString("username")+": "+comment.getString("commentText"));
 				}
 				populateListView(list);
 				

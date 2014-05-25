@@ -3,13 +3,12 @@ package com.myteam.thisorthat;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -19,7 +18,9 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -31,13 +32,13 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.myteam.thisorthat.adapter.NavDrawerListAdapter;
 import com.myteam.thisorthat.adapter.SectionsPagerAdapter;
 import com.myteam.thisorthat.model.NavDrawerItem;
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
-import android.support.v4.app.*;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -318,15 +319,13 @@ public class MainActivity extends FragmentActivity implements
                 R.string.app_name, // nav drawer open - description for accessibility
                 R.string.app_name // nav drawer close - description for accessibility
         ){
-            @Override
-			public void onDrawerClosed(View view) {
+            public void onDrawerClosed(View view) {
                 //getActionBar().setTitle(mTitle);
                 // calling onPrepareOptionsMenu() to show action bar icons
                 invalidateOptionsMenu();
             }
  
-            @Override
-			public void onDrawerOpened(View drawerView) {
+            public void onDrawerOpened(View drawerView) {
                 //getActionBar().setTitle(mDrawerTitle);
                 // calling onPrepareOptionsMenu() to hide action bar icons
                 invalidateOptionsMenu();
