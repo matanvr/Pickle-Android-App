@@ -98,12 +98,14 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mHolder.thisPercentage = (TextView) convertView.findViewById(R.id.this_percentage);
 			Typeface myTypeface = Typeface.createFromAsset(
 					mContext.getAssets(), "fonts/Roboto-Regular.ttf");
+			Typeface postTypeface =  Typeface.createFromAsset(
+					mContext.getAssets(), "fonts/WhitneyCondensed-Medium.otf");
 			Typeface myThickTypeface = Typeface.createFromAsset(
 					mContext.getAssets(), "fonts/Roboto-Bold.ttf");
 			Typeface lightType = Typeface.createFromAsset(mContext.getAssets(),
 					"fonts/Roboto-LightItalic.ttf");
 			mHolder.commentImage = (ImageView) convertView.findViewById(R.id.comment_button);;
-			mHolder.Question.setTypeface(myTypeface);
+			mHolder.Question.setTypeface(postTypeface);
 			mHolder.thisVot.setTypeface(myTypeface);
 			mHolder.thatVot.setTypeface(myTypeface);
 			mHolder.ThisCaption.setTypeface(myTypeface);
@@ -195,10 +197,10 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		Uri thatUri = Uri.parse(This.getUrl());
 		Uri thisUri = Uri.parse(That.getUrl());
 		String uri = message.get(ParseConstants.KEY_FILE_THIS).toString();
-		Picasso.with(mContext).load(thatUri.toString()).resize(402, 600)
+		Picasso.with(mContext).load(thatUri.toString()).resize(500, 830)
 				.centerCrop().into(mHolder.This);
 
-		Picasso.with(mContext).load(thisUri.toString()).resize(402, 600)
+		Picasso.with(mContext).load(thisUri.toString()).resize(500, 830)
 				.centerCrop().into(mHolder.That);
 
 		ThisThatOnClickListener onClickListener = new ThisThatOnClickListener(
