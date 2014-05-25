@@ -3,6 +3,7 @@
     android:id="@+id/newPostLay"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
+    android:background="#F1F3F7"
     tools:context="com.teamtreehouse.ribbit.NewPost$PlaceholderFragment" >
 
     <TableLayout
@@ -76,7 +77,7 @@
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="#5d3e85" >
+                android:background="#F1F3F7" >
 
                 <View
                     android:id="@+id/buttonDivider"
@@ -85,7 +86,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    android:background="@color/light_purple_button" />
+                    android:background="#CBCDD3" />
 
                 <EditText
                     android:id="@+id/ThisCaption"
@@ -97,7 +98,7 @@
                     android:gravity="center"
                     android:text="THIS"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#fff" />
+                    android:textColor="#000" />
 
                 <EditText
                     android:id="@+id/ThatCaption"
@@ -108,7 +109,7 @@
                     android:gravity="center"
                     android:text="THAT"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="#fff" />
+                    android:textColor="#000" />
             </RelativeLayout>
         </TableRow>
 
@@ -123,7 +124,7 @@
                 android:layout_weight="0.033" />
 
             <LinearLayout
-                     android:layout_width="180dp"
+                     android:layout_width="160dp"
                     android:layout_height="320dp"
                 android:background="@drawable/pic_border" >
 
@@ -142,7 +143,7 @@
 
             <LinearLayout
            
-                      android:layout_width="180dp"
+                      android:layout_width="160dp"
                     android:layout_height="320dp"
                 android:background="@drawable/pic_border" >
 

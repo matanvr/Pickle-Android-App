@@ -266,11 +266,11 @@ public class NewPost extends Activity  {
 	            
 	            if(mImageClicked == THIS_IMAGE){
 	            	
-	            	Picasso.with(this).load(url).resize(402, 600).centerCrop().into(mBackgroundImageThis);
+	            	Picasso.with(this).load(url).resize(480, 853).centerCrop().into(mBackgroundImageThis);
 	            	mThisBitmap = photo; //save bitmap
 	            }
 	            else if(mImageClicked == THAT_IMAGE){
-	            	Picasso.with(this).load(url).resize(402, 600).centerCrop().into(mBackgroundImageThat);
+	            	Picasso.with(this).load(url).resize(480, 853).centerCrop().into(mBackgroundImageThat);
 	            	mThatBitmap = photo; //save bitmap
 	            }
             	
