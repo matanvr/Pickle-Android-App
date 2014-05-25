@@ -118,7 +118,7 @@ public class MainActivity extends FragmentActivity implements
 
 			
 		
-		if (currentUser == null ) {
+		if (currentUser == null) {
 			navigateToLogin();
 		}
 		
@@ -416,6 +416,8 @@ public class MainActivity extends FragmentActivity implements
 	    private void displayView(int position) {
 	        // update the main content by replacing fragments
 	        Fragment fragment = null;
+	        Intent intent;
+	        Bundle args; 
 	        switch (position) {
 	        case 0:
 	        	MENU_STATE = MENU_PROFILE;
@@ -426,15 +428,25 @@ public class MainActivity extends FragmentActivity implements
 	        case 1:
 	        	MENU_STATE = MENU_HOME;
 	        	this.invalidateOptionsMenu();
+	        	args = new Bundle();
+	        	args.putInt("feedType", InboxFragment.NEWSFEED);
 	            fragment = new InboxFragment();
-	            
+	            fragment.setArguments(args);
 	            break;
 	        case 2:
 
-	        	Intent intent = new Intent(this, NewPost.class);
+	        	intent = new Intent(this, NewPost.class);
 				startActivity(intent);
 	            break;
 
+	        case 3:
+	        	MENU_STATE = MENU_HOME;
+	        	this.invalidateOptionsMenu();
+	        	args = new Bundle();
+	        	args.putInt("feedType", InboxFragment.FAVORITES);
+	            fragment = new InboxFragment();
+	            fragment.setArguments(args);
+	        	break;
 	 
 	        default:
 	            break;

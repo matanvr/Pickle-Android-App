@@ -53,7 +53,7 @@
     <string name="title_activity_new_post">NewPost</string>
     <string name="next_label">Post</string>
     <string name="title_activity_android_custom_gallery">AndroidCustomGalleryActivity</string>
-  	<string name="app_id">1408249256113335</string>
+  	<string name="app_id">672772256144790</string>
 
   	<string name="drawer_open">Slider Menu Opened</string>
     <string name="drawer_close">Slider Menu Closed</string>
@@ -63,7 +63,7 @@
         <item>Profile</item>
         <item >Explore</item>
         <item> Create Post</item>
-        <item>Followed</item>
+        <item>Favorites</item>
         <item> Settings</item>
 
     </string-array>
@@ -84,5 +84,11 @@
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="google_image_title">Search Images</string>
     <string name="profile_settings">Edit</string>
-
+    <string name="login">Log In</string>
+    <string name="logout">Log Out</string>
+    <string name="login_intro">Check out your Facebook profile by logging in with the button below!</string>
+    <string name="location">Location</string>
+    <string name="gender">Gender</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="relationship">Relationship</string>
 </resources>

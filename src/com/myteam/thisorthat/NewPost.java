@@ -2,15 +2,18 @@ package com.myteam.thisorthat;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -32,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.myteam.thisorthat.util.FileHelper;
+import com.myteam.thisorthat.util.InternalStorageContentProvider;
 import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -42,6 +46,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
+
+import eu.janmuller.android.simplecropimage.CropImage;
 
 
 
@@ -78,8 +84,15 @@ public class NewPost extends Activity  {
 	public static final int FILE_SIZE_LIMIT = 1024*1024*10; // 10 MB
 	
 	protected Uri mMediaUri;
-	
-	
+	public static final String TEMP_PHOTO_FILE_NAME = "temp_photo.jpg";
+    
+    public static final int REQUEST_CODE_GALLERY      = 0x1;
+    public static final int REQUEST_CODE_TAKE_PICTURE = 0x2;
+    public static final int REQUEST_CODE_CROP_IMAGE   = 0x3;
+    public static final int REQUEST_GOOGLE_IMAGE = 0x4;
+
+    private ImageView mImageView;
+    private File      mFileTemp;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -118,16 +131,13 @@ public class NewPost extends Activity  {
 				dialog.show();
 			}
 		});
-		//	mCameraButton = (ImageView) findViewById(R.id.cameraButton);
-		/*mCameraButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(NewPost.this,AndroidCustomGalleryActivity.class);
-				startActivityForResult(intent,MEDIA_TYPE_IMAGE);
-			}
-		});
-		*/
-		
+		String state = Environment.getExternalStorageState();
+    	if (Environment.MEDIA_MOUNTED.equals(state)) {
+    		mFileTemp = new File(Environment.getExternalStorageDirectory(), TEMP_PHOTO_FILE_NAME);
+    	}
+    	else {
+    		mFileTemp = new File(getFilesDir(), TEMP_PHOTO_FILE_NAME);
+    	}
 
 	}
 	
@@ -169,152 +179,7 @@ public class NewPost extends Activity  {
 	}
 	
 	
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		
-		if (resultCode == RESULT_OK) {			
-			if (requestCode == PICK_PHOTO_REQUEST) {
-				if (data == null) {
-					Toast.makeText(this, getString(R.string.general_error), Toast.LENGTH_LONG).show();
-				}
-				else {
-					mMediaUri = data.getData();
-					rotationAngle(mMediaUri);
-					Intent intent = new Intent("com.android.camera.action.CROP");
-					//intent.setClassName("com.android.gallery", "com.android.camera.CropImage");
-					intent.setDataAndType(mMediaUri, "image/*");
-			      //  intent.setData(mMediaUri);
-			        intent.putExtra("outputX", 402);
-			        intent.putExtra("outputY", 602);
-			        intent.putExtra("aspectX", 1);
-			        intent.putExtra("aspectY", 1);
-			        intent.putExtra("scale", true);
-			        intent.putExtra("return-data", true);            
-			        startActivityForResult(intent, CROP_FROM_CAMERA);
-				}
-				
-				Log.i(TAG, "Media URI: " + mMediaUri);
-		
-			}
-			else if(requestCode == CROP_FROM_CAMERA) {
-		        //Wysie_Soh: After a picture is taken, it will go to PICK_FROM_CAMERA, which will then come here
-		        //after the image is cropped.
-		
-		        final Bundle extras = data.getExtras();
-		
-		        if (extras != null) {
-		            Bitmap photo = extras.getParcelable("data");
-		            photo = RotateBitmap(photo,mImageAngle);
-		            photo = getResizedBitmap(photo, 602, 402);
-		            if(mImageClicked == THIS_IMAGE){
-		            	
-		            	mBackgroundImageThis.setImageBitmap(photo);
-		            	mThisBitmap = photo;
-		            }
-		            else if(mImageClicked == THAT_IMAGE){
-		            	mBackgroundImageThat.setImageBitmap(photo);
-		            	mThatBitmap = photo;
-		            }
-		/*
-		            mPhoto = photo;
-		            mPhotoChanged = true;
-		            mPhotoImageView.setImageBitmap(photo);
-		            setPhotoPresent(true);*/
-		        }
-		
-		        //Wysie_Soh: Delete the temporary file                        
-		        File f = new File(mMediaUri.getPath());            
-		        if (f.exists()) {
-		            f.delete();
-		        }
-		
-			}
-			else if(requestCode == GOOGLE_IMAGE_REQUEST){
-		        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                .permitAll().build();
-		        StrictMode.setThreadPolicy(policy);
-		        BitmapFactory.Options bmOptions;
-		        bmOptions = new BitmapFactory.Options();
-		        bmOptions.inSampleSize = 1;
-		        String url = data.getStringExtra("imageUrl");
-		        System.out.println(url);
-				Bitmap photo = FileHelper.loadBitmap(url, bmOptions);
-	            
-	            if(mImageClicked == THIS_IMAGE){
-	            	//mBackgroundImageThis.getLayoutParams().height = 1500;
-	            	//mBackgroundImageThis.getLayoutParams().width = 1500;
-	            	//mBackgroundImageThis.setImageBitmap(photo);
-	            	
-	            	Picasso.with(this).load(url).resize(402, 600).centerCrop().into(mBackgroundImageThis);
-	            	//mBackgroundImageThis.setImageBitmap(photo); //set image
-	            	mThisBitmap = photo; //save bitmap
-	            }
-	            else if(mImageClicked == THAT_IMAGE){
-	            	Picasso.with(this).load(url).resize(402, 600).centerCrop().into(mBackgroundImageThat);
-	            	//mBackgroundImageThis.setImageBitmap(photo); //set image
-	            	mThatBitmap = photo; //save bitmap
-	            }
 
-	        
-			}
-			else {
-				rotationAngle(mMediaUri);
-				Intent intent = new Intent("com.android.camera.action.CROP");
-				//intent.setClassName("com.android.gallery", "com.android.camera.CropImage");
-				intent.setDataAndType(mMediaUri, "image/*");
-		      //  intent.setData(mMediaUri);
-		        intent.putExtra("outputX", 400);
-		        intent.putExtra("outputY", 400);
-		        intent.putExtra("aspectX", 1);
-		        intent.putExtra("aspectY", 1);
-		        intent.putExtra("scale", true);
-		        intent.putExtra("return-data", true);            
-		        startActivityForResult(intent, CROP_FROM_CAMERA);
-			}
-			
-		}
-		else if (resultCode != RESULT_CANCELED) {
-			Toast.makeText(this, R.string.general_error, Toast.LENGTH_LONG).show();
-		}
-	}
-	
-	private void rotationAngle(Uri uri){
-		try {
-	        File f = new File(uri.toString());
-	        ExifInterface exif = new ExifInterface(f.getPath());
-	        int orientation = exif.getAttributeInt(
-	                ExifInterface.TAG_ORIENTATION,
-	                ExifInterface.ORIENTATION_NORMAL);
-
-	        int angle = 0;
-
-	        if (orientation == ExifInterface.ORIENTATION_ROTATE_90) {
-	            angle = 90;
-	        } else if (orientation == ExifInterface.ORIENTATION_ROTATE_180) {
-	            angle = 180;
-	        } else if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {
-	            angle = 270;
-	        }
-	        mImageAngle = angle;
-	        
-
-
-	    } catch (IOException e) {
-	        Log.w("TAG", "-- Error in setting image");
-	    } catch (OutOfMemoryError oom) {
-	        Log.w("TAG", "-- OOM Error in setting image");
-	    }
-	}
-
-	public static Bitmap RotateBitmap(Bitmap source, float angle)
-	{
-	      Matrix matrix = new Matrix();
-	      matrix.postRotate(angle);
-	      return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
-	      
-	}
 	
 	protected ParseObject createMessage() {
 		ParseObject message = new ParseObject(ParseConstants.CLASS_DILEMMA);
@@ -352,40 +217,8 @@ public class NewPost extends Activity  {
 		return message;
 	}
 	
-	public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
-	    int width = bm.getWidth();
-	    int height = bm.getHeight();
-	    float scaleWidth = ((float) newWidth) / width;
-	    float scaleHeight = ((float) newHeight) / height;
-	    // CREATE A MATRIX FOR THE MANIPULATION
-	    Matrix matrix = new Matrix();
-	    // RESIZE THE BIT MAP
-	    matrix.postScale(scaleWidth, scaleHeight);
 
-	    // "RECREATE" THE NEW BITMAP
-	    Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
-	    return resizedBitmap;
-	}
-	/*
 
-	
-	public ParseFile getParseFile(String filePath){
-		
-		Bitmap bm = ShrinkBitmap(filePath, 200, 200);
-
-		Bitmap bThat = RotateBitmap(bm,90);
-//		Bitmap bThat = BitmapFactory.decodeFile(filePath);
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		bThat.compress(Bitmap.CompressFormat.JPEG, 80, bos);
-		String fileName = FileHelper.getFileName(this.getApplicationContext(), Uri.parse(filePath), mFileType);
-		byte[] scaledData = bos.toByteArray();
-		if(scaledData == null)
-			return null;
-		ParseFile photoFile = new ParseFile(fileName, scaledData);
-		return photoFile;
-		// Save the scaled image to Parse
-
-	}*/
 	
 	public ParseFile getParseFile(Bitmap file){
 		
@@ -443,86 +276,159 @@ public class NewPost extends Activity  {
 		public void onClick(DialogInterface dialog, int which) {
 			switch(which) {
 				case 0: // Take picture
-					Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-					mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
-					if (mMediaUri == null) {
-						// display an error
-						Toast.makeText(NewPost.this, R.string.error_external_storage,
-								Toast.LENGTH_LONG).show();
-					}
-					else {
-						takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
-						startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
-					}
+					takePicture();
+
 					break;
 				case 1: // Choose picture
-					Intent choosePhotoIntent = new Intent(Intent.ACTION_GET_CONTENT);
-					choosePhotoIntent.setType("image/*");
-					startActivityForResult(choosePhotoIntent, PICK_PHOTO_REQUEST);
+					openGallery();
 					break;
 				case 2:
 					Intent googleImagesIntent = new Intent(NewPost.this,GoogleImageActivity.class);
-					startActivityForResult(googleImagesIntent,GOOGLE_IMAGE_REQUEST);
+					startActivityForResult(googleImagesIntent,REQUEST_GOOGLE_IMAGE);
 					break;
 
 			}
 		}
 
-		private Uri getOutputMediaFileUri(int mediaType) {
-			// To be safe, you should check that the SDCard is mounted
-		    // using Environment.getExternalStorageState() before doing this.
-			if (isExternalStorageAvailable()) {
-				// get the URI
-				
-				// 1. Get the external storage directory
-				String appName = NewPost.this.getString(R.string.app_name);
-				File mediaStorageDir = new File(
-						Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-						appName);
-				
-				// 2. Create our subdirectory
-				if (! mediaStorageDir.exists()) {
-					if (! mediaStorageDir.mkdirs()) {
-						Log.e(TAG, "Failed to create directory.");
-						return null;
-					}
-				}
-				
-				// 3. Create a file name
-				// 4. Create the file
-				File mediaFile;
-				Date now = new Date();
-				String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(now);
-				
-				String path = mediaStorageDir.getPath() + File.separator;
-				if (mediaType == MEDIA_TYPE_IMAGE) {
-					mediaFile = new File(path + "IMG_" + timestamp + ".jpg");
-				}
-				else {
-					return null;
-				}
-				
-				Log.d(TAG, "File: " + Uri.fromFile(mediaFile));
-				
-				// 5. Return the file's URI				
-				return Uri.fromFile(mediaFile);
-			}
-			else {
-				return null;
-			}
-		}
-		
-		private boolean isExternalStorageAvailable() {
-			String state = Environment.getExternalStorageState();
-			
-			if (state.equals(Environment.MEDIA_MOUNTED)) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
 	};
+	
+
+    private void takePicture() {
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        try {
+        	Uri mImageCaptureUri = null;
+        	String state = Environment.getExternalStorageState();
+        	if (Environment.MEDIA_MOUNTED.equals(state)) {
+        		mImageCaptureUri = Uri.fromFile(mFileTemp);
+        	}
+        	else {
+	        	/*
+	        	 * The solution is taken from here: http://stackoverflow.com/questions/10042695/how-to-get-camera-result-as-a-uri-in-data-folder
+	        	 */
+	        	mImageCaptureUri = InternalStorageContentProvider.CONTENT_URI;
+        	}	
+            intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
+            intent.putExtra("return-data", true);
+            startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
+        } catch (ActivityNotFoundException e) {
+
+            Log.d(TAG, "cannot take picture", e);
+        }
+    }
+
+    private void openGallery() {
+
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, REQUEST_CODE_GALLERY);
+    }
+
+    private void startCropImage() {
+
+        Intent intent = new Intent(this, CropImage.class);
+        intent.putExtra(CropImage.IMAGE_PATH, mFileTemp.getPath());
+        intent.putExtra(CropImage.SCALE, true);
+
+        intent.putExtra(CropImage.ASPECT_X, 2);
+        intent.putExtra(CropImage.ASPECT_Y, 3);
+
+        startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode != RESULT_OK) {
+
+            return;
+        }
+
+        Bitmap bitmap;
+
+        switch (requestCode) {
+
+            case REQUEST_CODE_GALLERY:
+
+                try {
+
+                    InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                    FileOutputStream fileOutputStream = new FileOutputStream(mFileTemp);
+                    copyStream(inputStream, fileOutputStream);
+                    fileOutputStream.close();
+                    inputStream.close();
+
+                    startCropImage();
+
+                } catch (Exception e) {
+
+                    Log.e(TAG, "Error while creating temp file", e);
+                }
+
+                break;
+            case REQUEST_CODE_TAKE_PICTURE:
+
+                startCropImage();
+                break;
+            case REQUEST_CODE_CROP_IMAGE:
+
+                String path = data.getStringExtra(CropImage.IMAGE_PATH);
+                if (path == null) {
+
+                    return;
+                }
+
+                bitmap = BitmapFactory.decodeFile(mFileTemp.getPath());
+	          //  bitmap = getResizedBitmap(bitmap, 602, 402); //RESIZE
+	            if(mImageClicked == THIS_IMAGE){
+	            	
+	            	mBackgroundImageThis.setImageBitmap(bitmap);
+	            	mThisBitmap = bitmap;
+	            }
+	            else if(mImageClicked == THAT_IMAGE){
+	            	mBackgroundImageThat.setImageBitmap(bitmap);
+	            	mThatBitmap = bitmap;
+	            }
+                break;
+            case REQUEST_GOOGLE_IMAGE :
+		        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+		        StrictMode.setThreadPolicy(policy);
+		        BitmapFactory.Options bmOptions;
+		        bmOptions = new BitmapFactory.Options();
+		        bmOptions.inSampleSize = 1;
+		        String url = data.getStringExtra("imageUrl");
+		        System.out.println(url);
+				Bitmap photo = FileHelper.loadBitmap(url, bmOptions);
+	            
+	            if(mImageClicked == THIS_IMAGE){
+	            	
+	            	Picasso.with(this).load(url).resize(402, 600).centerCrop().into(mBackgroundImageThis);
+	            	mThisBitmap = photo; //save bitmap
+	            }
+	            else if(mImageClicked == THAT_IMAGE){
+	            	Picasso.with(this).load(url).resize(402, 600).centerCrop().into(mBackgroundImageThat);
+	            	mThatBitmap = photo; //save bitmap
+	            }
+            	
+            	break;
+            	
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+	
+	
+    public static void copyStream(InputStream input, OutputStream output)
+            throws IOException {
+
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = input.read(buffer)) != -1) {
+            output.write(buffer, 0, bytesRead);
+        }
+    }
+	
 	
 	protected void sendPushNotifications() {
 		ParseQuery<ParseInstallation> query = ParseInstallation.getQuery();

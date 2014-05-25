@@ -27,7 +27,7 @@ public class SignUpActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_sign_up);
 		
-		mUsername = (EditText)findViewById(R.id.usernameField);
+		mUsername = (EditText)findViewById(R.id.userNameField);
 		mPassword = (EditText)findViewById(R.id.passwordField);
 		mEmail = (EditText)findViewById(R.id.emailField);
 		ActionBar actionBar = getActionBar();

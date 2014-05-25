@@ -1,10 +1,16 @@
 package com.myteam.thisorthat;
 
+import java.util.Arrays;
+import java.util.List;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -13,16 +19,21 @@ import android.widget.TextView;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+
+
 
 public class LoginActivity extends Activity {
 
 	protected EditText mUsername;
 	protected EditText mPassword;
 	protected Button mLoginButton;
-	
+	private Button loginButton;
+	private Dialog progressDialog;
 	protected TextView mSignUpTextView;
-
+	protected static final String TAG = LoginActivity.class.getSimpleName();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -30,6 +41,14 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
+		loginButton = (Button) findViewById(R.id.facebookLogin);
+		loginButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onLoginButtonClicked();
+			}
+		});
+
 		mSignUpTextView = (TextView)findViewById(R.id.signUpText);
 		mSignUpTextView.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -90,4 +109,42 @@ public class LoginActivity extends Activity {
 			}
 		});
 	}
+	
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
+	}
+
+	private void onLoginButtonClicked() {
+		LoginActivity.this.progressDialog = ProgressDialog.show(
+				LoginActivity.this, "", "Logging in...", true);
+		List<String> permissions = Arrays.asList("public_profile", "user_about_me",
+				"user_relationships", "user_birthday", "user_location");
+		ParseFacebookUtils.logIn(permissions, this, new LogInCallback() {
+			@Override
+			public void done(ParseUser user, ParseException err) {
+				LoginActivity.this.progressDialog.dismiss();
+				if (user == null) {
+					Log.d(LoginActivity.TAG,
+							"Uh oh. The user cancelled the Facebook login.");
+				} else if (user.isNew()) {
+					Log.d(LoginActivity.TAG,
+							"User signed up and logged in through Facebook!");
+					showUserDetailsActivity();
+				} else {
+					Log.d(LoginActivity.TAG,
+							"User logged in through Facebook!");
+					showUserDetailsActivity();
+				}
+			}
+		});
+	}
+
+	private void showUserDetailsActivity() {
+		Intent intent = new Intent(this, FacebookRegistration.class);
+		startActivity(intent);
+	}
+	
 }

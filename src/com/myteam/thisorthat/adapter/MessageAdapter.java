@@ -5,16 +5,9 @@ import java.util.List;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -27,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.myteam.thisorthat.InboxFragment;
 import com.myteam.thisorthat.R;
 import com.myteam.thisorthat.R.drawable;
 import com.myteam.thisorthat.util.ParseConstants;
@@ -45,15 +39,17 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 	private final static int THIS_IMAGE = 1;
 	private final static int THAT_IMAGE = 2;
 	private View mView;
+	private int mFeedType;
 	private ViewHolder mHolder;
 
 	public MessageAdapter(Context context, List<ParseObject> messages,
-			List<ParseObject> userVotes) {
+			List<ParseObject> userVotes, int feedType) {
 		super(context, R.layout.message_item, messages);
 		mContext = context;
 		mMessages = messages;
 		mUserVotes = userVotes;
 		mUserVotesMap = new HashMap<String, ParseObject>();
+		mFeedType = feedType;
 		for (ParseObject curr : mUserVotes) {
 			mUserVotesMap.put(curr.get(ParseConstants.KEY_POST_ID).toString(),
 					curr);
@@ -238,6 +234,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 						curr.put(ParseConstants.KEY_IS_FOLLOWER, 0);
 						curr.saveInBackground();
 						mUserVotesMap.put(postId, curr);
+						if(mFeedType == InboxFragment.FAVORITES)
+							mMessages.remove(position);
 					}
 					
 					notifyDataSetChanged();
@@ -248,7 +246,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					int oldVote = mUserVotesMap.containsKey(postId) ? (mUserVotesMap
 							.get(postId)).getInt(ParseConstants.KEY_USER_VOTE)
 							: NO_SELECTION;
-					int newVote = mView.getId() == R.id.ThisPicture ? THIS_IMAGE
+					int newVote = (mView.getId() == R.id.ThisPicture || mView.getId() == R.id.thisLabel) ? THIS_IMAGE
 							: THAT_IMAGE;
 					updateVoteCounts(userId, postId, oldVote, newVote,
 							mMessages.get(position));
@@ -325,6 +323,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		};
 		mHolder.This.setOnClickListener(onClickListener);
 		mHolder.That.setOnClickListener(onClickListener);
+		mHolder.ThisCaption.setOnClickListener(onClickListener);
+		mHolder.ThatCaption.setOnClickListener(onClickListener);
 		mHolder.heartButton.setOnClickListener(onClickListener);
 	}
 
