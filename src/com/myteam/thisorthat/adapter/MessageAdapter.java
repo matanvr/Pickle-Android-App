@@ -252,9 +252,11 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				}else if(mView.getId() == R.id.comment_button_1){
 					postId = message.getObjectId();
 					userId = currentUser.getObjectId();
+					String userName = currentUser.getUsername();
 					Intent intent = new Intent(mContext, CommentsActivity.class);
 					intent.putExtra("postId", postId);
 					intent.putExtra("userId", postId);
+					intent.putExtra("userName", userName);
 					mContext.startActivity(intent);
 				} else {
 
