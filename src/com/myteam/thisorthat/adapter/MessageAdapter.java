@@ -5,6 +5,10 @@ import java.util.List;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -21,6 +25,10 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.myteam.thisorthat.InboxFragment;
+
+import com.myteam.thisorthat.CommentsActivity;
+import com.myteam.thisorthat.LoginActivity;
+
 import com.myteam.thisorthat.R;
 import com.myteam.thisorthat.R.drawable;
 import com.myteam.thisorthat.util.ParseConstants;
@@ -94,7 +102,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					mContext.getAssets(), "fonts/Roboto-Bold.ttf");
 			Typeface lightType = Typeface.createFromAsset(mContext.getAssets(),
 					"fonts/Roboto-LightItalic.ttf");
-
+			mHolder.commentImage = (ImageView) convertView.findViewById(R.id.comment_button);;
 			mHolder.Question.setTypeface(myTypeface);
 			mHolder.thisVot.setTypeface(myTypeface);
 			mHolder.thatVot.setTypeface(myTypeface);
@@ -239,6 +247,13 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					}
 					
 					notifyDataSetChanged();
+				}else if(mView.getId() == R.id.comment_button){
+					postId = message.getObjectId();
+					userId = currentUser.getObjectId();
+					Intent intent = new Intent(mContext, CommentsActivity.class);
+					intent.putExtra("postId", postId);
+					intent.putExtra("userId", postId);
+					mContext.startActivity(intent);
 				} else {
 
 					thisVotes = message.getInt(ParseConstants.KEY_THIS_VOTES);
@@ -326,6 +341,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		mHolder.ThisCaption.setOnClickListener(onClickListener);
 		mHolder.ThatCaption.setOnClickListener(onClickListener);
 		mHolder.heartButton.setOnClickListener(onClickListener);
+		mHolder.commentImage.setOnClickListener(onClickListener);
 	}
 
 	public class ThisThatOnClickListener implements OnClickListener {
@@ -365,6 +381,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		TableRow extrasRow;
 		TextView thisPercentage;
 		TextView thatPercentage;
+		ImageView commentImage;
 	}
 
 	public void toggleAnimation(TextView textView) {

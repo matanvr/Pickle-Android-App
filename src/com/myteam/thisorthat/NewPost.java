@@ -292,7 +292,7 @@ public class NewPost extends Activity  {
 
 	};
 	
-
+	
     private void takePicture() {
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -380,7 +380,7 @@ public class NewPost extends Activity  {
                 }
 
                 bitmap = BitmapFactory.decodeFile(mFileTemp.getPath());
-	          //  bitmap = getResizedBitmap(bitmap, 602, 402); //RESIZE
+	            bitmap = getResizedBitmap(bitmap, 602, 402); //RESIZE
 	            if(mImageClicked == THIS_IMAGE){
 	            	
 	            	mBackgroundImageThis.setImageBitmap(bitmap);
@@ -428,7 +428,20 @@ public class NewPost extends Activity  {
             output.write(buffer, 0, bytesRead);
         }
     }
-	
+	public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
+	    int width = bm.getWidth();
+	    int height = bm.getHeight();
+	    float scaleWidth = ((float) newWidth) / width;
+	    float scaleHeight = ((float) newHeight) / height;
+	    // CREATE A MATRIX FOR THE MANIPULATION
+	    Matrix matrix = new Matrix();
+	    // RESIZE THE BIT MAP
+	    matrix.postScale(scaleWidth, scaleHeight);
+
+	    // "RECREATE" THE NEW BITMAP
+	    Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
+	    return resizedBitmap;
+	}
 	
 	protected void sendPushNotifications() {
 		ParseQuery<ParseInstallation> query = ParseInstallation.getQuery();

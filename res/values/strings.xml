@@ -52,22 +52,22 @@
     <string name="title_activity_view_image">Ribbit</string>
     <string name="title_activity_new_post">NewPost</string>
     <string name="next_label">Post</string>
-    <string name="title_activity_android_custom_gallery">AndroidCustomGalleryActivity</string>
+    <string name="title_activity_android_custom_gallery">AndroidCustomGalleryActivity </string>
   	<string name="app_id">672772256144790</string>
 
   	<string name="drawer_open">Slider Menu Opened</string>
+
     <string name="drawer_close">Slider Menu Closed</string>
-     
+
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
         <item>Profile</item>
-        <item >Explore</item>
+        <item>Explore</item>
         <item> Create Post</item>
         <item>Favorites</item>
         <item> Settings</item>
-
     </string-array>
-     
+
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
@@ -76,10 +76,8 @@
         <item>@drawable/ic_new_post</item>
         <item>@drawable/ic_followed</item>
         <item>@drawable/ic_settings</item>
-
-        
     </array>
-     
+
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="google_image_title">Search Images</string>
@@ -91,4 +89,8 @@
     <string name="gender">Gender</string>
     <string name="date_of_birth">Date of Birth</string>
     <string name="relationship">Relationship</string>
+
+    <string name="title_activity_comments">CommentsActivity</string>
+    <string name="title_activity_add_comment">AddCommentActivity</string>
+
 </resources>
