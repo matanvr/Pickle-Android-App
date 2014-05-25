@@ -55,13 +55,13 @@ public class CommentsActivity extends Activity {
 		userId = getIntent().getStringExtra("userId");
 		userName = getIntent().getStringExtra("userName");
 		comment = (TextView)findViewById(R.id.commentInputText);
-		mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
+		/*mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
 		mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
 		mSwipeRefreshLayout.setColorScheme(
 				R.color.swipeRefresh1,
 				R.color.swipeRefresh2,
 				R.color.swipeRefresh3,
-				R.color.swipeRefresh4);
+				R.color.swipeRefresh4);*/
 		refresh();
 		
 		
@@ -120,10 +120,10 @@ public class CommentsActivity extends Activity {
 				
 			}
 		});
-		
+		/*
 		if (mSwipeRefreshLayout.isRefreshing()) {
 			mSwipeRefreshLayout.setRefreshing(false);
-		}
+		}*/
 	}
 
 }

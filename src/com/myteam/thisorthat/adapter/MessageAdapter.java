@@ -130,10 +130,9 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		mHolder.Question.setText((message.getString("questionText")));
 		Integer followers = message.getInt(ParseConstants.KEY_FOLLOWERS);
 		mHolder.heartCounter.setText(followers.toString());
-		mHolder.thisVot.setText(""
-				+ (message.getInt(ParseConstants.KEY_THIS_VOTES)));
-		mHolder.thatVot.setText(""
-				+ (message.getInt(ParseConstants.KEY_THAT_VOTES)));
+		mHolder.thisVot.setText(
+				 (message.getInt(ParseConstants.KEY_THIS_VOTES)) + " Votes");
+		mHolder.thatVot.setText((message.getInt(ParseConstants.KEY_THAT_VOTES))+ " Votes");
 		
 	
 		if (!mUserVotesMap.containsKey(postId)

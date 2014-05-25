@@ -109,24 +109,6 @@ public class MainActivity extends FragmentActivity implements
 	
 
 
-	private Bitmap CreateBlurredImage (int radius)
-	{
-
-	    Drawable blankDrawable = getResources().getDrawable(R.drawable.votedbutton);
-
-		Bitmap inputBitmap = ((BitmapDrawable)blankDrawable).getBitmap();
-		Bitmap outputBitmap = ((BitmapDrawable)blankDrawable).getBitmap();
-		RenderScript rs = RenderScript.create(this);
-		ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));;
-		Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
-		Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
-		theIntrinsic.setRadius(12.f);
-		theIntrinsic.setInput(tmpIn);
-		theIntrinsic.forEach(tmpOut);
-		tmpOut.copyTo(outputBitmap);
-		
-		return outputBitmap;
-	}
 
 	/**
 	 * Diplaying fragment view for selected nav drawer list item
@@ -137,13 +119,14 @@ public class MainActivity extends FragmentActivity implements
 	    Intent intent;
 	    Bundle args; 
 	    switch (position) {
+	    /*
 	    case 0:
 	    	MENU_STATE = MENU_PROFILE;
 	    	this.invalidateOptionsMenu();
 	    	fragment = new ProfileFragment();
 	    	
-	    	break;
-	    case 1:
+	    	break;*/
+	    case 0:
 	    	MENU_STATE = MENU_HOME;
 	    	this.invalidateOptionsMenu();
 	    	args = new Bundle();
@@ -151,13 +134,13 @@ public class MainActivity extends FragmentActivity implements
 	        fragment = new InboxFragment();
 	        fragment.setArguments(args);
 	        break;
-	    case 2:
+	    case 1:
 
 	    	intent = new Intent(this, NewPost.class);
 			startActivity(intent);
 	        break;
 
-	    case 3:
+	    case 2:
 	    	MENU_STATE = MENU_HOME;
 	    	this.invalidateOptionsMenu();
 	    	args = new Bundle();
@@ -298,8 +281,7 @@ public class MainActivity extends FragmentActivity implements
         // Find People
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));  
+  
  
         // Recycle the typed array
         navMenuIcons.recycle();
@@ -336,7 +318,7 @@ public class MainActivity extends FragmentActivity implements
         if (savedInstanceState == null) {
             // on first time display view for first nav item
             if(currentUser != null)
-        	displayView(1);
+        	displayView(0);
         }
 		
 		
