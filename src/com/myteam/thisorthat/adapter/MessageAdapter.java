@@ -88,31 +88,31 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mHolder.Question = (TextView) convertView
 					.findViewById(R.id.Question);
 			mHolder.heartButton = (ImageView) convertView
-					.findViewById(R.id.heart_button);
+					.findViewById(R.id.heart_button_1);
 			mHolder.heartCounter = (TextView) convertView
 					.findViewById(R.id.heart_counter);
 			mHolder.thisVoteDisplay = (RelativeLayout) convertView.findViewById(R.id.thisCircle);
 			mHolder.thatVoteDisplay = (RelativeLayout) convertView.findViewById(R.id.thatCircle);
-			mHolder.extrasRow = (TableRow) convertView.findViewById(R.id.extrasRow);
-			mHolder.thatPercentage = (TextView) convertView.findViewById(R.id.that_percentage);
-			mHolder.thisPercentage = (TextView) convertView.findViewById(R.id.this_percentage);
+		
+			//mHolder.thatPercentage = (TextView) convertView.findViewById(R.id.that_percentage);
+			//mHolder.thisPercentage = (TextView) convertView.findViewById(R.id.this_percentage);
 			Typeface myTypeface = Typeface.createFromAsset(
-					mContext.getAssets(), "fonts/Roboto-Regular.ttf");
+					mContext.getAssets(), "fonts/WhitneyCondensed-Book.otf");
 			Typeface postTypeface =  Typeface.createFromAsset(
 					mContext.getAssets(), "fonts/WhitneyCondensed-Medium.otf");
 			Typeface myThickTypeface = Typeface.createFromAsset(
-					mContext.getAssets(), "fonts/Roboto-Bold.ttf");
+					mContext.getAssets(), "fonts/WhitneyCondensed-Bold.otf");
 			Typeface lightType = Typeface.createFromAsset(mContext.getAssets(),
 					"fonts/Roboto-LightItalic.ttf");
-			mHolder.commentImage = (ImageView) convertView.findViewById(R.id.comment_button);;
+			mHolder.commentImage = (ImageView) convertView.findViewById(R.id.comment_button_1);;
 			mHolder.Question.setTypeface(postTypeface);
 			mHolder.thisVot.setTypeface(myTypeface);
 			mHolder.thatVot.setTypeface(myTypeface);
 			mHolder.ThisCaption.setTypeface(myTypeface);
 			mHolder.ThatCaption.setTypeface(myTypeface);
 			mHolder.From.setTypeface(myThickTypeface);
-			mHolder.thatPercentage.setTypeface(myTypeface);
-			mHolder.thisPercentage.setTypeface(myTypeface);
+			//mHolder.thatPercentage.setTypeface(myTypeface);
+			//mHolder.thisPercentage.setTypeface(myTypeface);
 			convertView.setTag(mHolder);
 
 		} else {
@@ -141,20 +141,20 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 						ParseConstants.KEY_USER_VOTE) == NO_SELECTION) {
 			mHolder.thisVoteDisplay.setVisibility(View.GONE);
 			mHolder.thatVoteDisplay.setVisibility(View.GONE);
-			mHolder.extrasRow.setVisibility(View.GONE);
+			//mHolder.extrasRow.setVisibility(View.GONE);
 			mHolder.ThisCaption.setBackgroundColor(0);
 			mHolder.ThatCaption.setBackgroundColor(0);
 			mHolder.ThisCaption.setTextColor(Color.BLACK);
 			mHolder.ThatCaption.setTextColor(Color.BLACK);
-			mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-			mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+			mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+			mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 			
 		} else {
 			mHolder.thatVot.setVisibility(View.VISIBLE);
 			mHolder.thisVot.setVisibility(View.VISIBLE);
 			 mHolder.thisVoteDisplay.setVisibility(View.VISIBLE);
 			 mHolder.thatVoteDisplay.setVisibility(View.VISIBLE);
-			 mHolder.extrasRow.setVisibility(View.VISIBLE);
+			// mHolder.extrasRow.setVisibility(View.VISIBLE);
 				Log.d(postId, "user vote is: " + (mUserVotesMap.get(postId)).getInt(ParseConstants.KEY_USER_VOTE) + "  "+ mUserVotesMap.size());
 				//Drawable drawablePic = new BitmapDrawable(mContext.getResources(),CreateBlurredImage(50));
 			//	mHolder.thisVoteDisplay.setBackground(drawablePic);
@@ -163,25 +163,25 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				mHolder.ThisCaption.setTextColor(Color.WHITE);
 				mHolder.ThatCaption.setBackgroundColor(0);
 				mHolder.ThisCaption.setBackgroundColor(mContext.getResources().getColor(R.color.purple_dark));
-				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
-				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
+				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 			}
 			else{
 
 				mHolder.ThatCaption.setTextColor(Color.WHITE);
 				mHolder.ThisCaption.setTextColor(Color.BLACK);
-				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
-				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
+				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 				
 				mHolder.ThatCaption.setBackgroundColor(mContext.getResources().getColor(R.color.purple_dark));
 				mHolder.ThisCaption.setBackgroundColor(0);
 			}
 			
 			if ((mUserVotesMap.get(postId)).getInt(ParseConstants.KEY_IS_FOLLOWER) == 1) {
-				mHolder.heartButton.setImageResource(drawable.starselected);
+				mHolder.heartButton.setImageResource(drawable.ic_heart_liked);
 			}
 			else{
-				mHolder.heartButton.setImageResource(drawable.heart);
+				mHolder.heartButton.setImageResource(drawable.icon_heart_empty);
 			}
 
 		}
@@ -197,10 +197,10 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		Uri thatUri = Uri.parse(This.getUrl());
 		Uri thisUri = Uri.parse(That.getUrl());
 		String uri = message.get(ParseConstants.KEY_FILE_THIS).toString();
-		Picasso.with(mContext).load(thatUri.toString()).resize(500, 830)
+		Picasso.with(mContext).load(thatUri.toString()).resize(500, 970)
 				.centerCrop().into(mHolder.This);
 
-		Picasso.with(mContext).load(thisUri.toString()).resize(500, 830)
+		Picasso.with(mContext).load(thisUri.toString()).resize(500, 970)
 				.centerCrop().into(mHolder.That);
 
 		ThisThatOnClickListener onClickListener = new ThisThatOnClickListener(
@@ -219,7 +219,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				ParseUser currentUser = ParseUser.getCurrentUser();
 				userId = currentUser.getObjectId();
 				postId = message.getObjectId();
-				if (mView.getId() == R.id.heart_button) {
+				if (mView.getId() == R.id.heart_button_1) {
 					ParseObject curr = mUserVotesMap.get(postId);
 					followerVote = curr.getInt(ParseConstants.KEY_IS_FOLLOWER);
 					followerVotes = message.getInt(ParseConstants.KEY_FOLLOWERS);
@@ -249,7 +249,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					}
 					
 					notifyDataSetChanged();
-				}else if(mView.getId() == R.id.comment_button){
+				}else if(mView.getId() == R.id.comment_button_1){
 					postId = message.getObjectId();
 					userId = currentUser.getObjectId();
 					Intent intent = new Intent(mContext, CommentsActivity.class);
@@ -380,9 +380,9 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		TextView heartCounter;
 		RelativeLayout thisVoteDisplay;
 		RelativeLayout thatVoteDisplay;
-		TableRow extrasRow;
-		TextView thisPercentage;
-		TextView thatPercentage;
+	
+		//TextView thisPercentage;
+		//TextView thatPercentage;
 		ImageView commentImage;
 	}
 
