@@ -5,10 +5,7 @@ import java.util.List;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-
 import android.content.Intent;
-import android.graphics.Bitmap;
-
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -24,11 +21,8 @@ import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.myteam.thisorthat.InboxFragment;
-
 import com.myteam.thisorthat.CommentsActivity;
-import com.myteam.thisorthat.LoginActivity;
-
+import com.myteam.thisorthat.InboxFragment;
 import com.myteam.thisorthat.R;
 import com.myteam.thisorthat.R.drawable;
 import com.myteam.thisorthat.util.ParseConstants;
@@ -39,6 +33,44 @@ import com.squareup.picasso.Picasso;
 
 public class MessageAdapter extends ArrayAdapter<ParseObject> {
 
+	public class ThisThatOnClickListener implements OnClickListener {
+
+		int position;
+
+		public ThisThatOnClickListener(int position) {
+			this.position = position;
+		}
+
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.ThisPicture:
+				break;
+			case R.id.ThatPicture:
+				break;
+			}
+
+		}
+
+	}
+	private static class ViewHolder {
+		TextView thatVot;
+		TextView thisVot;
+		ImageView This;
+		ImageView That;
+		TextView ThisCaption;
+		TextView ThatCaption;
+		TextView From;
+		TextView Question;
+		ImageView heartButton;
+		TextView heartCounter;
+		RelativeLayout thisVoteDisplay;
+		RelativeLayout thatVoteDisplay;
+		TableRow extrasRow;
+		TextView thisPercentage;
+		TextView thatPercentage;
+		ImageView commentImage;
+	}
 	protected Context mContext;
 	protected List<ParseObject> mMessages;
 	protected List<ParseObject> mUserVotes;
@@ -47,7 +79,9 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 	private final static int THIS_IMAGE = 1;
 	private final static int THAT_IMAGE = 2;
 	private View mView;
+
 	private int mFeedType;
+
 	private ViewHolder mHolder;
 
 	public MessageAdapter(Context context, List<ParseObject> messages,
@@ -62,63 +96,6 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mUserVotesMap.put(curr.get(ParseConstants.KEY_POST_ID).toString(),
 					curr);
 		}
-	}
-
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-
-		if (convertView == null) {
-			convertView = LayoutInflater.from(mContext).inflate(
-					R.layout.message_item, null);
-			mHolder = new ViewHolder();
-			mHolder.This = (ImageView) convertView
-					.findViewById(R.id.ThisPicture);
-			mHolder.That = (ImageView) convertView
-					.findViewById(R.id.ThatPicture);
-			mHolder.From = (TextView) convertView
-					.findViewById(R.id.FromLabelView);
-			mHolder.thisVot = (TextView) convertView
-					.findViewById(R.id.thisVote);
-			mHolder.thatVot = (TextView) convertView
-					.findViewById(R.id.thatVote);
-			mHolder.ThatCaption = (TextView) convertView
-					.findViewById(R.id.thatLabel);
-			mHolder.ThisCaption = (TextView) convertView
-					.findViewById(R.id.thisLabel);
-			mHolder.Question = (TextView) convertView
-					.findViewById(R.id.Question);
-			mHolder.heartButton = (ImageView) convertView
-					.findViewById(R.id.heart_button);
-			mHolder.heartCounter = (TextView) convertView
-					.findViewById(R.id.heart_counter);
-			mHolder.thisVoteDisplay = (RelativeLayout) convertView.findViewById(R.id.thisCircle);
-			mHolder.thatVoteDisplay = (RelativeLayout) convertView.findViewById(R.id.thatCircle);
-			mHolder.extrasRow = (TableRow) convertView.findViewById(R.id.extrasRow);
-			mHolder.thatPercentage = (TextView) convertView.findViewById(R.id.that_percentage);
-			mHolder.thisPercentage = (TextView) convertView.findViewById(R.id.this_percentage);
-			Typeface myTypeface = Typeface.createFromAsset(
-					mContext.getAssets(), "fonts/Roboto-Regular.ttf");
-			Typeface myThickTypeface = Typeface.createFromAsset(
-					mContext.getAssets(), "fonts/Roboto-Bold.ttf");
-			Typeface lightType = Typeface.createFromAsset(mContext.getAssets(),
-					"fonts/Roboto-LightItalic.ttf");
-			mHolder.commentImage = (ImageView) convertView.findViewById(R.id.comment_button);;
-			mHolder.Question.setTypeface(myTypeface);
-			mHolder.thisVot.setTypeface(myTypeface);
-			mHolder.thatVot.setTypeface(myTypeface);
-			mHolder.ThisCaption.setTypeface(myTypeface);
-			mHolder.ThatCaption.setTypeface(myTypeface);
-			mHolder.From.setTypeface(myThickTypeface);
-			mHolder.thatPercentage.setTypeface(myTypeface);
-			mHolder.thisPercentage.setTypeface(myTypeface);
-			convertView.setTag(mHolder);
-
-		} else {
-			mHolder = (ViewHolder) convertView.getTag();
-		}
-		displayPost(position);
-
-		return convertView;
 	}
 
 	private void displayPost(int position) {
@@ -342,46 +319,63 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		mHolder.ThatCaption.setOnClickListener(onClickListener);
 		mHolder.heartButton.setOnClickListener(onClickListener);
 		mHolder.commentImage.setOnClickListener(onClickListener);
-	}
-
-	public class ThisThatOnClickListener implements OnClickListener {
-
-		int position;
-
-		public ThisThatOnClickListener(int position) {
-			this.position = position;
-		}
-
-		@Override
-		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.ThisPicture:
-				break;
-			case R.id.ThatPicture:
-				break;
-			}
-
-		}
-
 	};
 
-	private static class ViewHolder {
-		TextView thatVot;
-		TextView thisVot;
-		ImageView This;
-		ImageView That;
-		TextView ThisCaption;
-		TextView ThatCaption;
-		TextView From;
-		TextView Question;
-		ImageView heartButton;
-		TextView heartCounter;
-		RelativeLayout thisVoteDisplay;
-		RelativeLayout thatVoteDisplay;
-		TableRow extrasRow;
-		TextView thisPercentage;
-		TextView thatPercentage;
-		ImageView commentImage;
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+
+		if (convertView == null) {
+			convertView = LayoutInflater.from(mContext).inflate(
+					R.layout.message_item, null);
+			mHolder = new ViewHolder();
+			mHolder.This = (ImageView) convertView
+					.findViewById(R.id.ThisPicture);
+			mHolder.That = (ImageView) convertView
+					.findViewById(R.id.ThatPicture);
+			mHolder.From = (TextView) convertView
+					.findViewById(R.id.FromLabelView);
+			mHolder.thisVot = (TextView) convertView
+					.findViewById(R.id.thisVote);
+			mHolder.thatVot = (TextView) convertView
+					.findViewById(R.id.thatVote);
+			mHolder.ThatCaption = (TextView) convertView
+					.findViewById(R.id.thatLabel);
+			mHolder.ThisCaption = (TextView) convertView
+					.findViewById(R.id.thisLabel);
+			mHolder.Question = (TextView) convertView
+					.findViewById(R.id.Question);
+			mHolder.heartButton = (ImageView) convertView
+					.findViewById(R.id.heart_button);
+			mHolder.heartCounter = (TextView) convertView
+					.findViewById(R.id.heart_counter);
+			mHolder.thisVoteDisplay = (RelativeLayout) convertView.findViewById(R.id.thisCircle);
+			mHolder.thatVoteDisplay = (RelativeLayout) convertView.findViewById(R.id.thatCircle);
+			mHolder.extrasRow = (TableRow) convertView.findViewById(R.id.extrasRow);
+			mHolder.thatPercentage = (TextView) convertView.findViewById(R.id.that_percentage);
+			mHolder.thisPercentage = (TextView) convertView.findViewById(R.id.this_percentage);
+			Typeface myTypeface = Typeface.createFromAsset(
+					mContext.getAssets(), "fonts/Roboto-Regular.ttf");
+			Typeface myThickTypeface = Typeface.createFromAsset(
+					mContext.getAssets(), "fonts/Roboto-Bold.ttf");
+			Typeface lightType = Typeface.createFromAsset(mContext.getAssets(),
+					"fonts/Roboto-LightItalic.ttf");
+			mHolder.commentImage = (ImageView) convertView.findViewById(R.id.comment_button);;
+			mHolder.Question.setTypeface(myTypeface);
+			mHolder.thisVot.setTypeface(myTypeface);
+			mHolder.thatVot.setTypeface(myTypeface);
+			mHolder.ThisCaption.setTypeface(myTypeface);
+			mHolder.ThatCaption.setTypeface(myTypeface);
+			mHolder.From.setTypeface(myThickTypeface);
+			mHolder.thatPercentage.setTypeface(myTypeface);
+			mHolder.thisPercentage.setTypeface(myTypeface);
+			convertView.setTag(mHolder);
+
+		} else {
+			mHolder = (ViewHolder) convertView.getTag();
+		}
+		displayPost(position);
+
+		return convertView;
 	}
 
 	public void toggleAnimation(TextView textView) {

@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.myteam.thisorthat.R;
-import com.myteam.thisorthat.R.id;
 import com.myteam.thisorthat.model.ImageItem;
 import com.squareup.picasso.Picasso;
 
@@ -24,8 +23,32 @@ import com.squareup.picasso.Picasso;
  * 
  */
 public class GridViewAdapter extends ArrayAdapter<ImageItem> {
+	public class ImageOnClickListener implements OnClickListener{
+
+	     int position;
+	     public ImageOnClickListener(int position) {
+	          this.position = position;
+	     }
+
+	     @Override
+	     public void onClick(View v) {
+	    
+	    	 	System.out.println("HI");
+
+	    	 
+
+	     }
+
+	  }
+	static class ViewHolder {
+		TextView imageTitle;
+		ImageView image;
+		
+	}
 	private Context context;
+
 	private int layoutResourceId;
+
 	private ArrayList<ImageItem> data = new ArrayList<ImageItem>();
 
 	public GridViewAdapter(Context context, int layoutResourceId,
@@ -35,7 +58,6 @@ public class GridViewAdapter extends ArrayAdapter<ImageItem> {
 		this.context = context;
 		this.data = data;
 	}
-
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View row = convertView;
@@ -79,29 +101,6 @@ public class GridViewAdapter extends ArrayAdapter<ImageItem> {
 		holder.image.setOnClickListener(onImageClickListener);
 		
 		return row;
-	}
-
-	static class ViewHolder {
-		TextView imageTitle;
-		ImageView image;
-		
-	}
-	public class ImageOnClickListener implements OnClickListener{
-
-	     int position;
-	     public ImageOnClickListener(int position) {
-	          this.position = position;
-	     }
-
-	     @Override
-	     public void onClick(View v) {
-	    
-	    	 	System.out.println("HI");
-
-	    	 
-
-	     }
-
-	  };
+	};
 
 }

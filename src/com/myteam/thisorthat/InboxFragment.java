@@ -3,11 +3,10 @@ package com.myteam.thisorthat;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ListFragment;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,32 +29,11 @@ public class InboxFragment extends ListFragment {
 	public final static int NEWSFEED = 0; 
 	public final static int FAVORITES = 1; 
 	private int mFeed; 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_inbox,
-				container, false);
-
-		
-		mSwipeRefreshLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.swipeRefreshLayout);
-		mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
-		mSwipeRefreshLayout.setColorScheme(
-				R.color.swipeRefresh1,
-				R.color.swipeRefresh2,
-				R.color.swipeRefresh3,
-				R.color.swipeRefresh4);
-        // Set title in Fragment for display purposes.
-       
-        Bundle b = getArguments();
-		return rootView;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		System.gc();
-		mFeed= this.getArguments().getInt("feedType");
-		switch(mFeed){
+	protected OnRefreshListener mOnRefreshListener = new OnRefreshListener() {
+		@Override
+		public void onRefresh() {
+			
+			switch(mFeed){
 			case InboxFragment.NEWSFEED: 
 				getMessages();
 				break;
@@ -63,7 +41,67 @@ public class InboxFragment extends ListFragment {
 				getFavorites();
 				break;	
 		}
+		}
+	};
+
+	public void getFavorites(){
+		getActivity().setProgressBarIndeterminateVisibility(true);
+		ParseQuery <ParseObject> favoritesQuery = new ParseQuery<ParseObject>(ParseConstants.CLASS_USER_VOTE);
+		favoritesQuery.whereEqualTo(ParseConstants.KEY_IS_FOLLOWER,1);
+		favoritesQuery.whereEqualTo(ParseConstants.KEY_USER_ID, ParseUser.getCurrentUser().getObjectId());
+		favoritesQuery.findInBackground(new FindCallback<ParseObject>(){
+			@Override
+			public void done(List<ParseObject> favoritePosts, ParseException e){
+				if( e == null){
+					
+					
+					ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(ParseConstants.CLASS_DILEMMA);
+//					query.whereEqualTo(ParseConstants.KEY_RECIPIENT_IDS, ParseUser.getCurrentUser().getObjectId());
+					query.whereContainedIn(ParseConstants.KEY_OBJECT_ID, getPostIds(favoritePosts));
+					query.addDescendingOrder(ParseConstants.KEY_CREATED_AT);
+					
+					query.findInBackground(new FindCallback<ParseObject>() {
+						@Override
+						public void done(List<ParseObject> messages, ParseException e) {
+							
+							if (e == null) {
+								// We found messages!
+				
+								
+								
+
+								mMessages = messages;
+								ParseQuery<ParseObject> userPosts = new ParseQuery<ParseObject>(ParseConstants.CLASS_USER_VOTE);
+								userPosts.addDescendingOrder(ParseConstants.KEY_CREATED_AT);
+								userPosts.whereEqualTo(ParseConstants.KEY_USER_ID, ParseUser.getCurrentUser().getObjectId());
+								userPosts.findInBackground(new FindCallback<ParseObject>(){
+									@Override
+									public void done(List<ParseObject> userVotes, ParseException e) {
+										getActivity().setProgressBarIndeterminateVisibility(false);
+										
+										if (mSwipeRefreshLayout.isRefreshing()) {
+											mSwipeRefreshLayout.setRefreshing(false);
+										}
+										
+										if( e== null){
+											
+											MessageAdapter adapter = new MessageAdapter(
+													getListView().getContext(), 
+													mMessages,userVotes, FAVORITES);
+											
+											setListAdapter(adapter);
+										}
+									}
+								});
+
+							}
+						}
+					});		
+				}
+			}
+		});
 		
+	
 	}
 	
 
@@ -147,66 +185,6 @@ public class InboxFragment extends ListFragment {
 		});
 	}
 	
-	public void getFavorites(){
-		getActivity().setProgressBarIndeterminateVisibility(true);
-		ParseQuery <ParseObject> favoritesQuery = new ParseQuery<ParseObject>(ParseConstants.CLASS_USER_VOTE);
-		favoritesQuery.whereEqualTo(ParseConstants.KEY_IS_FOLLOWER,1);
-		favoritesQuery.whereEqualTo(ParseConstants.KEY_USER_ID, ParseUser.getCurrentUser().getObjectId());
-		favoritesQuery.findInBackground(new FindCallback<ParseObject>(){
-			@Override
-			public void done(List<ParseObject> favoritePosts, ParseException e){
-				if( e == null){
-					
-					
-					ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(ParseConstants.CLASS_DILEMMA);
-//					query.whereEqualTo(ParseConstants.KEY_RECIPIENT_IDS, ParseUser.getCurrentUser().getObjectId());
-					query.whereContainedIn(ParseConstants.KEY_OBJECT_ID, getPostIds(favoritePosts));
-					query.addDescendingOrder(ParseConstants.KEY_CREATED_AT);
-					
-					query.findInBackground(new FindCallback<ParseObject>() {
-						@Override
-						public void done(List<ParseObject> messages, ParseException e) {
-							
-							if (e == null) {
-								// We found messages!
-				
-								
-								
-
-								mMessages = messages;
-								ParseQuery<ParseObject> userPosts = new ParseQuery<ParseObject>(ParseConstants.CLASS_USER_VOTE);
-								userPosts.addDescendingOrder(ParseConstants.KEY_CREATED_AT);
-								userPosts.whereEqualTo(ParseConstants.KEY_USER_ID, ParseUser.getCurrentUser().getObjectId());
-								userPosts.findInBackground(new FindCallback<ParseObject>(){
-									@Override
-									public void done(List<ParseObject> userVotes, ParseException e) {
-										getActivity().setProgressBarIndeterminateVisibility(false);
-										
-										if (mSwipeRefreshLayout.isRefreshing()) {
-											mSwipeRefreshLayout.setRefreshing(false);
-										}
-										
-										if( e== null){
-											
-											MessageAdapter adapter = new MessageAdapter(
-													getListView().getContext(), 
-													mMessages,userVotes, FAVORITES);
-											
-											setListAdapter(adapter);
-										}
-									}
-								});
-
-							}
-						}
-					});		
-				}
-			}
-		});
-		
-	
-	}
-	
 	private List<String> getPostIds(List<ParseObject> favs){
 		List<String> output = new ArrayList<String>();
 		for (ParseObject i : favs){
@@ -216,11 +194,32 @@ public class InboxFragment extends ListFragment {
 		return output;
 		
 	}
-	protected OnRefreshListener mOnRefreshListener = new OnRefreshListener() {
-		@Override
-		public void onRefresh() {
-			
-			switch(mFeed){
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.fragment_inbox,
+				container, false);
+
+		
+		mSwipeRefreshLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.swipeRefreshLayout);
+		mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
+		mSwipeRefreshLayout.setColorScheme(
+				R.color.swipeRefresh1,
+				R.color.swipeRefresh2,
+				R.color.swipeRefresh3,
+				R.color.swipeRefresh4);
+        // Set title in Fragment for display purposes.
+       
+        Bundle b = getArguments();
+		return rootView;
+	}
+	@Override
+	public void onResume() {
+		super.onResume();
+		System.gc();
+		mFeed= this.getArguments().getInt("feedType");
+		switch(mFeed){
 			case InboxFragment.NEWSFEED: 
 				getMessages();
 				break;
@@ -228,8 +227,8 @@ public class InboxFragment extends ListFragment {
 				getFavorites();
 				break;	
 		}
-		}
-	};
+		
+	}
 
 
 		

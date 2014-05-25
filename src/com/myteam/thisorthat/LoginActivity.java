@@ -35,19 +35,26 @@ public class LoginActivity extends Activity {
 	protected static final String TAG = LoginActivity.class.getSimpleName();
 	
 	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
+	}
+	
+	
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_login);
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
-		loginButton = (Button) findViewById(R.id.facebookLogin);
+		/*loginButton = (Button) findViewById(R.id.facebookLogin);
 		loginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				onLoginButtonClicked();
 			}
-		});
+		});*/
 
 		mSignUpTextView = (TextView)findViewById(R.id.signUpText);
 		mSignUpTextView.setOnClickListener(new View.OnClickListener() {
@@ -109,13 +116,6 @@ public class LoginActivity extends Activity {
 			}
 		});
 	}
-	
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
-	}
 
 	private void onLoginButtonClicked() {
 		LoginActivity.this.progressDialog = ProgressDialog.show(
@@ -143,8 +143,8 @@ public class LoginActivity extends Activity {
 	}
 
 	private void showUserDetailsActivity() {
-		Intent intent = new Intent(this, FacebookRegistration.class);
-		startActivity(intent);
+		//Intent intent = new Intent(this, FacebookRegistration.class);
+		//startActivity(intent);
 	}
 	
 }

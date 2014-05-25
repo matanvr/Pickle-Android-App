@@ -2,15 +2,14 @@ package com.myteam.thisorthat.adapter;
 
 import java.util.Locale;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Context;
+import android.support.v4.app.FragmentPagerAdapter;
+
 import com.myteam.thisorthat.FriendsFragment;
 import com.myteam.thisorthat.InboxFragment;
 import com.myteam.thisorthat.R;
-import com.myteam.thisorthat.R.string;
-
-import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 
 /**
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -23,6 +22,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 	public SectionsPagerAdapter(Context context, FragmentManager fm) {
 		super(fm);
 		mContext = context;
+	}
+
+	@Override
+	public int getCount() {
+		return 2;
 	}
 
 	@Override
@@ -39,11 +43,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		}
 
 		return null;
-	}
-
-	@Override
-	public int getCount() {
-		return 2;
 	}
 
 	@Override

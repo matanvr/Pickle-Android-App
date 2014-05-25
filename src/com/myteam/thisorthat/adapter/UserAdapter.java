@@ -18,15 +18,21 @@ import com.squareup.picasso.Picasso;
 
 public class UserAdapter extends ArrayAdapter<ParseUser> {
 	
+	private static class ViewHolder {
+		ImageView userImageView;
+		ImageView checkImageView;
+		TextView nameLabel;
+	}
 	protected Context mContext;
-	protected List<ParseUser> mUsers;
 	
+	protected List<ParseUser> mUsers;
+
 	public UserAdapter(Context context, List<ParseUser> users) {
 		super(context, R.layout.message_item, users);
 		mContext = context;
 		mUsers = users;
 	}
-
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
@@ -70,12 +76,6 @@ public class UserAdapter extends ArrayAdapter<ParseUser> {
 		}
 		
 		return convertView;
-	}
-	
-	private static class ViewHolder {
-		ImageView userImageView;
-		ImageView checkImageView;
-		TextView nameLabel;
 	}
 	
 	public void refill(List<ParseUser> users) {

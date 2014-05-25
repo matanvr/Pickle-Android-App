@@ -67,21 +67,17 @@ public class FileHelper {
         return fileBytes;
 	}
 	
-	public static byte[] reduceImageForUpload(byte[] imageData) {
-		Bitmap bitmap = ImageResizer.resizeImageMaintainAspectRatio(imageData, SHORT_SIDE_TARGET);
-		
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-		byte[] reducedData = outputStream.toByteArray();
-		try {
-			outputStream.close();
-		}
-		catch (IOException e) {
-			// Intentionally blank
-		}
-		
-		return reducedData;
-	}
+	public static byte[] getBytes(InputStream inputStream) throws IOException {
+	      ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+	      int bufferSize = 1024;
+	      byte[] buffer = new byte[bufferSize];
+
+	      int len = 0;
+	      while ((len = inputStream.read(buffer)) != -1) {
+	        byteBuffer.write(buffer, 0, len);
+	      }
+	      return byteBuffer.toByteArray();
+	    }
 
 	public static String getFileName(Context context, Uri uri, String fileType) {
 		String fileName = "uploaded_file.";
@@ -105,18 +101,7 @@ public class FileHelper {
 		
 		return fileName;
 	}
-	public static byte[] getBytes(InputStream inputStream) throws IOException {
-	      ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-	      int bufferSize = 1024;
-	      byte[] buffer = new byte[bufferSize];
-
-	      int len = 0;
-	      while ((len = inputStream.read(buffer)) != -1) {
-	        byteBuffer.write(buffer, 0, len);
-	      }
-	      return byteBuffer.toByteArray();
-	    }
-    public static Bitmap loadBitmap(String URL, BitmapFactory.Options options) {
+	public static Bitmap loadBitmap(String URL, BitmapFactory.Options options) {
         Bitmap bitmap = null;
         InputStream in = null;
         try {
@@ -127,7 +112,6 @@ public class FileHelper {
         }
         return bitmap;
     }
-
     private static InputStream OpenHttpConnection(String strURL)
             throws IOException {
         InputStream inputStream = null;
@@ -146,4 +130,20 @@ public class FileHelper {
         }
         return inputStream;
     }
+
+    public static byte[] reduceImageForUpload(byte[] imageData) {
+		Bitmap bitmap = ImageResizer.resizeImageMaintainAspectRatio(imageData, SHORT_SIDE_TARGET);
+		
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+		byte[] reducedData = outputStream.toByteArray();
+		try {
+			outputStream.close();
+		}
+		catch (IOException e) {
+			// Intentionally blank
+		}
+		
+		return reducedData;
+	}
 }
