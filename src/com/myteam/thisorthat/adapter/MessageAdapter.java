@@ -160,7 +160,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mHolder.thisVot.setVisibility(View.VISIBLE);
 			mHolder.thisVoteDisplay.setVisibility(View.VISIBLE);
 			mHolder.thatVoteDisplay.setVisibility(View.VISIBLE);
-			// mHolder.extrasRow.setVisibility(View.VISIBLE);
+
 			Log.d(postId,
 					"user vote is: "
 							+ (mUserVotesMap.get(postId))

@@ -96,7 +96,7 @@
                     android:layout_marginRight="0dp"
                     android:layout_toLeftOf="@id/buttonDivider"
                     android:gravity="center"
-                    android:text="THIS"
+                    android:hint="Which"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#000" />
 
@@ -107,9 +107,10 @@
                     android:layout_alignParentRight="true"
                     android:layout_toRightOf="@id/buttonDivider"
                     android:gravity="center"
-                    android:text="THAT"
+                    android:hint="One?"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="#000" />
+
             </RelativeLayout>
         </TableRow>
 
@@ -121,11 +122,11 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.033" />
+                android:layout_weight="0.001" />
 
             <LinearLayout
-                     android:layout_width="160dp"
-                    android:layout_height="320dp"
+                     android:layout_width="168dp"
+                      android:layout_height="160dp"
                 android:background="@drawable/pic_border" >
 
                 <ImageView
@@ -139,12 +140,12 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.033" />
+                android:layout_weight="0.001" />
 
             <LinearLayout
            
-                      android:layout_width="160dp"
-                    android:layout_height="320dp"
+                      android:layout_width="168dp"
+                    android:layout_height="160dp"
                 android:background="@drawable/pic_border" >
 
                 <ImageView
@@ -159,7 +160,7 @@
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.033" />
+                android:layout_weight="0.001" />
         </TableRow>
     </TableLayout>
 

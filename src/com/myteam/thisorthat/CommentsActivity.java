@@ -3,30 +3,28 @@ package com.myteam.thisorthat;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.view.View.OnClickListener;
-
-import com.parse.FindCallback;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.parse.ParseFile;
+import com.myteam.thisorthat.util.ParseConstants;
+import com.parse.FindCallback;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
-import com.squareup.picasso.Picasso;
+import com.parse.ParseQuery;
 
 public class CommentsActivity extends Activity {
 	Button addComment;
@@ -35,9 +33,23 @@ public class CommentsActivity extends Activity {
 	String userId;
 	String userName;
 	
+	ImageView This;
+	ImageView That;
+	TextView From;
+	TextView thisVot;
+	TextView thatVot;
+	TextView ThatCaption;
+
+	TextView ThisCaption ;
+	TextView Question ;
+	ImageView heartButton ;
+	TextView heartCounter;
+	RelativeLayout thisVoteDisplay;
+	RelativeLayout thatVoteDisplay;
 	
 	SwipeRefreshLayout mSwipeRefreshLayout;
 	ArrayAdapter<String> adapter;
+
 	protected OnRefreshListener mOnRefreshListener = new OnRefreshListener() {
 		@Override
 		public void onRefresh() {
@@ -47,14 +59,16 @@ public class CommentsActivity extends Activity {
 		}
 	};
 	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_comments);
-		postId = getIntent().getStringExtra("postId");
-		userId = getIntent().getStringExtra("userId");
-		userName = getIntent().getStringExtra("userName");
-		comment = (TextView)findViewById(R.id.commentInputText);
+		ActionBar actionBar = getActionBar();
+		actionBar.hide();
+		displayPost();
+
 		/*mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
 		mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
 		mSwipeRefreshLayout.setColorScheme(
@@ -62,9 +76,23 @@ public class CommentsActivity extends Activity {
 				R.color.swipeRefresh2,
 				R.color.swipeRefresh3,
 				R.color.swipeRefresh4);*/
-		refresh();
-		
-		
+		postId = getIntent().getStringExtra("postId");
+		userId = getIntent().getStringExtra("userId");
+		userName = getIntent().getStringExtra("userName");
+		comment = (TextView)findViewById(R.id.commentInputText);
+		This = (ImageView) findViewById(R.id.ThisPicture);
+		That = (ImageView) findViewById(R.id.ThatPicture);
+		From = (TextView) findViewById(R.id.FromLabelView);
+		thisVot = (TextView) findViewById(R.id.thisVote);
+		thatVot = (TextView) findViewById(R.id.thatVote);
+		ThatCaption = (TextView)findViewById(R.id.thatLabel);
+
+		ThisCaption = (TextView) findViewById(R.id.thisLabel);
+		Question = (TextView) findViewById(R.id.Question);
+		heartButton = (ImageView) findViewById(R.id.heart_button_1);
+		heartCounter = (TextView) findViewById(R.id.heart_counter);
+	    thisVoteDisplay = (RelativeLayout) findViewById(R.id.thisCircle);
+	    thatVoteDisplay = (RelativeLayout) findViewById(R.id.thatCircle);
 		addComment = (Button)findViewById(R.id.addComment);
 		addComment.setOnClickListener(new OnClickListener() {
                 @Override
@@ -85,9 +113,61 @@ public class CommentsActivity extends Activity {
             			 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
         });
+		refresh();
+		displayPost();
 		
 		
 		
+
+		
+		
+		
+	}
+	public void displayPost(){
+
+			
+
+			ParseQuery<ParseObject> query = ParseQuery.getQuery("ThisOrThat");
+			query.whereEqualTo("objectId", postId);
+
+			/*
+			query.findInBackground(new FindCallback<ParseObject>() {
+				@Override
+				public void done(List<ParseObject> post, com.parse.ParseException e) {
+					
+					
+					
+					thisVot.setText(post.get(0).getString(ParseConstants.KEY_THIS_VOTES));
+					From.setText(post.get(0).getString(ParseConstants.KEY_SENDER_ID));
+					thatVot.setText(post.get(0).getString(ParseConstants.KEY_THAT_VOTES));
+					ThatCaption.setText(post.get(0).getString(ParseConstants.KEY_THAT_CAPTION));
+					ThisCaption.setText(post.get(0).getString(ParseConstants.KEY_THIS_CAPTION));
+					Question.setText(post.get(0).getString(ParseConstants.KEY_QUESTION_TEXT));
+					heartCounter.setText(post.get(0).getString(ParseConstants.KEY_FOLLOWERS));
+
+
+					Typeface myTypeface = Typeface.createFromAsset(
+							getAssets(), "fonts/WhitneyCondensed-Book.otf");
+					Typeface postTypeface = Typeface.createFromAsset(
+							getAssets(), "fonts/WhitneyCondensed-Medium.otf");
+					Typeface myThickTypeface = Typeface.createFromAsset(
+							getAssets(), "fonts/WhitneyCondensed-Bold.otf");
+					Typeface lightType = Typeface.createFromAsset(getAssets(),
+							"fonts/WhitneyCondensed-Light.otf");
+					ImageView commentImage = (ImageView) findViewById(R.id.comment_button_1);
+					Question.setTypeface(postTypeface);
+					thisVot.setTypeface(myTypeface);
+					thatVot.setTypeface(myTypeface);
+					ThisCaption.setTypeface(myTypeface);
+					ThatCaption.setTypeface(myTypeface);
+					From.setTypeface(myThickTypeface);
+
+					
+					
+					
+					
+				}
+			});*/
 	}
 
 

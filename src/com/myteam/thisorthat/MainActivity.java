@@ -232,6 +232,9 @@ public class MainActivity extends FragmentActivity implements
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		
 		setContentView(R.layout.activity_main);
+		
+		
+		
        // final ActionBar actionBar = getActionBar();
        // getActionBar().setIcon(R.drawable.action_menu);
         //actionBar.setCustomView(R.layout.actionbar_custom_view_home);
