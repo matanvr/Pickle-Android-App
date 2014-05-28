@@ -5,10 +5,7 @@ import java.util.List;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-
 import android.content.Intent;
-import android.graphics.Bitmap;
-
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -21,14 +18,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.myteam.thisorthat.InboxFragment;
-
 import com.myteam.thisorthat.CommentsActivity;
-import com.myteam.thisorthat.LoginActivity;
-
+import com.myteam.thisorthat.InboxFragment;
 import com.myteam.thisorthat.R;
 import com.myteam.thisorthat.R.drawable;
 import com.myteam.thisorthat.util.ParseConstants;
@@ -150,6 +143,12 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			// mHolder.extrasRow.setVisibility(View.GONE);
 			mHolder.ThisCaption.setBackgroundColor(0);
 			mHolder.ThatCaption.setBackgroundColor(0);
+			if ((mUserVotesMap.get(postId) != null) && mUserVotesMap.get(postId)
+					.getInt(ParseConstants.KEY_IS_FOLLOWER) == 1) {
+				mHolder.heartButton.setImageResource(drawable.ic_heart_liked);
+			} else {
+				mHolder.heartButton.setImageResource(drawable.icon_heart_empty);
+			}
 			mHolder.ThisCaption.setTextColor(Color.BLACK);
 			mHolder.ThatCaption.setTextColor(Color.BLACK);
 			mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
@@ -231,7 +230,19 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				userId = currentUser.getObjectId();
 				postId = message.getObjectId();
 				if (mView.getId() == R.id.heart_button_1) {
-					ParseObject curr = mUserVotesMap.get(postId);
+					ParseObject curr; 
+					if(mUserVotesMap.get(postId) == null){
+						curr = new ParseObject(
+								ParseConstants.CLASS_USER_VOTE);
+						curr.put(ParseConstants.KEY_USER_ID, userId);
+						curr.put(ParseConstants.KEY_POST_ID, postId);
+						curr.put(ParseConstants.KEY_IS_FOLLOWER, 1);
+						
+						curr.saveInBackground();
+					}
+					else{
+						curr = mUserVotesMap.get(postId);
+					}
 					followerVote = curr.getInt(ParseConstants.KEY_IS_FOLLOWER);
 					followerVotes = message
 							.getInt(ParseConstants.KEY_FOLLOWERS);
