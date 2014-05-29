@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -67,8 +68,7 @@ public class CommentsActivity extends Activity {
 		setContentView(R.layout.activity_comments);
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
-		displayPost();
-
+		
 		/*mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
 		mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
 		mSwipeRefreshLayout.setColorScheme(
@@ -86,6 +86,8 @@ public class CommentsActivity extends Activity {
 		thisVot = (TextView) findViewById(R.id.thisVote);
 		thatVot = (TextView) findViewById(R.id.thatVote);
 		ThatCaption = (TextView)findViewById(R.id.thatLabel);
+		displayPost();
+
 
 		ThisCaption = (TextView) findViewById(R.id.thisLabel);
 		Question = (TextView) findViewById(R.id.Question);
@@ -127,10 +129,9 @@ public class CommentsActivity extends Activity {
 
 			
 
-			ParseQuery<ParseObject> query = ParseQuery.getQuery("ThisOrThat");
+			ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(ParseConstants.CLASS_DILEMMA);
 			query.whereEqualTo("objectId", postId);
 
-			/*
 			query.findInBackground(new FindCallback<ParseObject>() {
 				@Override
 				public void done(List<ParseObject> post, com.parse.ParseException e) {
@@ -167,7 +168,7 @@ public class CommentsActivity extends Activity {
 					
 					
 				}
-			});*/
+			});
 	}
 
 
