@@ -3,27 +3,33 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/friends"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="104dp"
-        android:paddingTop="10dp"
-        android:text="Friends"
-        android:textColor="#250054" />
+    <RelativeLayout
+        android:layout_width="170dp"
+        android:layout_height="wrap_content" 
+        android:layout_centerHorizontal="true"
+        >
 
-    <TextView
-        android:id="@+id/explore"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="22dp"
-        android:layout_toLeftOf="@+id/friends"
-        android:paddingLeft="5dp"
-  android:paddingTop="10dp"
-        android:text="Explore"
-        android:textColor="#250054" />
+        <TextView
+            android:id="@+id/friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="FRIENDS"
+            android:textColor="#250054" />
+
+        <TextView
+            android:id="@+id/explore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+          android:background="#f0f0f0"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="EXPLORE"
+            android:textColor="#250054" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

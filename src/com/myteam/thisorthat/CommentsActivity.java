@@ -1,31 +1,39 @@
 package com.myteam.thisorthat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.myteam.thisorthat.adapter.CommentAdapter;
 import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
+import com.squareup.picasso.Picasso;
 
 public class CommentsActivity extends Activity {
 	Button addComment;
@@ -47,10 +55,11 @@ public class CommentsActivity extends Activity {
 	TextView heartCounter;
 	RelativeLayout thisVoteDisplay;
 	RelativeLayout thatVoteDisplay;
-	
+	LinearLayout mPostItem;
+	ParseObject mPost;
 	SwipeRefreshLayout mSwipeRefreshLayout;
 	ArrayAdapter<String> adapter;
-
+	ListView commentListV;
 	protected OnRefreshListener mOnRefreshListener = new OnRefreshListener() {
 		@Override
 		public void onRefresh() {
@@ -76,9 +85,12 @@ public class CommentsActivity extends Activity {
 				R.color.swipeRefresh2,
 				R.color.swipeRefresh3,
 				R.color.swipeRefresh4);*/
+
 		postId = getIntent().getStringExtra("postId");
 		userId = getIntent().getStringExtra("userId");
 		userName = getIntent().getStringExtra("userName");
+		
+		
 		comment = (TextView)findViewById(R.id.commentInputText);
 		This = (ImageView) findViewById(R.id.ThisPicture);
 		That = (ImageView) findViewById(R.id.ThatPicture);
@@ -87,8 +99,8 @@ public class CommentsActivity extends Activity {
 		thatVot = (TextView) findViewById(R.id.thatVote);
 		ThatCaption = (TextView)findViewById(R.id.thatLabel);
 		displayPost();
-
-
+		mPostItem = (LinearLayout) findViewById(R.id.message_it);
+		commentListV = (ListView) findViewById(R.id.commentListView);
 		ThisCaption = (TextView) findViewById(R.id.thisLabel);
 		Question = (TextView) findViewById(R.id.Question);
 		heartButton = (ImageView) findViewById(R.id.heart_button_1);
@@ -105,7 +117,29 @@ public class CommentsActivity extends Activity {
             		parse.put("userId", userId);
             		parse.put("commentText", comment.getText().toString());
             		parse.put("username", userName);
-            		parse.saveInBackground();
+            		parse.saveInBackground(new SaveCallback() {
+            			@Override
+            			public void done(ParseException e) {
+            				if (e == null) {
+            					// success!
+            					Toast.makeText(CommentsActivity.this, R.string.success_message, Toast.LENGTH_LONG).show();
+                        		refresh();
+                        		
+            				}
+            				else {
+            					AlertDialog.Builder builder = new AlertDialog.Builder(CommentsActivity.this);
+            					builder.setMessage(R.string.error_sending_message)
+            						.setTitle(R.string.error_selecting_file_title)
+            						.setPositiveButton(android.R.string.ok, null);
+            					AlertDialog dialog = builder.create();
+            					dialog.show();
+            				}
+            			}
+            		});
+            	//	mPost.put(ParseConstants., value);
+            	/*	LayoutParams list = (LayoutParams) mPostItem.getLayoutParams();
+            		   list.height = 400;//like int  200
+            		   mPostItem.setLayoutParams(list);*/
             		refresh();
             		comment.setText("");
             		comment.clearFocus();
@@ -137,15 +171,15 @@ public class CommentsActivity extends Activity {
 				public void done(List<ParseObject> post, com.parse.ParseException e) {
 					
 					
-					
-					thisVot.setText(post.get(0).getString(ParseConstants.KEY_THIS_VOTES));
-					From.setText(post.get(0).getString(ParseConstants.KEY_SENDER_ID));
-					thatVot.setText(post.get(0).getString(ParseConstants.KEY_THAT_VOTES));
+					mPost = post.get(0);
+					thisVot.setText(post.get(0).getInt(ParseConstants.KEY_THIS_VOTES)+" Votes");
+					From.setText(post.get(0).getString(ParseConstants.KEY_SENDER_NAME));
+					thatVot.setText(post.get(0).getInt(ParseConstants.KEY_THAT_VOTES)+" Votes");
 					ThatCaption.setText(post.get(0).getString(ParseConstants.KEY_THAT_CAPTION));
 					ThisCaption.setText(post.get(0).getString(ParseConstants.KEY_THIS_CAPTION));
 					Question.setText(post.get(0).getString(ParseConstants.KEY_QUESTION_TEXT));
-					heartCounter.setText(post.get(0).getString(ParseConstants.KEY_FOLLOWERS));
-
+					heartCounter.setText(""+post.get(0).getInt(ParseConstants.KEY_FOLLOWERS));
+					
 
 					Typeface myTypeface = Typeface.createFromAsset(
 							getAssets(), "fonts/WhitneyCondensed-Book.otf");
@@ -162,7 +196,17 @@ public class CommentsActivity extends Activity {
 					ThisCaption.setTypeface(myTypeface);
 					ThatCaption.setTypeface(myTypeface);
 					From.setTypeface(myThickTypeface);
+					ParseObject message = post.get(0);
+					ParseFile ThisFile = post.get(0).getParseFile("this");
+					ParseFile ThatFile = message.getParseFile("that");
+					Uri thatUri = Uri.parse(ThisFile.getUrl()); 
+					Uri thisUri = Uri.parse(ThatFile.getUrl());
+					String uri = message.get(ParseConstants.KEY_FILE_THIS).toString();
+					Picasso.with(CommentsActivity.this).load(thatUri.toString()).resize(480, 853)
+							.centerCrop().into(This);
 
+					Picasso.with(CommentsActivity.this).load(thisUri.toString()).resize(480, 853)
+							.centerCrop().into(That);
 					
 					
 					
@@ -179,12 +223,6 @@ public class CommentsActivity extends Activity {
 		return true;
 	}
 	
-	private void populateListView(ArrayList<String> list){
-		adapter = new ArrayAdapter<String>(this, R.layout.comment_item, list);
-		ListView commentListV = (ListView) findViewById(R.id.commentListView);
-		commentListV.setAdapter(adapter);
-		
-	}
 	private void refresh(){
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
 		query.whereEqualTo("postId", postId);
@@ -193,11 +231,12 @@ public class CommentsActivity extends Activity {
 		query.findInBackground(new FindCallback<ParseObject>() {
 			@Override
 			public void done(List<ParseObject> commentList, com.parse.ParseException e) {
-				ArrayList<String> list = new ArrayList<String>();
-				for(ParseObject comment : commentList){
-					list.add(comment.getString("username")+": "+comment.getString("commentText"));
-				}
-				populateListView(list);
+			CommentAdapter adapter = new CommentAdapter(
+						CommentsActivity.this, 
+						commentList);
+			
+			commentListV.setAdapter(adapter);
+
 				
 			}
 		});

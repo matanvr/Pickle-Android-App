@@ -7,9 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-
-        android:layout_marginTop="5dp" >
+        android:layout_marginTop="2dp" >
 
         <TableLayout
             android:id="@+id/tableLayout1"
@@ -164,11 +162,11 @@
                         android:layout_height="30dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentLeft="true"
-                        
+                        android:textSize="19sp"
                         android:text="User"
-                      
-                        android:gravity="center"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
+                      	android:layout_marginLeft="10dp"
+                        android:gravity="left"
+                    
                         android:textColor="#fff" />
 
                 </RelativeLayout>
@@ -235,6 +233,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
                             android:text="12"
+                            android:textSize="19sp"
                             android:gravity="center"
                             android:textColor="#fff"
                             android:textStyle="bold" />
@@ -249,13 +248,14 @@
                             android:src="@drawable/icon_heart_empty" />
 
                         <TextView
-                            android:id="@+id/textView2"
+                            android:id="@+id/commentCount"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
                             android:layout_toLeftOf="@+id/heart_button_1"
                             android:text="2"
+                            android:textSize="19sp"
                             android:gravity="center"
                             android:textColor="#fff"
                             android:textStyle="bold" />
@@ -264,7 +264,7 @@
                             android:id="@+id/moreOptions"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_alignBottom="@id/textView2"
+                            android:layout_alignBottom="@id/commentCount"
                             android:layout_marginRight="20dp"
                             android:layout_toLeftOf="@+id/comment_button_1"
                             android:src="@drawable/icon_ellipse" />
@@ -274,28 +274,27 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginRight="10dp"
-                            android:layout_alignTop="@+id/textView2"
-                            android:layout_toLeftOf="@+id/textView2"
+                            android:layout_alignTop="@+id/commentCount"
+                            android:layout_toLeftOf="@+id/commentCount"
                             android:src="@drawable/icon_comment_disabled" />
 
                     </RelativeLayout>
 
                 </RelativeLayout>
+
 					<TextView
-					
+					    android:id="@+id/Question"
 					    android:layout_width="wrap_content"
 					    android:layout_height="wrap_content"
-					  
-					     android:layout_centerVertical="true"
-					      android:layout_centerHorizontal="true"
+					    android:layout_centerHorizontal="true"
+					    android:layout_centerVertical="true"
 					    android:layout_marginTop="100dp"
-					   android:id="@+id/Question"
-                       android:gravity="center"
-					android:background="#0f000000"
-                       android:textColor="#fff"
-                    android:text="Post me"
-                    android:textSize="20sp" 
-				 />
+					    android:background="#5f000000"
+					    android:gravity="center"
+					    android:text="Post me"
+					    android:textColor="#fff"
+					    android:textSize="26sp" />
+
                 </RelativeLayout>
             </TableRow>
         </TableLayout>

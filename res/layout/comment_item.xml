@@ -1,9 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:textSize="20sp" >
-    
+    android:layout_height="wrap_content"
 
-</TextView>
+    android:background="#f0f0f0" >
+
+    <TextView
+        android:id="@+id/commentAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/commentPost"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+         android:textSize="19sp"
+        android:text="matanvr" />
+
+    <TextView
+        android:id="@+id/commentPost"
+        android:layout_width="245dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/commentAuthor"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+         android:textSize="18sp"
+        android:text="This is definitely not a good option togo buy,I hate this color." />
+
+    <ImageView
+        android:id="@+id/commentHeart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/commentPost"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/commentPost"
+        android:src="@drawable/icon_heart_empty" />
+
+    <TextView
+        android:id="@+id/commentDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/commentPost"
+        android:layout_below="@+id/commentPost"
+        android:text="16 minutes ago"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="15dp"
+        android:textSize="13sp" />
+
+</RelativeLayout>
 

@@ -88,7 +88,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					.findViewById(R.id.thisCircle);
 			mHolder.thatVoteDisplay = (RelativeLayout) convertView
 					.findViewById(R.id.thatCircle);
-
+			mHolder.commentCounter = (TextView) convertView.findViewById(R.id.commentCount);
 			// mHolder.thatPercentage = (TextView)
 			// convertView.findViewById(R.id.that_percentage);
 			// mHolder.thisPercentage = (TextView)
@@ -97,10 +97,10 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					mContext.getAssets(), "fonts/WhitneyCondensed-Book.otf");
 			Typeface postTypeface = Typeface.createFromAsset(
 					mContext.getAssets(), "fonts/WhitneyCondensed-Medium.otf");
-			Typeface myThickTypeface = Typeface.createFromAsset(
-					mContext.getAssets(), "fonts/WhitneyCondensed-Bold.otf");
+			Typeface myLightType = Typeface.createFromAsset(
+					mContext.getAssets(), "fonts/WhitneyCondensed-Light.otf");
 			Typeface lightType = Typeface.createFromAsset(mContext.getAssets(),
-					"fonts/WhitneyCondensed-Light.otf");
+					"fonts/WhitneyCondensed-Medium.otf");
 			mHolder.commentImage = (ImageView) convertView
 					.findViewById(R.id.comment_button_1);
 			;
@@ -109,9 +109,10 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mHolder.thatVot.setTypeface(myTypeface);
 			mHolder.ThisCaption.setTypeface(myTypeface);
 			mHolder.ThatCaption.setTypeface(myTypeface);
-			mHolder.From.setTypeface(myThickTypeface);
-			// mHolder.thatPercentage.setTypeface(myTypeface);
-			// mHolder.thisPercentage.setTypeface(myTypeface);
+			mHolder.From.setTypeface(myLightType);
+			mHolder.heartCounter.setTypeface(lightType);
+			mHolder.commentCounter.setTypeface(lightType);
+			
 			convertView.setTag(mHolder);
 
 		} else {
@@ -236,7 +237,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 								ParseConstants.CLASS_USER_VOTE);
 						curr.put(ParseConstants.KEY_USER_ID, userId);
 						curr.put(ParseConstants.KEY_POST_ID, postId);
-						curr.put(ParseConstants.KEY_IS_FOLLOWER, 1);
+						curr.put(ParseConstants.KEY_IS_FOLLOWER, 0);
 						
 						curr.saveInBackground();
 					}
@@ -277,7 +278,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					String userName = currentUser.getUsername();
 					Intent intent = new Intent(mContext, CommentsActivity.class);
 					intent.putExtra("postId", postId);
-					intent.putExtra("userId", postId);
+					intent.putExtra("userId", userId);
 					intent.putExtra("userName", userName);
 					mContext.startActivity(intent);
 				} else {
@@ -406,6 +407,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		// TextView thisPercentage;
 		// TextView thatPercentage;
 		ImageView commentImage;
+		TextView commentCounter; 
 	}
 
 	public void toggleAnimation(TextView textView) {

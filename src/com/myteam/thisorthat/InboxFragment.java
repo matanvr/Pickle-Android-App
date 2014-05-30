@@ -46,7 +46,7 @@ public class InboxFragment extends ListFragment {
 	};
 
 	public void getFavorites(){
-		getActivity().setProgressBarIndeterminateVisibility(true);
+	
 		ParseQuery <ParseObject> favoritesQuery = new ParseQuery<ParseObject>(ParseConstants.CLASS_USER_VOTE);
 		favoritesQuery.whereEqualTo(ParseConstants.KEY_IS_FOLLOWER,1);
 		favoritesQuery.whereEqualTo(ParseConstants.KEY_USER_ID, ParseUser.getCurrentUser().getObjectId());
@@ -78,7 +78,7 @@ public class InboxFragment extends ListFragment {
 								userPosts.findInBackground(new FindCallback<ParseObject>(){
 									@Override
 									public void done(List<ParseObject> userVotes, ParseException e) {
-										getActivity().setProgressBarIndeterminateVisibility(false);
+										
 										
 										if (mSwipeRefreshLayout.isRefreshing()) {
 											mSwipeRefreshLayout.setRefreshing(false);
@@ -168,7 +168,7 @@ public class InboxFragment extends ListFragment {
 					userPosts.findInBackground(new FindCallback<ParseObject>(){
 						@Override
 						public void done(List<ParseObject> userVotes, ParseException e) {
-							getActivity().setProgressBarIndeterminateVisibility(false);
+						
 							if( e== null){
 								if (mSwipeRefreshLayout.isRefreshing()) {
 									mSwipeRefreshLayout.setRefreshing(false);

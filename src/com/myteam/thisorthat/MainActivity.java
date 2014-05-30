@@ -229,16 +229,16 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		//requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		
 		setContentView(R.layout.activity_main);
 		
 		
 		
-       // final ActionBar actionBar = getActionBar();
+        final ActionBar actionBar = getActionBar();
        // getActionBar().setIcon(R.drawable.action_menu);
-        //actionBar.setCustomView(R.layout.actionbar_custom_view_home);
-    //    actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setCustomView(R.layout.actionbar_custom_view_home);
+       actionBar.setDisplayShowCustomEnabled(true);
 		//TextView logo = (TextView) findViewById(R.id.actionBarLogo);
 	//	Typeface lightType = Typeface.createFromAsset(
             //    this.getAssets(),
