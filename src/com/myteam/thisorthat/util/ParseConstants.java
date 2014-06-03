@@ -31,6 +31,7 @@ public final class ParseConstants {
 	public static final String KEY_THAT_CAPTION = "thatCaption";
 	public static final String KEY_IS_FOLLOWER  = "follower_vote";
 	public static final String KEY_FOLLOWERS  = "followers";
+	public static final String KEY_COMMENTS  = "comments";
 	public static final String KEY_COMMENT_ID = "commentId";
 	public static final String KEY_COMMENT_TEXT = "commentText";
 	

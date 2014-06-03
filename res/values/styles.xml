@@ -37,6 +37,7 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_theme</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_theme</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Theme</item>
+        <item name="android:icon">@drawable/empty</item>
         
         
     </style>

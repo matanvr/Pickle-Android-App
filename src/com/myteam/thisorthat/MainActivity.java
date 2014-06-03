@@ -298,6 +298,7 @@ public class MainActivity extends FragmentActivity implements
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
        // getActionBar().setDisplayShowHomeEnabled(false);
+   //    getActionBar().setIcon(R.color.transparent);
         
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.drawable.ic_drawer, //nav menu toggle icon

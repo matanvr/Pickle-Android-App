@@ -130,7 +130,9 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		mHolder.Question.setText((message.getString("questionText")));
 		toggleAnimation(mHolder.Question);
 		Integer followers = message.getInt(ParseConstants.KEY_FOLLOWERS);
+		Integer commentCount = message.getInt(ParseConstants.KEY_COMMENTS);
 		mHolder.heartCounter.setText(followers.toString());
+		mHolder.commentCounter.setText(commentCount.toString());
 		mHolder.thisVot.setText((message.getInt(ParseConstants.KEY_THIS_VOTES))
 				+ " Votes");
 		mHolder.thatVot.setText((message.getInt(ParseConstants.KEY_THAT_VOTES))
@@ -150,6 +152,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			} else {
 				mHolder.heartButton.setImageResource(drawable.icon_heart_empty);
 			}
+			
 			mHolder.ThisCaption.setTextColor(Color.BLACK);
 			mHolder.ThatCaption.setTextColor(Color.BLACK);
 			mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);

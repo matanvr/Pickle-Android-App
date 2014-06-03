@@ -136,6 +136,8 @@ public class CommentsActivity extends Activity {
             				}
             			}
             		});
+            		mPost.put(ParseConstants.KEY_COMMENTS, mPost.getInt(ParseConstants.KEY_COMMENTS) + 1);
+            		mPost.saveInBackground();
             	//	mPost.put(ParseConstants., value);
             	/*	LayoutParams list = (LayoutParams) mPostItem.getLayoutParams();
             		   list.height = 400;//like int  200
