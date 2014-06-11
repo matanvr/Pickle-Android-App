@@ -104,197 +104,200 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" >
-				<RelativeLayout
-				              android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-					
 
                 <RelativeLayout
-                    android:id="@+id/relativelayout"
-                  android:layout_width="180dp"
-                    android:layout_height="320dp"
-                 
-                    android:alpha="1" >
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" >
 
-                    <ImageView
-                        android:id="@+id/ThisPicture"
+                    <RelativeLayout
+                        android:id="@+id/relativelayout"
                         android:layout_width="180dp"
                         android:layout_height="320dp"
-                        
-                        android:background="#292D2E" />
-				<View
-				    	android:background="@drawable/voteheader"
-				    	android:layout_width="180dp"
-				    	android:layout_height="80dp"
-				    	android:layout_alignParentBottom="true">
-				    
-				</View>
-                    <RelativeLayout
-                        android:id="@+id/thisCircle"
-                        android:layout_width="60dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginBottom="28dp"
-                    
-                        android:gravity="left" >
+                        android:alpha="1" >
+     <ProgressBar
+                            android:id="@+id/this_progressBar"
+                            style="?android:attr/progressBarStyleLarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true" />
+                        <ImageView
+                            android:id="@+id/ThisPicture"
+                            android:layout_width="180dp"
+                            android:layout_height="320dp"
+                            android:background="#00ffffff" />
+
+
+                        <View
+                            android:layout_width="180dp"
+                            android:layout_height="80dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/voteheader" >
+                        </View>
+
+                        <RelativeLayout
+                            android:id="@+id/thisCircle"
+                            android:layout_width="60dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginBottom="28dp"
+                            android:gravity="left" >
+
+                            <TextView
+                                android:id="@+id/thisVote"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginLeft="10dp"
+                                android:gravity="center|left"
+                                android:text="21"
+                                android:textColor="#fff"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
 
                         <TextView
-                            android:id="@+id/thisVote"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentTop="true"
-                            android:gravity="center|left"
-                            android:text="21"
-                            android:textSize="20sp" 
+                            android:id="@+id/FromLabelView"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
                             android:layout_marginLeft="10dp"
+                            android:gravity="left"
+                            android:text="User"
                             android:textColor="#fff"
-                            android:textStyle="bold" />
+                            android:textSize="19sp" />
+                    </RelativeLayout>
 
+                    <RelativeLayout
+                        android:id="@+id/relativelayout2"
+                        android:layout_width="180dp"
+                        android:layout_height="320dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true" >
+<ProgressBar
+                            android:id="@+id/that_progressBar"
+                            style="?android:attr/progressBarStyleLarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true" />
+                        <ImageView
+                            android:id="@+id/ThatPicture"
+                            android:layout_width="180dp"
+                            android:layout_height="320dp"
+                            android:layout_alignParentRight="true"
+                            android:background="#00ffffff" />
+
+                        
+
+                        <View
+                            android:layout_width="180dp"
+                            android:layout_height="80dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/voteheader" >
+                        </View>
+
+                        <RelativeLayout
+                            android:id="@+id/thatCircle"
+                            android:layout_width="60dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginBottom="28dp"
+                            android:gravity="right" >
+
+                            <TextView
+                                android:id="@+id/thatVote"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginRight="10dp"
+                                android:gravity="center|right"
+                                android:text="21"
+                                android:textColor="#fff"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/optionsMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginRight="5dp" >
+
+                            <TextView
+                                android:id="@+id/heart_counter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="10dp"
+                                android:gravity="center"
+                                android:text="12"
+                                android:textColor="#fff"
+                                android:textSize="19sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/heart_button_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentTop="true"
+                                android:layout_marginRight="10dp"
+                                android:layout_toLeftOf="@+id/heart_counter"
+                                android:src="@drawable/icon_heart_empty" />
+
+                            <TextView
+                                android:id="@+id/commentCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="10dp"
+                                android:layout_toLeftOf="@+id/heart_button_1"
+                                android:gravity="center"
+                                android:text="2"
+                                android:textColor="#fff"
+                                android:textSize="19sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/moreOptions"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_alignBottom="@id/commentCount"
+                                android:layout_marginRight="20dp"
+                                android:layout_toLeftOf="@+id/comment_button_1"
+                                android:src="@drawable/icon_ellipse" />
+
+                            <ImageView
+                                android:id="@+id/comment_button_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_alignTop="@+id/commentCount"
+                                android:layout_marginRight="10dp"
+                                android:layout_toLeftOf="@+id/commentCount"
+                                android:src="@drawable/icon_comment_disabled" />
+                        </RelativeLayout>
                     </RelativeLayout>
 
                     <TextView
-                        android:id="@+id/FromLabelView"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentLeft="true"
-                        android:textSize="19sp"
-                        android:text="User"
-                      	android:layout_marginLeft="10dp"
-                        android:gravity="left"
-                    
-                        android:textColor="#fff" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/relativelayout2"
-                    android:layout_width="180dp"
-                    android:layout_height="320dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true" >
-
-                    <ImageView
-                        android:id="@+id/ThatPicture"
-                        android:layout_width="180dp"
-                        android:layout_height="320dp"
-                        android:layout_alignParentRight="true"
-                        android:background="#292D2E" />
-				<View
-				    	android:background="@drawable/voteheader"
-				    	android:layout_width="180dp"
-				    	android:layout_height="80dp"
-				    	android:layout_alignParentBottom="true">
-				    
-				</View>
-                    <RelativeLayout
-                        android:id="@+id/thatCircle"
-                                  android:layout_width="60dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginBottom="28dp"
-                    
-                        android:gravity="right" >
-
-                        <TextView
-                            android:id="@+id/thatVote"
-                           android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentTop="true"
-                            android:gravity="center|right"
-                            android:text="21"
-                            android:textSize="20sp" 
-                            android:layout_marginRight="10dp"
-                            android:textColor="#fff"
-                            android:textStyle="bold"/>
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/optionsMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="5dp"
-                 
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentLeft="true" >
-
-                        <TextView
-                            android:id="@+id/heart_counter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="10dp"
-                            android:text="12"
-                            android:textSize="19sp"
-                            android:gravity="center"
-                            android:textColor="#fff"
-                            android:textStyle="bold" />
-
-                        <ImageView
-                            android:id="@+id/heart_button_1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginRight="10dp"
-                            android:layout_toLeftOf="@+id/heart_counter"
-                            android:src="@drawable/icon_heart_empty" />
-
-                        <TextView
-                            android:id="@+id/commentCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="10dp"
-                            android:layout_toLeftOf="@+id/heart_button_1"
-                            android:text="2"
-                            android:textSize="19sp"
-                            android:gravity="center"
-                            android:textColor="#fff"
-                            android:textStyle="bold" />
-
-                        <ImageView
-                            android:id="@+id/moreOptions"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_alignBottom="@id/commentCount"
-                            android:layout_marginRight="20dp"
-                            android:layout_toLeftOf="@+id/comment_button_1"
-                            android:src="@drawable/icon_ellipse" />
-
-                        <ImageView
-                            android:id="@+id/comment_button_1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="10dp"
-                            android:layout_alignTop="@+id/commentCount"
-                            android:layout_toLeftOf="@+id/commentCount"
-                            android:src="@drawable/icon_comment_disabled" />
-
-                    </RelativeLayout>
-
-                </RelativeLayout>
-
-					<TextView
-					    android:id="@+id/Question"
-					    android:layout_width="wrap_content"
-					    android:layout_height="wrap_content"
-					    android:layout_centerHorizontal="true"
-					    android:layout_centerVertical="true"
-					    android:layout_marginTop="100dp"
-					    android:background="#5f000000"
-					    android:gravity="center"
-					    android:text="Post me"
-					    android:textColor="#fff"
-					    android:textSize="26sp" />
-
+                        android:id="@+id/Question"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="100dp"
+                        android:background="#5f000000"
+                        android:gravity="center"
+                        android:textColor="#fff"
+                        android:textSize="26sp" />
                 </RelativeLayout>
             </TableRow>
         </TableLayout>

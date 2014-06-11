@@ -76,7 +76,8 @@ public class MainActivity extends FragmentActivity implements
     protected Menu mMenu;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
- 
+    private TextView mFriends;
+    private TextView mExplore;
     private ActionBarDrawerToggle mDrawerToggle;
  
     // nav drawer title
@@ -148,6 +149,10 @@ public class MainActivity extends FragmentActivity implements
 	        fragment = new InboxFragment();
 	        fragment.setArguments(args);
 	    	break;
+	    case 3: 
+			ParseUser.logOut();
+			navigateToLogin();
+			break;
  
 	    default:
 	        break;
@@ -262,7 +267,16 @@ public class MainActivity extends FragmentActivity implements
 		// Set up the action bar.
 	//	final ActionBar actionBar = getActionBar();
 //		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+        
+        mFriends = (TextView) findViewById(R.id.friends);
+      mExplore = (TextView) findViewById(R.id.explore);
+       //mSideMenu = (ImageView) findViewById(R.id.home_menu);
+        //mNewButton = (ImageView) findViewById(R.id.new_menu);
+        
+		Typeface postTypeface = Typeface.createFromAsset(
+				this.getAssets(), "fonts/WhitneyCondensed-Medium.otf");
+		mFriends.setTypeface(postTypeface);
+		mExplore.setTypeface(postTypeface);
 		
 		mTitle = mDrawerTitle = getTitle();
 		 
@@ -284,7 +298,7 @@ public class MainActivity extends FragmentActivity implements
         // Find People
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-  
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
  
         // Recycle the typed array
         navMenuIcons.recycle();

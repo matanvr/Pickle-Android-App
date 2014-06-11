@@ -3,6 +3,9 @@ package com.myteam.thisorthat.adapter;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,6 +32,7 @@ import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public class MessageAdapter extends ArrayAdapter<ParseObject> {
@@ -89,6 +94,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mHolder.thatVoteDisplay = (RelativeLayout) convertView
 					.findViewById(R.id.thatCircle);
 			mHolder.commentCounter = (TextView) convertView.findViewById(R.id.commentCount);
+			mHolder.mThisProgress = (ProgressBar) convertView.findViewById(R.id.this_progressBar);
+			mHolder.mThatProgress = (ProgressBar) convertView.findViewById(R.id.that_progressBar);
 			// mHolder.thatPercentage = (TextView)
 			// convertView.findViewById(R.id.that_percentage);
 			// mHolder.thisPercentage = (TextView)
@@ -212,19 +219,45 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		Uri thatUri = Uri.parse(This.getUrl());
 		Uri thisUri = Uri.parse(That.getUrl());
 		String uri = message.get(ParseConstants.KEY_FILE_THIS).toString();
+		mHolder.mThisProgress.setVisibility(View.VISIBLE);
 		Picasso.with(mContext).load(thatUri.toString()).resize(480, 853)
-				.centerCrop().into(mHolder.This);
-
+				.centerCrop().into(mHolder.This, new Callback(){
+					@Override
+					public void onSuccess(){
+						Log.d("fuck", "not working");
+					mHolder.mThisProgress.setVisibility(View.GONE);
+					
+					}
+					
+					@Override
+					public void onError(){
+						mHolder.mThisProgress.setVisibility(View.GONE);
+					}
+				});
+		mHolder.mThatProgress.setVisibility(View.VISIBLE);
 		Picasso.with(mContext).load(thisUri.toString()).resize(480, 853)
-				.centerCrop().into(mHolder.That);
+				.centerCrop().into(mHolder.That, new Callback(){
+					@Override
+					public void onSuccess(){
+					mHolder.mThatProgress.setVisibility(View.GONE);
+					}
+					
+					@Override
+					public void onError(){
+						mHolder.mThatProgress.setVisibility(View.GONE);
+					}
+				});
+	 
 		ThisThatOnClickListener onClickListener = new ThisThatOnClickListener(
 				position) {
 			public String userId;
 			public String postId;
+			public String userName;
 			public int thisVotes;
 			public int thatVotes;
 			public int followerVote;
 			public int followerVotes;
+			
 
 			@Override
 			public void onClick(View v) {
@@ -232,6 +265,23 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				ParseObject message = mMessages.get(position);
 				ParseUser currentUser = ParseUser.getCurrentUser();
 				userId = currentUser.getObjectId();
+				userName = currentUser.getUsername();
+				// facebook users only
+				if (currentUser.get("profile") != null) {
+					JSONObject userProfile = currentUser.getJSONObject("profile");
+					try {
+						if (userProfile.getString("facebookId") != null) {
+							userId = userProfile.get("facebookId")
+									.toString();
+						}
+						if(userProfile.getString("name") != null){
+							userName =  userProfile.getString("name");
+						}
+						
+					} catch (JSONException er) {
+						
+					}
+				}
 				postId = message.getObjectId();
 				if (mView.getId() == R.id.heart_button_1) {
 					ParseObject curr; 
@@ -276,9 +326,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 
 					notifyDataSetChanged();
 				} else if (mView.getId() == R.id.comment_button_1) {
-					postId = message.getObjectId();
-					userId = currentUser.getObjectId();
-					String userName = currentUser.getUsername();
+
 					Intent intent = new Intent(mContext, CommentsActivity.class);
 					intent.putExtra("postId", postId);
 					intent.putExtra("userId", userId);
@@ -406,7 +454,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		TextView heartCounter;
 		RelativeLayout thisVoteDisplay;
 		RelativeLayout thatVoteDisplay;
-
+		ProgressBar mThisProgress;
+		ProgressBar mThatProgress;
 		// TextView thisPercentage;
 		// TextView thatPercentage;
 		ImageView commentImage;

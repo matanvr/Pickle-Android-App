@@ -3,6 +3,9 @@ package com.myteam.thisorthat;
 import java.util.Arrays;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,9 +20,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.facebook.FacebookRequestError;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.model.GraphUser;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 
@@ -120,8 +129,8 @@ public class LoginActivity extends Activity {
 	private void onLoginButtonClicked() {
 		LoginActivity.this.progressDialog = ProgressDialog.show(
 				LoginActivity.this, "", "Logging in...", true);
-		List<String> permissions = Arrays.asList("public_profile", "user_about_me",
-				"user_relationships", "user_birthday", "user_location");
+		List<String> permissions = Arrays.asList("public_profile", "email",
+				"user_friends");
 		ParseFacebookUtils.logIn(permissions, this, new LogInCallback() {
 			@Override
 			public void done(ParseUser user, ParseException err) {
@@ -136,14 +145,21 @@ public class LoginActivity extends Activity {
 				} else {
 					Log.d(LoginActivity.TAG,
 							"User logged in through Facebook!");
-					showUserDetailsActivity();
+
+	
+					
+					Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+					startActivity(intent);
 				}
 			}
 		});
 	}
 
 	private void showUserDetailsActivity() {
-		Intent intent = new Intent(this, FacebookRegistration.class);
+		Intent intent = new Intent(LoginActivity.this, FacebookRegistration.class);
+
 		startActivity(intent);
 	}
 	

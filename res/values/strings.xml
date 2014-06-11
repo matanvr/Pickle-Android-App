@@ -63,8 +63,9 @@
     <string-array name="nav_drawer_items">
        
         <item>Explore</item>
-        <item> Create Post</item>
+        <item>Create Post</item>
         <item>Favorites</item>
+        <item>Logout</item>
         
     </string-array>
 
@@ -73,7 +74,8 @@
     <array name="nav_drawer_icons">
         <item>@drawable/ic_home</item>
         <item>@drawable/ic_new_post</item>
-        <item>@drawable/icon_heart_empty</item>
+        <item>@drawable/following</item>
+        <item>@drawable/action_logout</item>
 
     </array>
 

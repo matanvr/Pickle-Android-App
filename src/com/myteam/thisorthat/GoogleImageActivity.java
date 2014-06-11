@@ -169,7 +169,13 @@ protected void onCreate(Bundle savedInstanceState) {
 
 	gridView = (GridView) findViewById(R.id.imageGrid);
 	mSearchText = (EditText) findViewById(R.id.txtViewSearch);
-
+	String keyword =  getIntent().getStringExtra("keywords");
+	if(keyword != null){
+		   strSearch = Uri.encode(keyword);
+		   
+		   System.out.println("Search string => "+strSearch);
+		   new getImagesTask().execute();
+	}
 
 
 }
