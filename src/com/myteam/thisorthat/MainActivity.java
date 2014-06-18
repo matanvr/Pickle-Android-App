@@ -7,16 +7,9 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -28,7 +21,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -338,6 +330,22 @@ public class MainActivity extends FragmentActivity implements
             if(currentUser != null)
         	displayView(0);
         }
+        mFriends.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+		    	Fragment fragment;
+				Bundle args = new Bundle();
+		    	args.putInt("feedType", InboxFragment.FRIENDS);
+		        fragment = new InboxFragment();
+		        fragment.setArguments(args);
+		        if (fragment != null) {
+			        FragmentManager fragmentManager = getSupportFragmentManager();
+			        fragmentManager.beginTransaction()
+			                .replace(R.id.frame_container, fragment).commit();
+		        }
+		 
+			}
+        });
 		
 		
 		// Create the adapter that will return a fragment for each of the three

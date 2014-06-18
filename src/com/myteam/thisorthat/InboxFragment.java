@@ -32,10 +32,13 @@ import com.parse.ParseUser;
 public class InboxFragment extends ListFragment {
 	private static String EXTRA_TITLE = "extra_title";
 	protected List<ParseObject> mMessages;
+	protected List<ParseObject> mUserVotes;
+	protected ArrayList<String> mFriends;
 	protected static final String MESSAGE_KEY = "Messages";
 	protected SwipeRefreshLayout mSwipeRefreshLayout;
 	public final static int NEWSFEED = 0;
 	public final static int FAVORITES = 1;
+	public final static int FRIENDS = 2;
 	private int mFeed;
 	private ParseUser currentUser;
 	public static final String TAG = InboxFragment.class.getSimpleName();
@@ -166,6 +169,14 @@ public class InboxFragment extends ListFragment {
 				ParseConstants.CLASS_DILEMMA);
 		// query.whereEqualTo(ParseConstants.KEY_RECIPIENT_IDS,
 		// ParseUser.getCurrentUser().getObjectId());
+		if(mFeed == FRIENDS){
+			query.whereContainedIn(ParseConstants.KEY_SENDER_ID, mFriends);
+		}
+		else if(mFeed == FAVORITES){
+			query.whereEqualTo(ParseConstants.KEY_IS_FOLLOWER, 1);
+			query.whereEqualTo(ParseConstants.KEY_USER_ID, ParseUser
+					.getCurrentUser().getObjectId());
+		}
 		query.addDescendingOrder(ParseConstants.KEY_CREATED_AT);
 		query.findInBackground(new FindCallback<ParseObject>() {
 			@Override
@@ -181,19 +192,19 @@ public class InboxFragment extends ListFragment {
 					String userId = ParseUser.getCurrentUser().getObjectId();
 					// facebook users only
 					if (currentUser.get("profile") != null) {
-						JSONObject userProfile = currentUser.getJSONObject("profile");
+						JSONObject userProfile = currentUser
+								.getJSONObject("profile");
 						try {
 							if (userProfile.getString("facebookId") != null) {
 								userId = userProfile.get("facebookId")
 										.toString();
 							}
-							
+
 						} catch (JSONException er) {
-							
+
 						}
 					}
-					userPosts.whereEqualTo(ParseConstants.KEY_USER_ID,
-							userId);
+					userPosts.whereEqualTo(ParseConstants.KEY_USER_ID, userId);
 					userPosts.findInBackground(new FindCallback<ParseObject>() {
 						@Override
 						public void done(List<ParseObject> userVotes,
@@ -203,9 +214,10 @@ public class InboxFragment extends ListFragment {
 								if (mSwipeRefreshLayout.isRefreshing()) {
 									mSwipeRefreshLayout.setRefreshing(false);
 								}
+								mUserVotes = userVotes;
 								MessageAdapter adapter = new MessageAdapter(
 										getListView().getContext(), mMessages,
-										userVotes, NEWSFEED);
+										mUserVotes, NEWSFEED);
 								setListAdapter(adapter);
 							}
 						}
@@ -250,16 +262,16 @@ public class InboxFragment extends ListFragment {
 		System.gc();
 		mFeed = this.getArguments().getInt("feedType");
 		currentUser = ParseUser.getCurrentUser();
-		if(ParseFacebookUtils.isLinked(currentUser) ){
+		if (ParseFacebookUtils.isLinked(currentUser)) {
 
 			checkFacebookUser();
-		}
-		else{
+		} else {
 			startFetch();
 		}
 
 	}
-	private void startFetch(){
+
+	private void startFetch() {
 		mSwipeRefreshLayout.setRefreshing(true);
 		mFeed = this.getArguments().getInt("feedType");
 
@@ -269,6 +281,10 @@ public class InboxFragment extends ListFragment {
 			break;
 		case InboxFragment.FAVORITES:
 			getFavorites();
+			break;
+		case InboxFragment.FRIENDS:
+			getAllFriends();
+			
 			break;
 		}
 	}
@@ -342,6 +358,49 @@ public class InboxFragment extends ListFragment {
 			request.executeAsync();
 
 		}
+	}
+
+	
+	private void getAllFriends() {
+		Request.newMyFriendsRequest(ParseFacebookUtils.getSession(),
+				new Request.GraphUserListCallback() {
+
+					@Override
+					public void onCompleted(List<GraphUser> users,
+							Response response) {
+						if (users != null) {
+							List<String> friendsList = new ArrayList<String>();
+							for (GraphUser user : users) {
+								friendsList.add(user.getId());
+							}
+
+							// Construct a ParseUser query that will find
+							// friends whose
+							// facebook IDs are contained in the current user's
+							// friend list.
+
+							ParseQuery<ParseUser> friendQuery = ParseUser.getQuery();
+							friendQuery.whereContainedIn("fbId", friendsList);
+
+							// findObjects will return a list of ParseUsers that
+							// are friends with
+							// the current user
+							friendQuery.findInBackground(new FindCallback<ParseUser>() {
+								@Override
+								public void done(List<ParseUser> users, ParseException e) {
+									if (e == null) {
+										mFriends = new ArrayList<String>();
+										for (ParseUser u : users){
+											mFriends.add(u.getString("fbId"));
+										}
+										getMessages();
+									}
+								}
+							});
+
+						}
+					}
+				}).executeAsync();
 	}
 
 }

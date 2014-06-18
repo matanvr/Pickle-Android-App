@@ -147,7 +147,7 @@ public class LoginActivity extends Activity {
 							"User logged in through Facebook!");
 
 	
-					
+					getFacebookIdInBackground();
 					Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -156,7 +156,18 @@ public class LoginActivity extends Activity {
 			}
 		});
 	}
-
+	private static void getFacebookIdInBackground() {
+		  Request.newMeRequest(ParseFacebookUtils.getSession(), new Request.GraphUserCallback() {
+		    @Override
+		    public void onCompleted(GraphUser user, Response response) {
+		      if (user != null) {
+		        ParseUser.getCurrentUser().put("fbId", user.getId());
+		        ParseUser.getCurrentUser().saveInBackground();
+		      }
+		    }
+		  }).executeAsync();
+		}
+	
 	private void showUserDetailsActivity() {
 		Intent intent = new Intent(LoginActivity.this, FacebookRegistration.class);
 
