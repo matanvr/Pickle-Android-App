@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#CBD1DF" >
+    android:background="#fff" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -155,7 +155,7 @@
                                 android:gravity="center|left"
                                 android:text="21"
                                 android:textColor="#fff"
-                                android:textSize="20sp"
+                                android:textSize="25sp"
                                 android:textStyle="bold" />
                         </RelativeLayout>
 
@@ -220,7 +220,7 @@
                                 android:gravity="center|right"
                                 android:text="21"
                                 android:textColor="#fff"
-                                android:textSize="20sp"
+                                android:textSize="25sp"
                                 android:textStyle="bold" />
                         </RelativeLayout>
 

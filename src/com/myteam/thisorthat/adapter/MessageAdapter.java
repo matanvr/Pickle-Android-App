@@ -18,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -47,6 +49,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 	private View mView;
 	private int mFeedType;
 	private ViewHolder mHolder;
+	private String mLastPostClicked;
+	private Animation mVotesAnimation;
 
 	public MessageAdapter(Context context, List<ParseObject> messages,
 			List<ParseObject> userVotes, int feedType) {
@@ -93,6 +97,10 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					.findViewById(R.id.thisCircle);
 			mHolder.thatVoteDisplay = (RelativeLayout) convertView
 					.findViewById(R.id.thatCircle);
+			mVotesAnimation  =  AnimationUtils.loadAnimation(mContext.getApplicationContext(),
+			                R.anim.bounce_in_bottom);
+
+		
 			mHolder.commentCounter = (TextView) convertView.findViewById(R.id.commentCount);
 			mHolder.mThisProgress = (ProgressBar) convertView.findViewById(R.id.this_progressBar);
 			mHolder.mThatProgress = (ProgressBar) convertView.findViewById(R.id.that_progressBar);
@@ -112,8 +120,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					.findViewById(R.id.comment_button_1);
 			;
 			mHolder.Question.setTypeface(postTypeface);
-			mHolder.thisVot.setTypeface(myTypeface);
-			mHolder.thatVot.setTypeface(myTypeface);
+			mHolder.thisVot.setTypeface(postTypeface);
+			mHolder.thatVot.setTypeface(postTypeface);
 			mHolder.ThisCaption.setTypeface(myTypeface);
 			mHolder.ThatCaption.setTypeface(myTypeface);
 			mHolder.From.setTypeface(myLightType);
@@ -135,15 +143,18 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		String postId = message.getObjectId();
 		mHolder.From.setText((message.getString("senderName")));
 		mHolder.Question.setText((message.getString("questionText")));
+
 		toggleAnimation(mHolder.Question);
+		Integer thisVotes = (message.getInt(ParseConstants.KEY_THIS_VOTES));
+		Integer thatVotes = (message.getInt(ParseConstants.KEY_THAT_VOTES));
+		int thisPercentage = (thisVotes*100)/(thatVotes+thisVotes);
+		int thatPercentage = (thatVotes*100)/(thatVotes+thisVotes);
 		Integer followers = message.getInt(ParseConstants.KEY_FOLLOWERS);
 		Integer commentCount = message.getInt(ParseConstants.KEY_COMMENTS);
 		mHolder.heartCounter.setText(followers.toString());
 		mHolder.commentCounter.setText(commentCount.toString());
-		mHolder.thisVot.setText((message.getInt(ParseConstants.KEY_THIS_VOTES))
-				+ " Votes");
-		mHolder.thatVot.setText((message.getInt(ParseConstants.KEY_THAT_VOTES))
-				+ " Votes");
+		mHolder.thisVot.setText(thisPercentage + "% (" + (message.getInt(ParseConstants.KEY_THIS_VOTES)+")"));
+		mHolder.thatVot.setText(thatPercentage + "% (" + (message.getInt(ParseConstants.KEY_THAT_VOTES) + ")"));
 		
 		if (!mUserVotesMap.containsKey(postId)
 				|| mUserVotesMap.get(postId).getInt(
@@ -166,8 +177,15 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 
 		} else {
-			mHolder.thatVot.setVisibility(View.VISIBLE);
-			mHolder.thisVot.setVisibility(View.VISIBLE);
+			if(postId.equals(mLastPostClicked)){
+				mHolder.thisVot.startAnimation(mVotesAnimation);
+				mHolder.thatVot.startAnimation(mVotesAnimation);	
+			}
+			else{
+				mHolder.thatVot.setVisibility(View.VISIBLE);
+				mHolder.thisVot.setVisibility(View.VISIBLE);
+			}
+
 			mHolder.thisVoteDisplay.setVisibility(View.VISIBLE);
 			mHolder.thatVoteDisplay.setVisibility(View.VISIBLE);
 
@@ -221,32 +239,10 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		String uri = message.get(ParseConstants.KEY_FILE_THIS).toString();
 		mHolder.mThisProgress.setVisibility(View.VISIBLE);
 		Picasso.with(mContext).load(thatUri.toString()).resize(480, 853)
-				.centerCrop().into(mHolder.This, new Callback(){
-					@Override
-					public void onSuccess(){
-						Log.d("fuck", "not working");
-					mHolder.mThisProgress.setVisibility(View.GONE);
-					
-					}
-					
-					@Override
-					public void onError(){
-						mHolder.mThisProgress.setVisibility(View.GONE);
-					}
-				});
+				.centerCrop().into(mHolder.This);
 		mHolder.mThatProgress.setVisibility(View.VISIBLE);
 		Picasso.with(mContext).load(thisUri.toString()).resize(480, 853)
-				.centerCrop().into(mHolder.That, new Callback(){
-					@Override
-					public void onSuccess(){
-					mHolder.mThatProgress.setVisibility(View.GONE);
-					}
-					
-					@Override
-					public void onError(){
-						mHolder.mThatProgress.setVisibility(View.GONE);
-					}
-				});
+				.centerCrop().into(mHolder.That);
 	 
 		ThisThatOnClickListener onClickListener = new ThisThatOnClickListener(
 				position) {
@@ -262,10 +258,12 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			@Override
 			public void onClick(View v) {
 				mView = v;
+				 
 				ParseObject message = mMessages.get(position);
 				ParseUser currentUser = ParseUser.getCurrentUser();
 				userId = currentUser.getObjectId();
 				userName = currentUser.getUsername();
+				String mLastPostClicked =message.getObjectId();
 				// facebook users only
 				if (currentUser.get("profile") != null) {
 					JSONObject userProfile = currentUser.getJSONObject("profile");
@@ -369,6 +367,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					}
 					parseObject.put(ParseConstants.KEY_USER_VOTE, newVote);
 					parseObject.saveInBackground();
+					mLastPostClicked = postId;
 					mUserVotesMap.put(postId, parseObject);
 
 				} else if (oldVote == newVote) {
@@ -396,7 +395,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					// mHolder.thisVot.setText("" + thisVotes);
 					// mHolder.thatVot.setText("" + thatVotes);
 					ParseObject curr = mUserVotesMap.get(postId);
-
+					mLastPostClicked = postId;
 					curr.put(ParseConstants.KEY_USER_VOTE, newVote);
 					curr.saveInBackground();
 					mUserVotesMap.put(postId, curr);

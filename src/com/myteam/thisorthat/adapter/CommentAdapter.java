@@ -54,7 +54,7 @@ public class CommentAdapter extends ArrayAdapter<ParseObject>{
 			Typeface lightType = Typeface.createFromAsset(mContext.getAssets(),
 					"fonts/WhitneyCondensed-Light.otf");
 
-			mHolder.mAuthor.setTypeface(myThickTypeface);
+			mHolder.mAuthor.setTypeface(lightType);
 			mHolder.mPost.setTypeface(myTypeface);
 			mHolder.mDate.setTypeface(myTypeface);
 

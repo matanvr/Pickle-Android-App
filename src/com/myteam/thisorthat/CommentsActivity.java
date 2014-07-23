@@ -48,15 +48,17 @@ public class CommentsActivity extends Activity {
 	TextView thisVot;
 	TextView thatVot;
 	TextView ThatCaption;
-
+	
 	TextView ThisCaption ;
 	TextView Question ;
 	ImageView heartButton ;
 	TextView heartCounter;
+	TextView commentCounter;
 	RelativeLayout thisVoteDisplay;
 	RelativeLayout thatVoteDisplay;
 	LinearLayout mPostItem;
 	ParseObject mPost;
+	
 	SwipeRefreshLayout mSwipeRefreshLayout;
 	ArrayAdapter<String> adapter;
 	ListView commentListV;
@@ -90,7 +92,7 @@ public class CommentsActivity extends Activity {
 		userId = getIntent().getStringExtra("userId");
 		userName = getIntent().getStringExtra("userName");
 		
-		
+		commentCounter = (TextView) findViewById(R.id.commentCount);
 		comment = (TextView)findViewById(R.id.commentInputText);
 		This = (ImageView) findViewById(R.id.ThisPicture);
 		That = (ImageView) findViewById(R.id.ThatPicture);
@@ -108,6 +110,26 @@ public class CommentsActivity extends Activity {
 	    thisVoteDisplay = (RelativeLayout) findViewById(R.id.thisCircle);
 	    thatVoteDisplay = (RelativeLayout) findViewById(R.id.thatCircle);
 		addComment = (Button)findViewById(R.id.addComment);
+		Typeface myTypeface = Typeface.createFromAsset(
+				getAssets(), "fonts/WhitneyCondensed-Book.otf");
+		Typeface postTypeface = Typeface.createFromAsset(
+				getAssets(), "fonts/WhitneyCondensed-Medium.otf");
+		Typeface myThickTypeface = Typeface.createFromAsset(
+				getAssets(), "fonts/WhitneyCondensed-Bold.otf");
+		Typeface lightType = Typeface.createFromAsset(getAssets(),
+				"fonts/WhitneyCondensed-Light.otf");
+
+		ImageView commentImage = (ImageView) findViewById(R.id.comment_button_1);
+		Question.setTypeface(postTypeface);
+		thisVot.setTypeface(myTypeface);
+		thatVot.setTypeface(myTypeface);
+		ThisCaption.setTypeface(myTypeface);
+		ThatCaption.setTypeface(myTypeface);
+		From.setTypeface(lightType);
+		heartCounter.setTypeface(postTypeface);
+		commentCounter.setTypeface(postTypeface);
+		addComment.setTypeface(lightType);
+		comment.setTypeface(lightType);
 		addComment.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -181,23 +203,9 @@ public class CommentsActivity extends Activity {
 					ThisCaption.setText(post.get(0).getString(ParseConstants.KEY_THIS_CAPTION));
 					Question.setText(post.get(0).getString(ParseConstants.KEY_QUESTION_TEXT));
 					heartCounter.setText(""+post.get(0).getInt(ParseConstants.KEY_FOLLOWERS));
-					
+					commentCounter.setText(""+post.get(0).getInt(ParseConstants.KEY_COMMENTS));
 
-					Typeface myTypeface = Typeface.createFromAsset(
-							getAssets(), "fonts/WhitneyCondensed-Book.otf");
-					Typeface postTypeface = Typeface.createFromAsset(
-							getAssets(), "fonts/WhitneyCondensed-Medium.otf");
-					Typeface myThickTypeface = Typeface.createFromAsset(
-							getAssets(), "fonts/WhitneyCondensed-Bold.otf");
-					Typeface lightType = Typeface.createFromAsset(getAssets(),
-							"fonts/WhitneyCondensed-Light.otf");
-					ImageView commentImage = (ImageView) findViewById(R.id.comment_button_1);
-					Question.setTypeface(postTypeface);
-					thisVot.setTypeface(myTypeface);
-					thatVot.setTypeface(myTypeface);
-					ThisCaption.setTypeface(myTypeface);
-					ThatCaption.setTypeface(myTypeface);
-					From.setTypeface(myThickTypeface);
+
 					ParseObject message = post.get(0);
 					ParseFile ThisFile = post.get(0).getParseFile("this");
 					ParseFile ThatFile = message.getParseFile("that");

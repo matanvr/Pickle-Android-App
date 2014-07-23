@@ -110,6 +110,7 @@
        
                <activity
             android:name="com.myteam.thisorthat.CommentsActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_comments" android:parentActivityName="com.myteam.thisorthat.MainActivity">
         </activity>
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>

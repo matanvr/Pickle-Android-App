@@ -47,18 +47,23 @@
                 android:layout_height="35dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:background="@color/swipeRefresh2"
+                android:background="@color/white"
+                
+                android:ems="10"
                 android:text="Post"
-                android:textColor="@color/white" />
+                android:textColor="#000" />
 
             <EditText
                 android:id="@+id/commentInputText"
                 android:layout_width="220dp"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@+id/addComment"
                 android:ems="10"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@color/white"
                 android:singleLine="true"
                 android:inputType="textMultiLine"
                 android:hint="Say something.." />
