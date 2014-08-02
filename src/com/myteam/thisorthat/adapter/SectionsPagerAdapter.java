@@ -2,15 +2,15 @@ package com.myteam.thisorthat.adapter;
 
 import java.util.Locale;
 
-import com.myteam.thisorthat.FriendsFragment;
-import com.myteam.thisorthat.InboxFragment;
-import com.myteam.thisorthat.R;
-import com.myteam.thisorthat.R.string;
-
+import android.app.ActionBar;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.myteam.thisorthat.InboxFragment;
+import com.myteam.thisorthat.NewsfeedFragment;
+import com.myteam.thisorthat.R;
 
 /**
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -19,10 +19,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 	
 	protected Context mContext;
+	protected ActionBar mActionBar;
 
-	public SectionsPagerAdapter(Context context, FragmentManager fm) {
+	public SectionsPagerAdapter(Context context, FragmentManager fm,ActionBar actionBar) {
 		super(fm);
 		mContext = context;
+		mActionBar = actionBar;
 	}
 
 	@Override
@@ -30,6 +32,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		return 2;
 	}
 
+	
+	
 	@Override
 	public Fragment getItem(int position) {
 		// getItem is called to instantiate the fragment for the given page.
@@ -38,9 +42,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		
 		switch(position) {
 			case 0:
+				
 				return new InboxFragment();
 			case 1:
-				return new FriendsFragment();
+				
+				return new NewsfeedFragment();
 		}
 
 		return null;

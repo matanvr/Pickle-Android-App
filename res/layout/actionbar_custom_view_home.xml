@@ -1,37 +1,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="170dp"
         android:layout_height="wrap_content" 
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="5dp"
         >
 
         <TextView
-            android:id="@+id/friends"
-            android:layout_width="wrap_content"
+            android:id="@+id/titleHome"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="5dp"
-            android:textSize="17sp"
-            android:text="FRIENDS"
-            android:textColor="#250054" />
-
-        <TextView
-            android:id="@+id/explore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-          android:background="#f0f0f0"
-          android:textSize="17sp"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="EXPLORE"
-            android:textColor="#250054" />
+            android:text="Pickle"
+            android:textColor="#000"
+            android:textSize="24sp" />
 
     </RelativeLayout>
 

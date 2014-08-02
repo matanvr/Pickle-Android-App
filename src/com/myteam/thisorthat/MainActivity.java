@@ -11,18 +11,12 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,6 +32,8 @@ public class MainActivity extends FragmentActivity implements
 	/**
 	 * Slide menu item click listener
 	 * */
+	
+	/*
 	private class SlideMenuClickListener implements
 	        ListView.OnItemClickListener {
 	    @Override
@@ -46,7 +42,7 @@ public class MainActivity extends FragmentActivity implements
 	        // display view for selected nav drawer item
 	        displayView(position);
 	    }
-	}
+	}*/
 	
 	public static final String TAG = MainActivity.class.getSimpleName();
 	public static final int TAKE_PHOTO_REQUEST = 0;
@@ -106,19 +102,14 @@ public class MainActivity extends FragmentActivity implements
 	/**
 	 * Diplaying fragment view for selected nav drawer list item
 	 * */
+	/*
 	private void displayView(int position) {
 	    // update the main content by replacing fragments
 	    Fragment fragment = null;
 	    Intent intent;
 	    Bundle args; 
 	    switch (position) {
-	    /*
-	    case 0:
-	    	MENU_STATE = MENU_PROFILE;
-	    	this.invalidateOptionsMenu();
-	    	fragment = new ProfileFragment();
-	    	
-	    	break;*/
+
 	    case 0:
 	    	MENU_STATE = MENU_HOME;
 	    	this.invalidateOptionsMenu();
@@ -164,7 +155,7 @@ public class MainActivity extends FragmentActivity implements
 	        // error in creating fragment
 	        Log.e("MainActivity", "Error in creating fragment");
 	    }
-	}
+	}*/
 	
 	private void navigateToLogin() {
 		Intent intent = new Intent(this, LoginActivity.class);
@@ -173,56 +164,13 @@ public class MainActivity extends FragmentActivity implements
 		startActivity(intent);
 	}
 
-	private void nullViewDrawable(View view)
-	  {
-	    try
-	    {
-	      view.setBackgroundDrawable(null);
-	    }
-	    catch(Exception e)
-	    {          
-	    }
-	    
-	    try
-	    {
-	      ImageView imageView = (ImageView)view;
-	      imageView.setImageDrawable(null);
-	      imageView.setBackgroundDrawable(null);
-	    }
-	    catch(Exception e)
-	    {          
-	    }
-	  }
-
-	private void nullViewDrawablesRecursive(View view)
-	  {
-	    if(view != null)
-	    {
-	      try
-	      {
-	        ViewGroup viewGroup = (ViewGroup)view;
-	        
-	        int childCount = viewGroup.getChildCount();
-	        for(int index = 0; index < childCount; index++)
-	        {
-	          View child = viewGroup.getChildAt(index);
-	          nullViewDrawablesRecursive(child);
-	        }
-	      }
-	      catch(Exception e)
-	      {          
-	      }
-	      
-	      nullViewDrawable(view);
-	    }    
-	  }
-
+/*
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 	    super.onConfigurationChanged(newConfig);
 	    // Pass any configuration change to the drawer toggls
 	    mDrawerToggle.onConfigurationChanged(newConfig);
-	}
+	}*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -233,7 +181,7 @@ public class MainActivity extends FragmentActivity implements
 		
 		
         final ActionBar actionBar = getActionBar();
-       // getActionBar().setIcon(R.drawable.action_menu);
+        getActionBar().setIcon(R.drawable.pulse);
         actionBar.setCustomView(R.layout.actionbar_custom_view_home);
        actionBar.setDisplayShowCustomEnabled(true);
 		//TextView logo = (TextView) findViewById(R.id.actionBarLogo);
@@ -256,22 +204,19 @@ public class MainActivity extends FragmentActivity implements
 		
 
 
-		// Set up the action bar.
-	//	final ActionBar actionBar = getActionBar();
-//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        
-        mFriends = (TextView) findViewById(R.id.friends);
-      mExplore = (TextView) findViewById(R.id.explore);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        TextView mTitleHome = (TextView) findViewById(R.id.titleHome);
+
        //mSideMenu = (ImageView) findViewById(R.id.home_menu);
         //mNewButton = (ImageView) findViewById(R.id.new_menu);
         
 		Typeface postTypeface = Typeface.createFromAsset(
 				this.getAssets(), "fonts/WhitneyCondensed-Medium.otf");
-		mFriends.setTypeface(postTypeface);
-		mExplore.setTypeface(postTypeface);
+		mTitleHome.setTypeface(postTypeface);
+
 		
 		mTitle = mDrawerTitle = getTitle();
-		 
+		 /*
         // load slide menu items
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
  
@@ -299,13 +244,13 @@ public class MainActivity extends FragmentActivity implements
         adapter = new NavDrawerListAdapter(getApplicationContext(),
                 navDrawerItems);
         mDrawerList.setAdapter(adapter);
- 
+ */
         // enabling action bar app icon and behaving it as toggle button
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+       // getActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setHomeButtonEnabled(true);
        // getActionBar().setDisplayShowHomeEnabled(false);
    //    getActionBar().setIcon(R.color.transparent);
-        
+     /*   
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.drawable.ic_drawer, //nav menu toggle icon
                 R.string.app_name, // nav drawer open - description for accessibility
@@ -329,7 +274,7 @@ public class MainActivity extends FragmentActivity implements
             // on first time display view for first nav item
             if(currentUser != null)
         	displayView(0);
-        }
+        }*//*
         mFriends.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -346,18 +291,24 @@ public class MainActivity extends FragmentActivity implements
 		 
 			}
         });
-		
+		*/
+        
+        
+        
+        
+        
+        //start tabs
 		
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
-	//	mSectionsPagerAdapter = new SectionsPagerAdapter(this, 
-		//		getSupportFragmentManager());
+		mSectionsPagerAdapter = new SectionsPagerAdapter(this, 
+				getSupportFragmentManager(),actionBar);
 
 		// Set up the ViewPager with the sections adapter.
 		
-		//commented out for menu
-		//mViewPager = (ViewPager) findViewById(R.id.pager);
-		//mViewPager.setAdapter(mSectionsPagerAdapter);
+	
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setAdapter(mSectionsPagerAdapter);
 
 		// When swiping between different sections, select the corresponding
 		// tab. We can also use ActionBar.Tab#select() to do this if we have
@@ -371,10 +322,11 @@ public class MainActivity extends FragmentActivity implements
 					public void onPageSelected(int position) {
 						actionBar.setSelectedNavigationItem(position);
 					}
-				});*/
-
+				});
+*/
 		// For each of the sections in the app, add a tab to the action bar.
-	/*	for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+		/*
+		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
 			// Create a tab with text corresponding to the page title defined by
 			// the adapter. Also specify this Activity object, which implements
 			// the TabListener interface, as the callback (listener) for when
@@ -382,49 +334,28 @@ public class MainActivity extends FragmentActivity implements
 			actionBar.addTab(actionBar.newTab()
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
+			
 		}*/
-	}  
+
+	}
+	
 	  @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-		if(MENU_STATE == MENU_HOME){
+
             menu.getItem(0).setVisible(true);
             menu.getItem(1).setVisible(false);
             menu.getItem(2).setVisible(false);
-		}
-		else if(MENU_STATE == MENU_PROFILE){
-            menu.getItem(0).setVisible(false);
-            menu.getItem(1).setVisible(true);
-            menu.getItem(2).setVisible(false);
-		}
-		else if(MENU_STATE == MENU_FRIENDS){
-	        menu.getItem(0).setVisible(false);
-	        menu.getItem(1).setVisible(false);
-	        menu.getItem(2).setVisible(true);
-	}
+
 		
 		mMenu = menu;
 		return true;
 	}
-	  @Override
-	  protected void onDestroy()
-	  {
-	    super.onDestroy();
-	    
-	    // Fixes android memory  issue 8488 :
-	    // http://code.google.com/p/android/issues/detail?id=8488
-	    nullViewDrawablesRecursive(mViewPager);
-	    
-	    mViewPager = null;
-	    System.gc();
-	  }
 
 	  @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
+
 		int itemId = item.getItemId();
 		Intent intent;
 		switch(itemId) {
@@ -440,23 +371,22 @@ public class MainActivity extends FragmentActivity implements
 
 				intent = new Intent(this, NewPost.class);
 				startActivity(intent);
+				//overridePendingTransition(R.anim.push_left_in, R.anim.push_right_in);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				break;
 		}
 		
 		return super.onOptionsItemSelected(item);
 	}
-	   @Override  
-	protected void onPause()  
-	{  
-		super.onPause();  
-		System.gc();  
-	}
+	
+	   
+	   
 	 
 	    /**
 	     * When using the ActionBarDrawerToggle, you must call it during
 	     * onPostCreate() and onConfigurationChanged()...
 	     */
-	 
+	 /*
 	    @Override
 	    protected void onPostCreate(Bundle savedInstanceState) {
 	        super.onPostCreate(savedInstanceState);
@@ -470,7 +400,7 @@ public class MainActivity extends FragmentActivity implements
 		        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
 		     //   menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
 		        return super.onPrepareOptionsMenu(menu);
-		    }
+		    }*/
 	 
 	    @Override
 		public void onTabReselected(ActionBar.Tab tab,
@@ -481,7 +411,8 @@ public class MainActivity extends FragmentActivity implements
 				FragmentTransaction fragmentTransaction) {
 			// When the given tab is selected, switch to the corresponding page in
 			// the ViewPager.
-			mViewPager.setCurrentItem(tab.getPosition());
+			//mViewPager.setCurrentItem(tab.getPosition());
+	    	
 		}
 	 
 	     @Override

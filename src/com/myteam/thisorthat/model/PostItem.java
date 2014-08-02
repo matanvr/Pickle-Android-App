@@ -21,6 +21,7 @@ public class PostItem {
 	private int mFollowers;
 	private int mComments;
 	private Date mUpdatedAt;
+	private int mColor;
 	public String getObjectId() {
 		return mObjectId;
 	}
@@ -108,7 +109,8 @@ public class PostItem {
 				+ mThisImage + ", mThatImage=" + mThatImage + ", mCreatedAt="
 				+ mCreatedAt + ", mThisCaption=" + mThisCaption
 				+ ", mThatCaption=" + mThatCaption + ", mFollowers="
-				+ mFollowers + ", mComments=" + mComments + "]";
+				+ mFollowers + ", mComments=" + mComments + ", mUpdatedAt="
+				+ mUpdatedAt + ", mColor=" + mColor + "]";
 	}
 	public Date getUpdatedAt() {
 		return mUpdatedAt;
@@ -116,4 +118,13 @@ public class PostItem {
 	public void setUpdatedAt(Date updatedAt) {
 		mUpdatedAt = updatedAt;
 	}
+	public int getColor() {
+		return mColor;
+	}
+	public void setColor(int color) {
+		mColor = color;
+	}
+	
+	
+	
 }

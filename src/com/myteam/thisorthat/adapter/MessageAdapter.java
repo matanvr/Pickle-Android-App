@@ -34,7 +34,6 @@ import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public class MessageAdapter extends ArrayAdapter<ParseObject> {
@@ -51,6 +50,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 	private ViewHolder mHolder;
 	private String mLastPostClicked;
 	private Animation mVotesAnimation;
+	private int [] mColorArray;
 
 	public MessageAdapter(Context context, List<ParseObject> messages,
 			List<ParseObject> userVotes, int feedType) {
@@ -100,7 +100,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mVotesAnimation  =  AnimationUtils.loadAnimation(mContext.getApplicationContext(),
 			                R.anim.bounce_in_bottom);
 
-		
+			mColorArray = mContext.getResources().getIntArray(R.array.post_colors);    
 			mHolder.commentCounter = (TextView) convertView.findViewById(R.id.commentCount);
 			mHolder.mThisProgress = (ProgressBar) convertView.findViewById(R.id.this_progressBar);
 			mHolder.mThatProgress = (ProgressBar) convertView.findViewById(R.id.that_progressBar);
@@ -147,15 +147,20 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		toggleAnimation(mHolder.Question);
 		Integer thisVotes = (message.getInt(ParseConstants.KEY_THIS_VOTES));
 		Integer thatVotes = (message.getInt(ParseConstants.KEY_THAT_VOTES));
-		int thisPercentage = (thisVotes*100)/(thatVotes+thisVotes);
-		int thatPercentage = (thatVotes*100)/(thatVotes+thisVotes);
+		int totalVotes = thisVotes + thatVotes;
+		if (totalVotes == 0){
+			totalVotes = 1;
+		}
+		int thisPercentage = (thisVotes*100)/(totalVotes);
+		int thatPercentage = (thatVotes*100)/(totalVotes);
 		Integer followers = message.getInt(ParseConstants.KEY_FOLLOWERS);
 		Integer commentCount = message.getInt(ParseConstants.KEY_COMMENTS);
 		mHolder.heartCounter.setText(followers.toString());
 		mHolder.commentCounter.setText(commentCount.toString());
 		mHolder.thisVot.setText(thisPercentage + "% (" + (message.getInt(ParseConstants.KEY_THIS_VOTES)+")"));
 		mHolder.thatVot.setText(thatPercentage + "% (" + (message.getInt(ParseConstants.KEY_THAT_VOTES) + ")"));
-		
+
+		int randColor =  mColorArray[message.getInt("color")];
 		if (!mUserVotesMap.containsKey(postId)
 				|| mUserVotesMap.get(postId).getInt(
 						ParseConstants.KEY_USER_VOTE) == NO_SELECTION) {
@@ -202,8 +207,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				mHolder.ThatCaption.setTextColor(Color.BLACK);
 				mHolder.ThisCaption.setTextColor(Color.WHITE);
 				mHolder.ThatCaption.setBackgroundColor(0);
-				mHolder.ThisCaption.setBackgroundColor(mContext.getResources()
-						.getColor(R.color.purple_dark));
+				mHolder.ThisCaption.setBackgroundColor(randColor);
 				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
 				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 			} else {
@@ -213,8 +217,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
 				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 
-				mHolder.ThatCaption.setBackgroundColor(mContext.getResources()
-						.getColor(R.color.purple_dark));
+				//set color randomly
+				mHolder.ThatCaption.setBackgroundColor(randColor);
 				mHolder.ThisCaption.setBackgroundColor(0);
 			}
 
@@ -231,17 +235,36 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				+ message.getString(ParseConstants.KEY_THIS_CAPTION));
 		mHolder.ThatCaption.setText(""
 				+ message.getString(ParseConstants.KEY_THAT_CAPTION));
+		
+		Uri thisUri;
+		Uri thatUri;
+		if(message.getString("thisUri") == null){
+			ParseFile This = message.getParseFile("this");
+			thisUri = Uri.parse(This.getUrl());
+			message.put("thisUri", thisUri.toString());
+			message.saveInBackground();
+		}
+		if(message.getString("thatUri") == null){
+			ParseFile That = message.getParseFile("that");
+			thatUri = Uri.parse(That.getUrl());
+			message.put("thatUri", thatUri.toString());
+			message.saveInBackground();
+		}
+		thisUri = Uri.parse(message.getString("thisUri"));
+		thatUri = Uri.parse(message.getString("thatUri"));
+		/*
 
 		ParseFile This = message.getParseFile("this");
 		ParseFile That = message.getParseFile("that");
-		Uri thatUri = Uri.parse(This.getUrl());
-		Uri thisUri = Uri.parse(That.getUrl());
+		Uri thisUri = Uri.parse(This.getUrl());
+		Uri thatUri = Uri.parse(That.getUrl());*/
+		
 		String uri = message.get(ParseConstants.KEY_FILE_THIS).toString();
 		mHolder.mThisProgress.setVisibility(View.VISIBLE);
-		Picasso.with(mContext).load(thatUri.toString()).resize(480, 853)
+		Picasso.with(mContext).load(thisUri.toString()).resize(480, 853)
 				.centerCrop().into(mHolder.This);
 		mHolder.mThatProgress.setVisibility(View.VISIBLE);
-		Picasso.with(mContext).load(thisUri.toString()).resize(480, 853)
+		Picasso.with(mContext).load(thatUri.toString()).resize(480, 853)
 				.centerCrop().into(mHolder.That);
 	 
 		ThisThatOnClickListener onClickListener = new ThisThatOnClickListener(
@@ -330,6 +353,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					intent.putExtra("userId", userId);
 					intent.putExtra("userName", userName);
 					mContext.startActivity(intent);
+					
 				} else {
 
 					thisVotes = message.getInt(ParseConstants.KEY_THIS_VOTES);

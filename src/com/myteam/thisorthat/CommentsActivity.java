@@ -100,7 +100,7 @@ public class CommentsActivity extends Activity {
 		thisVot = (TextView) findViewById(R.id.thisVote);
 		thatVot = (TextView) findViewById(R.id.thatVote);
 		ThatCaption = (TextView)findViewById(R.id.thatLabel);
-		displayPost();
+		
 		mPostItem = (LinearLayout) findViewById(R.id.message_it);
 		commentListV = (ListView) findViewById(R.id.commentListView);
 		ThisCaption = (TextView) findViewById(R.id.thisLabel);
@@ -130,6 +130,7 @@ public class CommentsActivity extends Activity {
 		commentCounter.setTypeface(postTypeface);
 		addComment.setTypeface(lightType);
 		comment.setTypeface(lightType);
+		displayPost();
 		addComment.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {

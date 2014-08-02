@@ -45,7 +45,9 @@ public class InboxFragment extends ListFragment {
 	protected OnRefreshListener mOnRefreshListener = new OnRefreshListener() {
 		@Override
 		public void onRefresh() {
-
+			getMessages();
+			
+			/*
 			switch (mFeed) {
 			case InboxFragment.NEWSFEED:
 				getMessages();
@@ -53,10 +55,10 @@ public class InboxFragment extends ListFragment {
 			case InboxFragment.FAVORITES:
 				// getFavorites();
 				break;
-			}
+			}*/
 		}
 	};
-
+/*
 	public void getFavorites() {
 
 		ParseQuery<ParseObject> favoritesQuery = new ParseQuery<ParseObject>(
@@ -130,7 +132,7 @@ public class InboxFragment extends ListFragment {
 		});
 
 	}
-
+*/
 	// @Override
 	// public void onListItemClick(ListView l, View v, int position, long id) {
 	// super.onListItemClick(l, v, position, id);
@@ -259,8 +261,8 @@ public class InboxFragment extends ListFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		System.gc();
-		mFeed = this.getArguments().getInt("feedType");
+		
+		//mFeed = this.getArguments().getInt("feedType");
 		currentUser = ParseUser.getCurrentUser();
 		if (ParseFacebookUtils.isLinked(currentUser)) {
 
@@ -273,6 +275,8 @@ public class InboxFragment extends ListFragment {
 
 	private void startFetch() {
 		mSwipeRefreshLayout.setRefreshing(true);
+		getMessages();
+		/*
 		mFeed = this.getArguments().getInt("feedType");
 
 		switch (mFeed) {
@@ -286,7 +290,7 @@ public class InboxFragment extends ListFragment {
 			getAllFriends();
 			
 			break;
-		}
+		}*/
 	}
 
 	private void checkFacebookUser() {

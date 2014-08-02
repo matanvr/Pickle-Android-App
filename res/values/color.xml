@@ -20,5 +20,14 @@
         <color name="light_gray"> #BBBBBB</color>
         <color name="menu_selected">#fff</color>
         <color name="menu_unselected">#60ffffff</color>
+        
+   <color name ="selected_color_1">#e0253c</color>
+   <color name = "selected_color_2">#fe007c </color>
+   <color name = "selected_color_3">#2ec5b3 </color>
+   
+   <color name ="selected_color_4">#9b2bc9</color>
+   <color name = "selected_color_5">#8cd62b </color>
+
+   
 
 </resources>
