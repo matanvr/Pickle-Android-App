@@ -2,6 +2,9 @@ package com.myteam.thisorthat;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -14,71 +17,77 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.facebook.FacebookRequestError;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.model.GraphUser;
 import com.myteam.thisorthat.adapter.NavDrawerListAdapter;
 import com.myteam.thisorthat.adapter.SectionsPagerAdapter;
 import com.myteam.thisorthat.model.NavDrawerItem;
 import com.parse.ParseAnalytics;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
-	
+
 	/**
 	 * Slide menu item click listener
 	 * */
-	
+
 	/*
-	private class SlideMenuClickListener implements
-	        ListView.OnItemClickListener {
-	    @Override
-	    public void onItemClick(AdapterView<?> parent, View view, int position,
-	            long id) {
-	        // display view for selected nav drawer item
-	        displayView(position);
-	    }
-	}*/
-	
+	 * private class SlideMenuClickListener implements
+	 * ListView.OnItemClickListener {
+	 * 
+	 * @Override public void onItemClick(AdapterView<?> parent, View view, int
+	 * position, long id) { // display view for selected nav drawer item
+	 * displayView(position); } }
+	 */
+
 	public static final String TAG = MainActivity.class.getSimpleName();
 	public static final int TAKE_PHOTO_REQUEST = 0;
 	public static final int TAKE_VIDEO_REQUEST = 1;
 	public static final int PICK_PHOTO_REQUEST = 2;
-	
+
 	public static final int PICK_VIDEO_REQUEST = 3;
 	public static final int MEDIA_TYPE_IMAGE = 4;
-	
+
 	public static final int MEDIA_TYPE_VIDEO = 5;
 	private int MENU_HOME = 1;
 	private int MENU_PROFILE = 0;
 	private int MENU_FRIENDS = 2;
 	private int MENU_STATE = MENU_HOME;
-	
-	public static final int FILE_SIZE_LIMIT = 1024*1024*10; // 10 MB
-	protected Uri mMediaUri; 
 
-    protected Menu mMenu;
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private TextView mFriends;
-    private TextView mExplore;
-    private ActionBarDrawerToggle mDrawerToggle;
- 
-    // nav drawer title
-    private CharSequence mDrawerTitle;
- 
-    // used to store app title
-    private CharSequence mTitle;
-    // slide menu items
-    private String[] navMenuTitles;
- 
-    private TypedArray navMenuIcons;
-    private ArrayList<NavDrawerItem> navDrawerItems;
-	
+	public static final int FILE_SIZE_LIMIT = 1024 * 1024 * 10; // 10 MB
+	protected Uri mMediaUri;
+
+	protected Menu mMenu;
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawerList;
+	private TextView mFriends;
+	private TextView mExplore;
+	private ActionBarDrawerToggle mDrawerToggle;
+	private ActionBar mActionBar;
+	private TextView mTitleHome;
+	// nav drawer title
+	private CharSequence mDrawerTitle;
+
+	// used to store app title
+	private CharSequence mTitle;
+	// slide menu items
+	private String[] navMenuTitles;
+
+	private TypedArray navMenuIcons;
+	private ArrayList<NavDrawerItem> navDrawerItems;
+
 	private NavDrawerListAdapter adapter;
 
 	/**
@@ -95,68 +104,7 @@ public class MainActivity extends FragmentActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	
 
-
-
-	/**
-	 * Diplaying fragment view for selected nav drawer list item
-	 * */
-	/*
-	private void displayView(int position) {
-	    // update the main content by replacing fragments
-	    Fragment fragment = null;
-	    Intent intent;
-	    Bundle args; 
-	    switch (position) {
-
-	    case 0:
-	    	MENU_STATE = MENU_HOME;
-	    	this.invalidateOptionsMenu();
-	    	args = new Bundle();
-	    	args.putInt("feedType", InboxFragment.NEWSFEED);
-	        fragment = new InboxFragment();
-	        fragment.setArguments(args);
-	        break;
-	    case 1:
-
-	    	intent = new Intent(this, NewPost.class);
-			startActivity(intent);
-	        break;
-
-	    case 2:
-	    	MENU_STATE = MENU_HOME;
-	    	this.invalidateOptionsMenu();
-	    	args = new Bundle();
-	    	args.putInt("feedType", InboxFragment.FAVORITES);
-	        fragment = new InboxFragment();
-	        fragment.setArguments(args);
-	    	break;
-	    case 3: 
-			ParseUser.logOut();
-			navigateToLogin();
-			break;
- 
-	    default:
-	        break;
-	    }
- 
-	    if (fragment != null) {
-	        FragmentManager fragmentManager = getSupportFragmentManager();
-	        fragmentManager.beginTransaction()
-	                .replace(R.id.frame_container, fragment).commit();
- 
-	        // update selected item and title, then close the drawer
-	        mDrawerList.setItemChecked(position, true);
-	        mDrawerList.setSelection(position);
-	       // setTitle(navMenuTitles[position]);
-	        mDrawerLayout.closeDrawer(mDrawerList);
-	    } else {
-	        // error in creating fragment
-	        Log.e("MainActivity", "Error in creating fragment");
-	    }
-	}*/
-	
 	private void navigateToLogin() {
 		Intent intent = new Intent(this, LoginActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -164,266 +112,224 @@ public class MainActivity extends FragmentActivity implements
 		startActivity(intent);
 	}
 
-/*
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-	    super.onConfigurationChanged(newConfig);
-	    // Pass any configuration change to the drawer toggls
-	    mDrawerToggle.onConfigurationChanged(newConfig);
-	}*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		
-		setContentView(R.layout.activity_main);
-		
-		
-		
-        final ActionBar actionBar = getActionBar();
-        getActionBar().setIcon(R.drawable.pulse);
-        actionBar.setCustomView(R.layout.actionbar_custom_view_home);
-       actionBar.setDisplayShowCustomEnabled(true);
-		//TextView logo = (TextView) findViewById(R.id.actionBarLogo);
-	//	Typeface lightType = Typeface.createFromAsset(
-            //    this.getAssets(),
-            //    "fonts/calibri.ttf");
 
-		//logo.setTypeface(lightType);
-      //  getActionBar().setDisplayShowTitleEnabled(false);
+		setContentView(R.layout.activity_main);
+
+		mActionBar = getActionBar();
+		mActionBar.setIcon(R.drawable.pulse);
+		mActionBar.setCustomView(R.layout.actionbar_custom_view_home);
+		mActionBar.setDisplayShowCustomEnabled(true);
+		mActionBar.setHomeButtonEnabled(true);
+
 		ParseAnalytics.trackAppOpened(getIntent());
-		
 
 		ParseUser currentUser = ParseUser.getCurrentUser();
 
-			
-		
 		if (currentUser == null) {
 			navigateToLogin();
 		}
-		
-
-
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        TextView mTitleHome = (TextView) findViewById(R.id.titleHome);
-
-       //mSideMenu = (ImageView) findViewById(R.id.home_menu);
-        //mNewButton = (ImageView) findViewById(R.id.new_menu);
-        
-		Typeface postTypeface = Typeface.createFromAsset(
-				this.getAssets(), "fonts/WhitneyCondensed-Medium.otf");
-		mTitleHome.setTypeface(postTypeface);
 
 		
+		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+
+		setTitleFont();
+
 		mTitle = mDrawerTitle = getTitle();
-		 /*
-        // load slide menu items
-        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
- 
-        // nav drawer icons from resources
-        navMenuIcons = getResources()
-                .obtainTypedArray(R.array.nav_drawer_icons);
- 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
-        mDrawerList.setBackground(getResources().getDrawable(R.drawable.background_menu));
-        navDrawerItems = new ArrayList<NavDrawerItem>();
- 
-        // adding nav drawer items to array
-        // Home
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
-        // Find People
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
- 
-        // Recycle the typed array
-        navMenuIcons.recycle();
- 
-        // setting the nav drawer list adapter
-        adapter = new NavDrawerListAdapter(getApplicationContext(),
-                navDrawerItems);
-        mDrawerList.setAdapter(adapter);
- */
-        // enabling action bar app icon and behaving it as toggle button
-       // getActionBar().setDisplayHomeAsUpEnabled(true);
-        //getActionBar().setHomeButtonEnabled(true);
-       // getActionBar().setDisplayShowHomeEnabled(false);
-   //    getActionBar().setIcon(R.color.transparent);
-     /*   
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.drawable.ic_drawer, //nav menu toggle icon
-                R.string.app_name, // nav drawer open - description for accessibility
-                R.string.app_name // nav drawer close - description for accessibility
-        ){
-            public void onDrawerClosed(View view) {
-                //getActionBar().setTitle(mTitle);
-                // calling onPrepareOptionsMenu() to show action bar icons
-                invalidateOptionsMenu();
-            }
- 
-            public void onDrawerOpened(View drawerView) {
-                //getActionBar().setTitle(mDrawerTitle);
-                // calling onPrepareOptionsMenu() to hide action bar icons
-                invalidateOptionsMenu();
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
-        if (savedInstanceState == null) {
-            // on first time display view for first nav item
-            if(currentUser != null)
-        	displayView(0);
-        }*//*
-        mFriends.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-		    	Fragment fragment;
-				Bundle args = new Bundle();
-		    	args.putInt("feedType", InboxFragment.FRIENDS);
-		        fragment = new InboxFragment();
-		        fragment.setArguments(args);
-		        if (fragment != null) {
-			        FragmentManager fragmentManager = getSupportFragmentManager();
-			        fragmentManager.beginTransaction()
-			                .replace(R.id.frame_container, fragment).commit();
-		        }
-		 
-			}
-        });
-		*/
-        
-        
-        
-        
-        
-        //start tabs
 		
+
+		prepareFacebookUser();
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
-		mSectionsPagerAdapter = new SectionsPagerAdapter(this, 
-				getSupportFragmentManager(),actionBar);
+
+
+	}
+	private void startTabs(){
+		mSectionsPagerAdapter = new SectionsPagerAdapter(this,
+				getSupportFragmentManager(), mActionBar);
 
 		// Set up the ViewPager with the sections adapter.
-		
-	
+
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+		mViewPager.setCurrentItem(1);
 
 		// When swiping between different sections, select the corresponding
 		// tab. We can also use ActionBar.Tab#select() to do this if we have
 		// a reference to the Tab.
-		
-		
-		/*
+
 		mViewPager
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
 					public void onPageSelected(int position) {
-						actionBar.setSelectedNavigationItem(position);
+						updateMenu(position);
 					}
 				});
-*/
-		// For each of the sections in the app, add a tab to the action bar.
-		/*
-		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-			// Create a tab with text corresponding to the page title defined by
-			// the adapter. Also specify this Activity object, which implements
-			// the TabListener interface, as the callback (listener) for when
-			// this tab is selected.
-			actionBar.addTab(actionBar.newTab()
-					.setText(mSectionsPagerAdapter.getPageTitle(i))
-					.setTabListener(this));
-			
-		}*/
+	}
+	private void prepareFacebookUser() {
 
+		Session session = ParseFacebookUtils.getSession();
+		if (session != null && session.isOpened()) {
+			Request request = Request.newMeRequest(
+					ParseFacebookUtils.getSession(),
+					new Request.GraphUserCallback() {
+						@Override
+						public void onCompleted(GraphUser user,
+								Response response) {
+							if (user != null) {
+								// Create a JSON object to hold the profile info
+								JSONObject userProfile = new JSONObject();
+								try {
+									// Populate the JSON object
+									userProfile.put("facebookId", user.getId());
+									userProfile.put("name", user.getName());
+									if (user.getLocation().getProperty("name") != null) {
+										userProfile.put("location",
+												(String) user.getLocation()
+														.getProperty("name"));
+									}
+									if (user.getProperty("gender") != null) {
+										userProfile.put("gender", (String) user
+												.getProperty("gender"));
+									}
+									if (user.getBirthday() != null) {
+										userProfile.put("birthday",
+												user.getBirthday());
+									}
+									if (user.getProperty("relationship_status") != null) {
+										userProfile
+												.put("relationship_status",
+														(String) user
+																.getProperty("relationship_status"));
+									}
+
+									// Save the user profile info in a user
+									// property
+									ParseUser currentUser = ParseUser
+											.getCurrentUser();
+									currentUser.put("profile", userProfile);
+									currentUser.saveInBackground();
+									startTabs();
+						
+
+								} catch (JSONException e) {
+									Log.d(InboxFragment.TAG,
+											"Error parsing returned user data.");
+								}
+
+							} else if (response.getError() != null) {
+								if ((response.getError().getCategory() == FacebookRequestError.Category.AUTHENTICATION_RETRY)
+										|| (response.getError().getCategory() == FacebookRequestError.Category.AUTHENTICATION_REOPEN_SESSION)) {
+									Log.d(InboxFragment.TAG,
+											"The facebook session was invalidated.");
+
+								} else {
+									Log.d(InboxFragment.TAG,
+											"Some other error: "
+													+ response.getError()
+															.getErrorMessage());
+								}
+							}
+						}
+					});
+			request.executeAsync();
+
+		}
 	}
 	
-	  @Override
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 
-            menu.getItem(0).setVisible(true);
-            menu.getItem(1).setVisible(false);
-            menu.getItem(2).setVisible(false);
+		menu.getItem(0).setVisible(true);
+		menu.getItem(1).setVisible(false);
 
-		
 		mMenu = menu;
 		return true;
 	}
 
-	  @Override
+	private void setTitleFont() {
+		mTitleHome = (TextView) findViewById(R.id.titleHome);
+		Typeface postTypeface = Typeface.createFromAsset(this.getAssets(),
+				"fonts/WhitneyCondensed-Medium.otf");
+		mTitleHome.setTypeface(postTypeface);
+	}
+
+	private void updateMenu(int position) {
+		if (position == 1) {
+			mActionBar.setCustomView(R.layout.actionbar_custom_view_home);
+			setTitleFont();
+			mMenu.getItem(0).setVisible(true);
+			mMenu.getItem(1).setVisible(false);
+			mActionBar.setIcon(R.drawable.pulse);
+		} else if (position == 0) {
+			mActionBar.setCustomView(R.layout.actionbar_custom_view_feed);
+			mMenu.getItem(0).setVisible(false);
+			mMenu.getItem(1).setVisible(true);
+			mActionBar.setIcon(R.drawable.ic_settings);
+
+		}
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		int itemId = item.getItemId();
 		Intent intent;
-		switch(itemId) {
-			case R.id.action_profile_settings:
-				ParseUser.logOut();
-				navigateToLogin();
-				break;
-			case R.id.action_add_user:
-				intent = new Intent(this, EditFriendsActivity.class);
-				startActivity(intent);
-				break;
-			case R.id.action_camera:
+		switch (itemId) {
+		case android.R.id.home:
+			mViewPager.setCurrentItem(0);
 
-				intent = new Intent(this, NewPost.class);
-				startActivity(intent);
-				//overridePendingTransition(R.anim.push_left_in, R.anim.push_right_in);
-				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-				break;
+			break;
+
+		case R.id.action_profile_settings:
+			ParseUser.logOut();
+			navigateToLogin();
+			break;
+
+		case R.id.action_camera:
+
+			intent = new Intent(this, NewPost.class);
+			startActivity(intent);
+			// overridePendingTransition(R.anim.push_left_in,
+			// R.anim.push_right_in);
+			overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+			break;
 		}
-		
+
 		return super.onOptionsItemSelected(item);
 	}
-	
-	   
-	   
-	 
-	    /**
-	     * When using the ActionBarDrawerToggle, you must call it during
-	     * onPostCreate() and onConfigurationChanged()...
-	     */
-	 /*
-	    @Override
-	    protected void onPostCreate(Bundle savedInstanceState) {
-	        super.onPostCreate(savedInstanceState);
-	        // Sync the toggle state after onRestoreInstanceState has occurred.
-	        mDrawerToggle.syncState();
-	    }
-	 
-	    @Override
-		    public boolean onPrepareOptionsMenu(Menu menu) {
-		        // if nav drawer is opened, hide the action items
-		        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		     //   menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
-		        return super.onPrepareOptionsMenu(menu);
-		    }*/
-	 
-	    @Override
-		public void onTabReselected(ActionBar.Tab tab,
-				FragmentTransaction fragmentTransaction) {
-		}
-	    @Override
-		public void onTabSelected(ActionBar.Tab tab,
-				FragmentTransaction fragmentTransaction) {
-			// When the given tab is selected, switch to the corresponding page in
-			// the ViewPager.
-			//mViewPager.setCurrentItem(tab.getPosition());
-	    	
-		}
-	 
-	     @Override
-		public void onTabUnselected(ActionBar.Tab tab,
-				FragmentTransaction fragmentTransaction) {
-		}
-	    
-		@Override
-	    public void setTitle(CharSequence title) {
-	        mTitle = title;
-	        getActionBar().setTitle(mTitle);
-	    }
+
+	/**
+	 * When using the ActionBarDrawerToggle, you must call it during
+	 * onPostCreate() and onConfigurationChanged()...
+	 */
+
+	@Override
+	public void onTabReselected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
+	}
+
+	@Override
+	public void onTabSelected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
+		// When the given tab is selected, switch to the corresponding page in
+		// the ViewPager.
+
+	}
+
+	@Override
+	public void onTabUnselected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
+	}
+
+	@Override
+	public void setTitle(CharSequence title) {
+		mTitle = title;
+		getActionBar().setTitle(mTitle);
+	}
 
 }

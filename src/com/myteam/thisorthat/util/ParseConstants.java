@@ -1,5 +1,19 @@
 package com.myteam.thisorthat.util;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.util.Log;
+
+import com.facebook.FacebookRequestError;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.model.GraphUser;
+import com.myteam.thisorthat.InboxFragment;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseUser;
+
 public final class ParseConstants {
 	// Class name
 	public static final String CLASS_USER_VOTE = "UserVote";
@@ -17,6 +31,7 @@ public final class ParseConstants {
 	public static final String KEY_FILE_THAT = "that";
 	public static final String KEY_FILE_TYPE = "fileType";
 	public static final String KEY_CREATED_AT = "createdAt";
+	public static final String KEY_UPDATED_AT = "updatedAt";
 	
 	public static final String KEY_QUESTION_TEXT = "questionText";
 	public static final String KEY_QUESTION_ID = "questionId";
@@ -34,5 +49,8 @@ public final class ParseConstants {
 	public static final String KEY_COMMENTS  = "comments";
 	public static final String KEY_COMMENT_ID = "commentId";
 	public static final String KEY_COMMENT_TEXT = "commentText";
+	
+	
+
 	
 }

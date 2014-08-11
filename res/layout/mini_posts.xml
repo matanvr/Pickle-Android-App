@@ -29,7 +29,7 @@
         android:layout_toLeftOf="@+id/that_pic_mini"
         android:src="@drawable/ic_notification_count_bg_2" />
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imageView3"
         android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/this_votes_min"

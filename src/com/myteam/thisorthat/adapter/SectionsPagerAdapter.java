@@ -39,17 +39,17 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		// getItem is called to instantiate the fragment for the given page.
 		// Return a DummySectionFragment (defined as a static inner class
 		// below) with the page number as its lone argument.
-		
+		Fragment f = null;
 		switch(position) {
 			case 0:
-				
-				return new InboxFragment();
+				f =  new NewsfeedFragment();
+				break;
 			case 1:
-				
-				return new NewsfeedFragment();
+				f = new InboxFragment();
+				break;
 		}
 
-		return null;
+		return f;
 	}
 
 	@Override
@@ -57,9 +57,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		Locale l = Locale.getDefault();
 		switch (position) {
 		case 0:
-			return mContext.getString(R.string.title_section1).toUpperCase(l);
-		case 1:
 			return mContext.getString(R.string.title_section2).toUpperCase(l);
+		case 1:
+			return mContext.getString(R.string.title_section1).toUpperCase(l);
 		}
 		return null;
 	}

@@ -4,15 +4,18 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.myteam.thisorthat.CommentsActivity;
 import com.myteam.thisorthat.R;
 import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.ParseFile;
@@ -80,6 +83,12 @@ public class NewsfeedGridAdapter extends ArrayAdapter<ParseObject> {
 
 		Picasso.with(mContext).load(Uri.parse(item.getString("thatUri"))).resize(117, 200)
 		.centerCrop().into(holder.thatImage);
+		int thisVotes = item.getInt(ParseConstants.KEY_THIS_VOTES);
+		int thatVotes = item.getInt(ParseConstants.KEY_THAT_VOTES);
+		int totalVotes = thisVotes + thatVotes;
+		if(totalVotes == 0) totalVotes = 1;
+		int thisPercentage = (thisVotes*100)/totalVotes;
+		int thatPercentage = (thatVotes*100)/totalVotes;
 		
 		holder.question.setTypeface(postTypeface);
 		holder.thisVotes.setTypeface(postTypeface);
@@ -92,32 +101,34 @@ public class NewsfeedGridAdapter extends ArrayAdapter<ParseObject> {
 		holder.question.setText(item.getString(ParseConstants.KEY_QUESTION_TEXT));
 		holder.thisCaption.setText(item.getString(ParseConstants.KEY_THIS_CAPTION));
 		holder.thatCaption.setText(item.getString(ParseConstants.KEY_THAT_CAPTION));
+		holder.thisVotes.setText(Integer.toString(thisPercentage)+"%");
+		holder.thatVotes.setText(Integer.toString(thatPercentage)+"%");
+		holder.thisImage.setOnClickListener(new ItemOnClickListener(position));
+		holder.thatImage.setOnClickListener(new ItemOnClickListener(position));
+
 		
-	//	holder.thisCaption.setBackground();
-		/*
 		
-		ImageOnClickListener onImageClickListener = new ImageOnClickListener(position) {
 
-
-			@Override
-	        public void onClick(View v) {
-				//	Toast.makeText(GoogleImageActivity.this, position + "#Selected",
-				//		Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent();
-				String url = data.get(position).getBigUrl();
-				intent.putExtra("imageUrl", url);
-				((Activity)context).setResult(Activity.RESULT_OK, intent);
-				((Activity)context).finish();
-				
-				
-
-	        	
-	 
-			}
-		};
-		holder.image.setOnClickListener(onImageClickListener);
-		*/
 		return row;
 	};
 	
+	public class ItemOnClickListener implements OnClickListener {
+
+		int position;
+
+		public ItemOnClickListener(int position) {
+			this.position = position;
+		}
+
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(mContext, CommentsActivity.class);
+			intent.putExtra("postId", mPosts.get(position).getObjectId().toString());
+			intent.putExtra("userId", mPosts.get(position).getString(ParseConstants.KEY_SENDER_ID));
+			intent.putExtra("userName", mPosts.get(position).getString(ParseConstants.KEY_SENDER_NAME));
+			mContext.startActivity(intent);
+
+		}
+
+	};
 }
