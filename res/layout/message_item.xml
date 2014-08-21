@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:circular="http://schemas.android.com/apk/res/com.myteam.thisorthat"
     android:layout_height="wrap_content"
     android:background="#fff" >
 
@@ -138,12 +139,12 @@
 
                         <RelativeLayout
                             android:id="@+id/thisCircle"
-                            android:layout_width="60dp"
-                            android:layout_height="30dp"
+                            android:layout_width="40dp"
+                            android:layout_height="78dp"
                             android:layout_alignParentBottom="true"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentRight="true"
-                            android:layout_marginBottom="28dp"
+                            android:layout_marginBottom="40dp"
                             android:gravity="left" >
 
                             <TextView
@@ -154,9 +155,19 @@
                                 android:layout_marginLeft="10dp"
                                 android:gravity="center|left"
                                 android:text="21"
+                                android:visibility="invisible"
                                 android:textColor="#fff"
                                 android:textSize="25sp"
                                 android:textStyle="bold" />
+                                                    <com.lylc.widget.circularprogressbar.example.CircularProgressBar
+                            android:id="@+id/circlethisbar"
+                            style="@style/Widget.ProgressBar.Holo.CircularProgressBar"
+                            android:layout_width="60dip"
+                            android:layout_height="60dip"
+                            
+                           
+                            android:layout_alignParentLeft="true" />
+                            
                         </RelativeLayout>
 
                         <TextView
@@ -170,6 +181,8 @@
                             android:text="User"
                             android:textColor="#fff"
                             android:textSize="19sp" />
+
+
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -203,27 +216,34 @@
 
                         <RelativeLayout
                             android:id="@+id/thatCircle"
-                            android:layout_width="60dp"
-                            android:layout_height="30dp"
+                            android:layout_width="40dp"
+                            android:layout_height="80dp"
                             android:layout_alignParentBottom="true"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentRight="true"
-                            android:layout_marginBottom="28dp"
+                            android:layout_marginBottom="40dp"
                             android:gravity="right" >
 
                             <TextView
-                                android:id="@+id/thatVote"
+                                android:id="@+id/that_Votes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_alignParentTop="true"
                                 android:layout_marginRight="10dp"
                                 android:gravity="center|right"
                                 android:text="21"
+                                android:visibility="invisible"
                                 android:textColor="#fff"
                                 android:textSize="25sp"
                                 android:textStyle="bold" />
-                        </RelativeLayout>
 
+                            <com.lylc.widget.circularprogressbar.example.CircularProgressBar
+                                android:id="@+id/circlethatbar"
+                                style="@style/Widget.ProgressBar.Holo.CircularProgressBar"
+                                android:layout_width="60dip"
+                                android:layout_height="60dip" />
+
+                        </RelativeLayout>
                         <RelativeLayout
                             android:id="@+id/optionsMenu"
                             android:layout_width="match_parent"
@@ -285,6 +305,7 @@
                                 android:layout_toLeftOf="@+id/commentCount"
                                 android:src="@drawable/icon_comment_disabled" />
                         </RelativeLayout>
+
                     </RelativeLayout>
 
                     <TextView
