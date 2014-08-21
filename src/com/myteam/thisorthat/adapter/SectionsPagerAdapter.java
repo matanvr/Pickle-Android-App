@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.myteam.thisorthat.InboxFragment;
 import com.myteam.thisorthat.NewsfeedFragment;
+import com.myteam.thisorthat.PostsFragment;
 import com.myteam.thisorthat.R;
 
 /**

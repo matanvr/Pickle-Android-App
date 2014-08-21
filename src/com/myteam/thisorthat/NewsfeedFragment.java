@@ -116,6 +116,7 @@ public class NewsfeedFragment extends Fragment {
 				if (e == null) {
 					ParseQuery <ParseObject> postQ = new ParseQuery<ParseObject>(ParseConstants.CLASS_DILEMMA);
 					postQ.whereContainedIn(ParseConstants.KEY_OBJECT_ID, getPostIds(userVotes));
+					postQ.addDescendingOrder(ParseConstants.KEY_UPDATED_AT);
 					postQ.findInBackground(new FindCallback<ParseObject>() {
 						@Override
 						public void done(List<ParseObject> posts, ParseException e) {

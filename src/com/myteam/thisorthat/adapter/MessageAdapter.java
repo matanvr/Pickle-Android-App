@@ -26,6 +26,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.lylc.widget.circularprogressbar.example.CircularProgressBar;
+import com.lylc.widget.circularprogressbar.example.CircularProgressBar.ProgressAnimationListener;
 import com.myteam.thisorthat.CommentsActivity;
 import com.myteam.thisorthat.InboxFragment;
 import com.myteam.thisorthat.R;
@@ -48,7 +50,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 	private View mView;
 	private int mFeedType;
 	private ViewHolder mHolder;
-	private String mLastPostClicked;
+	private static String mLastPostClicked;
 	private Animation mVotesAnimation;
 	private int [] mColorArray;
 
@@ -82,7 +84,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mHolder.thisVot = (TextView) convertView
 					.findViewById(R.id.thisVote);
 			mHolder.thatVot = (TextView) convertView
-					.findViewById(R.id.thatVote);
+					.findViewById(R.id.that_Votes);
 			mHolder.ThatCaption = (TextView) convertView
 					.findViewById(R.id.thatLabel);
 			mHolder.ThisCaption = (TextView) convertView
@@ -99,7 +101,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					.findViewById(R.id.thatCircle);
 			mVotesAnimation  =  AnimationUtils.loadAnimation(mContext.getApplicationContext(),
 			                R.anim.bounce_in_bottom);
-
+			mHolder.mThisBar = (CircularProgressBar) convertView.findViewById(R.id.circlethisbar);
+			mHolder.mThatBar = (CircularProgressBar) convertView.findViewById(R.id.circlethatbar);
 			mColorArray = mContext.getResources().getIntArray(R.array.post_colors);    
 			mHolder.commentCounter = (TextView) convertView.findViewById(R.id.commentCount);
 			mHolder.mThisProgress = (ProgressBar) convertView.findViewById(R.id.this_progressBar);
@@ -157,15 +160,20 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		Integer commentCount = message.getInt(ParseConstants.KEY_COMMENTS);
 		mHolder.heartCounter.setText(followers.toString());
 		mHolder.commentCounter.setText(commentCount.toString());
-		mHolder.thisVot.setText(thisPercentage + "% (" + (message.getInt(ParseConstants.KEY_THIS_VOTES)+")"));
-		mHolder.thatVot.setText(thatPercentage + "% (" + (message.getInt(ParseConstants.KEY_THAT_VOTES) + ")"));
+		//mHolder.thisVot.setText(thisPercentage + "% (" + (message.getInt(ParseConstants.KEY_THIS_VOTES)+")"));
+		//mHolder.thatVot.setText(thatPercentage + "% (" + (message.getInt(ParseConstants.KEY_THAT_VOTES) + ")"));
 
 		int randColor =  mColorArray[message.getInt("color")];
+		mHolder.mThatBar.setTitleColor(randColor);
+		mHolder.mThatBar.setProgressColor(randColor);
+		mHolder.mThisBar.setTitleColor(randColor);
+		mHolder.mThisBar.setProgressColor(randColor);
+		
 		if (!mUserVotesMap.containsKey(postId)
 				|| mUserVotesMap.get(postId).getInt(
 						ParseConstants.KEY_USER_VOTE) == NO_SELECTION) {
-			mHolder.thisVoteDisplay.setVisibility(View.GONE);
-			mHolder.thatVoteDisplay.setVisibility(View.GONE);
+			mHolder.thisVoteDisplay.setVisibility(View.INVISIBLE);
+			mHolder.thatVoteDisplay.setVisibility(View.INVISIBLE);
 			// mHolder.extrasRow.setVisibility(View.GONE);
 			mHolder.ThisCaption.setBackgroundColor(0);
 			mHolder.ThatCaption.setBackgroundColor(0);
@@ -182,26 +190,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 
 		} else {
-			if(postId.equals(mLastPostClicked)){
-				mHolder.thisVot.startAnimation(mVotesAnimation);
-				mHolder.thatVot.startAnimation(mVotesAnimation);	
-			}
-			else{
-				mHolder.thatVot.setVisibility(View.VISIBLE);
-				mHolder.thisVot.setVisibility(View.VISIBLE);
-			}
-
 			mHolder.thisVoteDisplay.setVisibility(View.VISIBLE);
 			mHolder.thatVoteDisplay.setVisibility(View.VISIBLE);
-
-			Log.d(postId,
-					"user vote is: "
-							+ (mUserVotesMap.get(postId))
-									.getInt(ParseConstants.KEY_USER_VOTE)
-							+ "  " + mUserVotesMap.size());
-			// Drawable drawablePic = new
-			// BitmapDrawable(mContext.getResources(),CreateBlurredImage(50));
-			// mHolder.thisVoteDisplay.setBackground(drawablePic);
 			if ((mUserVotesMap.get(postId))
 					.getInt(ParseConstants.KEY_USER_VOTE) == THIS_IMAGE) {
 				mHolder.ThatCaption.setTextColor(Color.BLACK);
@@ -221,6 +211,24 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				mHolder.ThatCaption.setBackgroundColor(randColor);
 				mHolder.ThisCaption.setBackgroundColor(0);
 			}
+			
+			if(postId.equals(mLastPostClicked)){
+				Log.d(postId, "I CLICKED ON THIS ONE! " + thisPercentage + " " + thatPercentage);
+	
+				animatePercentages(thisPercentage,thatPercentage);
+				mHolder.mThisBar.setTitle(thisPercentage + "%");
+				mHolder.mThatBar.setTitle(thatPercentage + "%");
+				mLastPostClicked=null;
+			}
+			else{
+				
+				
+				mHolder.mThisBar.setProgress(thisPercentage);
+				mHolder.mThatBar.setProgress(thatPercentage);
+				mHolder.mThisBar.setTitle(thisPercentage + "%");
+				mHolder.mThatBar.setTitle(thatPercentage + "%");
+			}
+
 
 			if ((mUserVotesMap.get(postId))
 					.getInt(ParseConstants.KEY_IS_FOLLOWER) == 1) {
@@ -286,7 +294,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				ParseUser currentUser = ParseUser.getCurrentUser();
 				userId = currentUser.getObjectId();
 				userName = currentUser.getUsername();
-				String mLastPostClicked =message.getObjectId();
+				
 				// facebook users only
 				if (currentUser.get("profile") != null) {
 					JSONObject userProfile = currentUser.getJSONObject("profile");
@@ -355,7 +363,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					mContext.startActivity(intent);
 					
 				} else {
-
+					mLastPostClicked =message.getObjectId();
 					thisVotes = message.getInt(ParseConstants.KEY_THIS_VOTES);
 					thatVotes = message.getInt(ParseConstants.KEY_THAT_VOTES);
 					int oldVote = mUserVotesMap.containsKey(postId) ? (mUserVotesMap
@@ -483,6 +491,9 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		// TextView thatPercentage;
 		ImageView commentImage;
 		TextView commentCounter; 
+		CircularProgressBar mThisBar;
+		CircularProgressBar mThatBar;
+
 	}
 
 	public void toggleAnimation(TextView textView) {
@@ -494,6 +505,43 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				0f, 1f);
 		animation3.setDuration(2000);
 		animation3.start();
+	}
+	private void animatePercentages(int thisPercentage, int thatPercentage){
+		mHolder.mThisBar.setTitle(thisPercentage + "%");
+		mHolder.mThisBar.animateProgressTo(0, thisPercentage, new ProgressAnimationListener() {
+
+	        @Override
+	        public void onAnimationStart() {                
+	        }
+
+	        @Override
+	        public void onAnimationProgress(int progress) {
+	            mHolder.mThisBar.setTitle(progress + "%");
+	        }
+
+	        @Override
+	        public void onAnimationFinish() {
+	           
+	        }
+	    });
+		
+		mHolder.mThatBar.setTitle(thatPercentage + "%");
+		mHolder.mThatBar.animateProgressTo(0, thatPercentage, new ProgressAnimationListener() {
+
+	        @Override
+	        public void onAnimationStart() {                
+	        }
+
+	        @Override
+	        public void onAnimationProgress(int progress) {
+	           mHolder.mThatBar.setTitle(progress + "%");
+	        }
+
+	        @Override
+	        public void onAnimationFinish() {
+	           
+	        }
+	    });
 	}
 
 }

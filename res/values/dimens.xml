@@ -5,4 +5,10 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="message_list_item_vertical_margin">8dp</dimen>
    <dimen name="user_grid_spacing">8dp</dimen>
+   <dimen name ="p_height"> 295dp</dimen>
+   <dimen name ="p_width"> 170dp</dimen>
+   <dimen name ="mini_post_width"> 320dp</dimen>
+   <dimen name="mini_img_width"> 180dp</dimen>
+   <dimen name="mini_img_height"> 145dp</dimen>
+   
 </resources>

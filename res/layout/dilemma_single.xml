@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.devadvance.circulartest"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff" >
+
+    <RelativeLayout
+        android:id="@+id/parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
+
+        <TableLayout
+            android:id="@+id/tableParent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true" >
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#fff" >
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_top" >
+
+                    <View
+                        android:id="@+id/buttonDivider"
+                        android:layout_width="1dp"
+                        android:layout_height="fill_parent"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="#CBCDD3" />
+
+                    <TextView
+                        android:id="@+id/thisLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginRight="0dp"
+                        android:layout_toLeftOf="@id/buttonDivider"
+                        android:background="#00000000"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="THIS"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#000" />
+
+                    <TextView
+                        android:id="@+id/thatLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_toRightOf="@id/buttonDivider"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="THAT"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#000" />
+
+                    <View
+                        android:id="@+id/view1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="4dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_toRightOf="@+id/thisLabel"
+                        android:background="@drawable/button_custom"
+                        android:visibility="invisible" />
+
+                    <View
+                        android:id="@+id/view5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="4dp"
+                        android:layout_alignBottom="@+id/buttonDivider"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_toLeftOf="@+id/thatLabel"
+                        android:background="@drawable/button_custom"
+                        android:visibility="invisible" />
+                </RelativeLayout>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" >
+
+                    <RelativeLayout
+                        android:id="@+id/relativelayout"
+                        android:layout_width="@dimen/p_width"
+                        android:layout_height="@dimen/p_height"
+                        android:layout_alignParentLeft="true"
+                        android:alpha="1"
+                        android:background="@drawable/post_background" >
+
+                        <ImageView
+                            android:id="@+id/ThisPictureBlur"
+                            android:layout_width="@dimen/p_width"
+                            android:layout_height="@dimen/p_height" />
+
+                        <ImageView
+                            android:id="@+id/ThisPicture"
+                            android:layout_width="@dimen/p_width"
+                            android:layout_height="@dimen/p_height" />
+
+                        <RelativeLayout
+                            android:id="@+id/thisCircle"
+                            android:layout_width="60dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="left" >
+
+                            <TextView
+                                android:id="@+id/thisVote"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="21"
+                                android:visibility="invisible"
+                                android:textColor="#fff"
+                                android:textSize="25sp"
+                                android:textStyle="bold"
+                                />
+
+                        </RelativeLayout>
+
+                        <com.lylc.widget.circularprogressbar.example.CircularProgressBar
+                            android:id="@+id/circlethisbar"
+                            style="@style/Widget.ProgressBar.Holo.CircularProgressBar"
+                            android:layout_width="60dip"
+                            android:layout_height="60dip"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/relativelayout2"
+                        android:layout_width="@dimen/p_width"
+                        android:layout_height="@dimen/p_height"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/post_background" >
+
+                        <ImageView
+                            android:id="@+id/ThatPictureBlur"
+                            android:layout_width="@dimen/p_width"
+                            android:layout_height="@dimen/p_height"
+                            android:layout_alignParentRight="true" />
+
+                        <ImageView
+                            android:id="@+id/ThatPicture"
+                            android:layout_width="@dimen/p_width"
+                            android:layout_height="@dimen/p_height"
+                            android:layout_alignParentRight="true"
+                            android:background="#00ffffff" />
+
+                        <RelativeLayout
+                            android:id="@+id/thatCircle"
+                            android:layout_width="60dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="right" >
+
+                            <TextView
+                                android:id="@+id/that_Votes"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentTop="true"
+                                android:gravity="center"
+                                android:text="21"
+                                android:textColor="#fff"
+                                android:textSize="25sp"
+                                android:textStyle="bold"
+                                android:visibility="invisible" />
+                        </RelativeLayout>
+
+                        <com.lylc.widget.circularprogressbar.example.CircularProgressBar
+                            android:id="@+id/circlethatbar"
+                            style="@style/Widget.ProgressBar.Holo.CircularProgressBar"
+                            android:layout_width="60dip"
+                            android:layout_height="60dip"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentRight="true" />
+                        
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/Question"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="100dp"
+                        android:background="#5f000000"
+                        android:gravity="center"
+                        android:text="QUESTION HERE"
+                        android:textColor="#fff"
+                        android:textSize="26sp" />
+                </RelativeLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_weight="1"
+                android:background="#fff" >
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="55dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_bottom" >
+
+                    <ImageView
+                        android:id="@+id/imageView1"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="left"
+                        android:src="@drawable/test_user" />
+
+                    <TextView
+                        android:id="@+id/textName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/imageView1"
+                        android:layout_marginLeft="14dp"
+                        android:layout_toRightOf="@+id/imageView1"
+                        android:text="Hannah"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/textTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/textName"
+                        android:layout_below="@+id/textName"
+                        android:text="19 hours ago"
+                        android:textColor="#8F8F8F"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/s_heart" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/imageView2"
+                        android:layout_marginRight="14dp"
+                        android:layout_toLeftOf="@+id/imageView2"
+                        android:src="@drawable/s_more" />
+                </RelativeLayout>
+            </TableRow>
+        </TableLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

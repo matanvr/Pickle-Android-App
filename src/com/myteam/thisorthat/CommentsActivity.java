@@ -98,7 +98,7 @@ public class CommentsActivity extends Activity {
 		That = (ImageView) findViewById(R.id.ThatPicture);
 		From = (TextView) findViewById(R.id.FromLabelView);
 		thisVot = (TextView) findViewById(R.id.thisVote);
-		thatVot = (TextView) findViewById(R.id.thatVote);
+		thatVot = (TextView) findViewById(R.id.that_Votes);
 		ThatCaption = (TextView)findViewById(R.id.thatLabel);
 		
 		mPostItem = (LinearLayout) findViewById(R.id.message_it);
