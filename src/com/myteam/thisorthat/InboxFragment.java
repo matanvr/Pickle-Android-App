@@ -57,14 +57,7 @@ public class InboxFragment extends ListFragment {
 				ParseConstants.CLASS_DILEMMA);
 		// query.whereEqualTo(ParseConstants.KEY_RECIPIENT_IDS,
 		// ParseUser.getCurrentUser().getObjectId());
-		if(mFeed == FRIENDS){
-			query.whereContainedIn(ParseConstants.KEY_SENDER_ID, mFriends);
-		}
-		else if(mFeed == FAVORITES){
-			query.whereEqualTo(ParseConstants.KEY_IS_FOLLOWER, 1);
-			query.whereEqualTo(ParseConstants.KEY_USER_ID, ParseUser
-					.getCurrentUser().getObjectId());
-		}
+
 		query.addDescendingOrder(ParseConstants.KEY_CREATED_AT);
 		query.findInBackground(new FindCallback<ParseObject>() {
 			@Override
@@ -209,4 +202,6 @@ public class InboxFragment extends ListFragment {
 				}).executeAsync();
 	}
 */
+	
+	
 }

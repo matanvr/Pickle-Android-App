@@ -1,18 +1,10 @@
 package com.myteam.thisorthat.util;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.util.Log;
 
-import com.facebook.FacebookRequestError;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.model.GraphUser;
-import com.myteam.thisorthat.InboxFragment;
-import com.parse.ParseFacebookUtils;
-import com.parse.ParseUser;
+import com.parse.codec.binary.StringUtils;
+
+
 
 public final class ParseConstants {
 	// Class name
@@ -50,7 +42,18 @@ public final class ParseConstants {
 	public static final String KEY_COMMENT_ID = "commentId";
 	public static final String KEY_COMMENT_TEXT = "commentText";
 	
-	
-
+	public static String getUserPic(String userID) {
+	    String imageURL;
+	    if(!isNumeric(userID)){
+	    	return null;
+	    }
+	    imageURL = "https://graph.facebook.com/"+userID+"/picture?type=normal";
+	    Log.d("profile user", imageURL);
+	    return imageURL;
+	}
+	public static boolean isNumeric(String str)
+	{
+	    return str.matches("-?\\d+(.\\d+)?");
+	}
 	
 }
