@@ -173,8 +173,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         postItem.setSenderName(cursor.getString(3));
         postItem.setThisVotes(Integer.parseInt(cursor.getString(4)));
         postItem.setThatVotes(Integer.parseInt(cursor.getString(5)));
-        postItem.setThisImage(Uri.parse(cursor.getString(6)));
-        postItem.setThatImage(Uri.parse(cursor.getString(7)));
+        postItem.setThisImage(cursor.getString(6));
+        postItem.setThatImage(cursor.getString(7));
 
         postItem.setCreatedAt(new Date(cursor.getInt(8)));
         postItem.setThisCaption(cursor.getString(9));
@@ -216,8 +216,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 postItem.setSenderName(cursor.getString(3));
                 postItem.setThisVotes(Integer.parseInt(cursor.getString(4)));
                 postItem.setThatVotes(Integer.parseInt(cursor.getString(5)));
-                postItem.setThisImage(Uri.parse(cursor.getString(6)));
-                postItem.setThatImage(Uri.parse(cursor.getString(7)));
+                postItem.setThisImage(cursor.getString(6));
+                postItem.setThatImage(cursor.getString(7));
                 
                 postItem.setCreatedAt(new Date(cursor.getLong(8)));
                 postItem.setUpdatedAt(new Date(cursor.getLong(9)));

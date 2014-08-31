@@ -139,8 +139,10 @@ public class MainActivity extends FragmentActivity implements
 
 		mTitle = mDrawerTitle = getTitle();
 		
-
-		prepareFacebookUser();
+		if(ParseFacebookUtils.isLinked(currentUser))
+			prepareFacebookUser();
+		else
+			startTabs();
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
 

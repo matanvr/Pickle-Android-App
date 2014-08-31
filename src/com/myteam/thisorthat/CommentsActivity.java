@@ -92,7 +92,7 @@ public class CommentsActivity extends Activity {
 		userId = getIntent().getStringExtra("userId");
 		userName = getIntent().getStringExtra("userName");
 		
-		commentCounter = (TextView) findViewById(R.id.commentCount);
+		//commentCounter = (TextView) findViewById(R.id.commentCount);
 		comment = (TextView)findViewById(R.id.commentInputText);
 		This = (ImageView) findViewById(R.id.ThisPicture);
 		That = (ImageView) findViewById(R.id.ThatPicture);
@@ -105,8 +105,8 @@ public class CommentsActivity extends Activity {
 		commentListV = (ListView) findViewById(R.id.commentListView);
 		ThisCaption = (TextView) findViewById(R.id.thisLabel);
 		Question = (TextView) findViewById(R.id.Question);
-		heartButton = (ImageView) findViewById(R.id.heart_button_1);
-		heartCounter = (TextView) findViewById(R.id.heart_counter);
+	//	heartButton = (ImageView) findViewById(R.id.heart_button_1);
+		//heartCounter = (TextView) findViewById(R.id.heart_counter);
 	    thisVoteDisplay = (RelativeLayout) findViewById(R.id.thisCircle);
 	    thatVoteDisplay = (RelativeLayout) findViewById(R.id.thatCircle);
 		addComment = (Button)findViewById(R.id.addComment);
@@ -119,7 +119,7 @@ public class CommentsActivity extends Activity {
 		Typeface lightType = Typeface.createFromAsset(getAssets(),
 				"fonts/WhitneyCondensed-Light.otf");
 
-		ImageView commentImage = (ImageView) findViewById(R.id.comment_button_1);
+		//ImageView commentImage = (ImageView) findViewById(R.id.comment_button_1);
 		Question.setTypeface(postTypeface);
 		thisVot.setTypeface(myTypeface);
 		thatVot.setTypeface(myTypeface);

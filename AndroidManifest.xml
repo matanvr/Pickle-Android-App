@@ -1,5 +1,4 @@
-
-
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.myteam.thisorthat"
     android:versionCode="1"
@@ -9,38 +8,41 @@
         android:minSdkVersion="17"
         android:targetSdkVersion="19" />
 
-
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
 
-    
     <uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.WAKE_LOCK" />
-	<uses-permission android:name="android.permission.VIBRATE" />
-	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
-	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-	 <uses-permission android:name="android.permission.INTERNET"/>, <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
-	<!--
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+, 
+    <meta-data
+        android:name="com.facebook.sdk.ApplicationId"
+        android:value="@string/app_id" />
+    <!--
 	  IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
 	  to match your app's package name + ".permission.C2D_MESSAGE".
-	-->
-	<permission android:protectionLevel="signature"
-	    android:name="com.myteam.thisorthat.permission.C2D_MESSAGE" />
-	<uses-permission android:name="com.myteam.thisorthat.permission.C2D_MESSAGE" />
-	
+    -->
+    <permission
+        android:name="com.myteam.thisorthat.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.myteam.thisorthat.permission.C2D_MESSAGE" />
+
     <application
-        android:name="com.myteam.thisorthat.ThisOrThatApplication"
+        android:name=".ThisOrThatApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Theme" >
         <activity
-            android:name="com.myteam.thisorthat.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -50,92 +52,104 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.myteam.thisorthat.LoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.myteam.thisorthat.SignUpActivity"
+            android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up"
-            android:parentActivityName="com.myteam.thisorthat.LoginActivity"
+            android:parentActivityName=".LoginActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.myteam.thisorthat.FacebookRegistration"
+            android:name=".FacebookRegistration"
             android:label="@string/title_activity_sign_up"
-            android:parentActivityName="com.myteam.thisorthat.LoginActivity"
+            android:parentActivityName=".LoginActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.myteam.thisorthat.EditFriendsActivity"
+            android:name=".EditFriendsActivity"
             android:label="@string/title_activity_edit_friends"
-            android:parentActivityName="com.myteam.thisorthat.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.myteam.thisorthat.MainActivity" />
         </activity>
         <activity
-            android:name="com.myteam.thisorthat.NewPost"
-            android:label="@string/title_activity_new_post"
-            android:parentActivityName="com.myteam.thisorthat.MainActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:name=".NewPost"
             android:icon="@drawable/ic_exit"
-            android:screenOrientation="portrait" >
+            android:label="@string/title_activity_new_post"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.myteam.thisorthat.MainActivity" />
         </activity>
-        <activity android:name="com.myteam.thisorthat.AndroidCustomGalleryActivity"
+        <activity
+            android:name=".AndroidCustomGalleryActivity"
             android:label="@string/title_activity_android_custom_gallery"
-            android:screenOrientation="portrait"
-            android:parentActivityName="com.myteam.thisorthat.NewPost">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+            android:parentActivityName=".NewPost"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.myteam.thisorthat.NewPost" />
         </activity>
-      <activity android:name="eu.janmuller.android.simplecropimage.CropImage" />
-      <activity android:name="com.android.camera.CropImage"
-          		android:label="@string/title_activity_view_image"/>
-       <activity
-            android:name="com.myteam.thisorthat.GoogleImageActivity"
+        <activity android:name="eu.janmuller.android.simplecropimage.CropImage" />
+        <activity
+            android:name="com.android.camera.CropImage"
+            android:label="@string/title_activity_view_image" />
+        <activity
+            android:name=".GoogleImageActivity"
             android:label="@string/google_image_title"
-            android:screenOrientation="portrait" 
-            android:parentActivityName="com.myteam.thisorthat.NewPost">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+            android:parentActivityName=".NewPost"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.myteam.thisorthat.NewPost" />
         </activity>
-        
-       
-       <activity android:name="com.facebook.LoginActivity"/>
-       
-               <activity
-            android:name="com.myteam.thisorthat.CommentsActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:label="@string/title_activity_comments" android:parentActivityName="com.myteam.thisorthat.MainActivity">
+        <activity android:name="com.facebook.LoginActivity" />
+        <activity
+            android:name=".CommentsActivity"
+            android:label="@string/title_activity_comments"
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
-        
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+
         <service android:name="com.parse.PushService" />
-        
-        
-		<receiver android:name="com.parse.ParseBroadcastReceiver">
-		  <intent-filter>
-		    <action android:name="android.intent.action.BOOT_COMPLETED" />
-		    <action android:name="android.intent.action.USER_PRESENT" />
-		  </intent-filter>
-		</receiver>
-		<receiver android:name="com.parse.GcmBroadcastReceiver"
-		    android:permission="com.google.android.c2dm.permission.SEND">
-		  <intent-filter>
-		    <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-		    <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-		 
-		    <!--
-		      IMPORTANT: Change "com.parse.starter" to match your app's package name.
-		    -->
-		    <category android:name="com.myteam.thisorthat" />
-		  </intent-filter>
-		</receiver>
+
+        <receiver android:name="com.parse.ParseBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+<!-- 		      IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
+                <category android:name="com.myteam.thisorthat" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".VotesActivity"
+            android:label="@string/title_activity_votes"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.myteam.thisorthat.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,43 @@
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+<ScrollView 
+    android:layout_width="match_parent"
+    android:layout_height="520dp" >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <include
+                android:id="@+id/message_it"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                layout="@layout/message_item" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            >
+
+            <ListView
+                android:id="@+id/votesListView"
+                android:layout_width="0dp"
+                android:layout_height="240dp"
+                android:layout_weight="1" >
+            </ListView>
+        </TableRow>
+
+
+    </TableLayout>
+
+</ScrollView>
+</RelativeLayout>

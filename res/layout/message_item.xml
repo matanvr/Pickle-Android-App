@@ -144,7 +144,7 @@
                             android:layout_alignParentBottom="true"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentRight="true"
-                            android:layout_marginBottom="40dp"
+                            android:layout_marginBottom="30dp"
                             android:gravity="left" >
 
                             <TextView
@@ -221,7 +221,7 @@
                             android:layout_alignParentBottom="true"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentRight="true"
-                            android:layout_marginBottom="40dp"
+                            android:layout_marginBottom="30dp"
                             android:gravity="right" >
 
                             <TextView
@@ -252,58 +252,15 @@
                             android:layout_alignParentLeft="true"
                             android:layout_marginRight="5dp" >
 
-                            <TextView
-                                android:id="@+id/heart_counter"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="10dp"
-                                android:gravity="center"
-                                android:text="12"
-                                android:textColor="#fff"
-                                android:textSize="19sp"
-                                android:textStyle="bold" />
-
-                            <ImageView
-                                android:id="@+id/heart_button_1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginRight="10dp"
-                                android:layout_toLeftOf="@+id/heart_counter"
-                                android:src="@drawable/icon_heart_empty" />
-
-                            <TextView
-                                android:id="@+id/commentCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="10dp"
-                                android:layout_toLeftOf="@+id/heart_button_1"
-                                android:gravity="center"
-                                android:text="2"
-                                android:textColor="#fff"
-                                android:textSize="19sp"
-                                android:textStyle="bold" />
-
                             <ImageView
                                 android:id="@+id/moreOptions"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_alignBottom="@id/commentCount"
-                                android:layout_marginRight="20dp"
-                                android:layout_toLeftOf="@+id/comment_button_1"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="10dp"
                                 android:src="@drawable/icon_ellipse" />
 
-                            <ImageView
-                                android:id="@+id/comment_button_1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_alignTop="@+id/commentCount"
-                                android:layout_marginRight="10dp"
-                                android:layout_toLeftOf="@+id/commentCount"
-                                android:src="@drawable/icon_comment_disabled" />
                         </RelativeLayout>
 
                     </RelativeLayout>

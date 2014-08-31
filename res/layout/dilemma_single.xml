@@ -240,7 +240,7 @@
                     android:background="@drawable/rounded_bottom" >
 
                     <ImageView
-                        android:id="@+id/imageView1"
+                        android:id="@+id/thisThumb"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_centerVertical="true"
@@ -252,9 +252,9 @@
                         android:id="@+id/textName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/imageView1"
+                        android:layout_alignTop="@+id/thisThumb"
                         android:layout_marginLeft="14dp"
-                        android:layout_toRightOf="@+id/imageView1"
+                        android:layout_toRightOf="@+id/thisThumb"
                         android:text="Hannah"
                         android:textSize="16sp" />
 

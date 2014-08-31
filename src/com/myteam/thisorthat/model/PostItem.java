@@ -1,20 +1,19 @@
 package com.myteam.thisorthat.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import android.net.Uri;
 
-import com.parse.ParseFile;
-
-public class PostItem {
+public class PostItem implements Serializable{
 	private String mObjectId;
 	private int mThisVotes;
 	private int mThatVotes;
 	private String mQuestionText;
 	private String mSenderId;
 	private String mSenderName;
-	private Uri mThisImage;
-	private Uri mThatImage;
+	private String mThisImage;
+	private String mThatImage;
 	private Date mCreatedAt;
 	private String mThisCaption;
 	private String mThatCaption;
@@ -58,16 +57,16 @@ public class PostItem {
 	public void setSenderName(String senderName) {
 		mSenderName = senderName;
 	}
-	public Uri getThisImage() {
+	public String getThisImage() {
 		return mThisImage;
 	}
-	public void setThisImage(Uri thisImage) {
+	public void setThisImage(String thisImage) {
 		mThisImage = thisImage;
 	}
-	public Uri getThatImage() {
+	public String getThatImage() {
 		return mThatImage;
 	}
-	public void setThatImage(Uri thatImage) {
+	public void setThatImage(String thatImage) {
 		mThatImage = thatImage;
 	}
 	public Date getCreatedAt() {

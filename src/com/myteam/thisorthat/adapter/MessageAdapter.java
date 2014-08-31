@@ -26,12 +26,12 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.lylc.widget.circularprogressbar.example.CircularProgressBar;
 import com.lylc.widget.circularprogressbar.example.CircularProgressBar.ProgressAnimationListener;
-import com.myteam.thisorthat.CommentsActivity;
-import com.myteam.thisorthat.InboxFragment;
 import com.myteam.thisorthat.R;
-import com.myteam.thisorthat.R.drawable;
+import com.myteam.thisorthat.VotesActivity;
+import com.myteam.thisorthat.model.PostItem;
 import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -91,10 +91,10 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					.findViewById(R.id.thisLabel);
 			mHolder.Question = (TextView) convertView
 					.findViewById(R.id.Question);
-			mHolder.heartButton = (ImageView) convertView
-					.findViewById(R.id.heart_button_1);
-			mHolder.heartCounter = (TextView) convertView
-					.findViewById(R.id.heart_counter);
+			//mHolder.heartButton = (ImageView) convertView
+					//.findViewById(R.id.heart_button_1);
+			//mHolder.heartCounter = (TextView) convertView
+				//	.findViewById(R.id.heart_counter);
 			mHolder.thisVoteDisplay = (RelativeLayout) convertView
 					.findViewById(R.id.thisCircle);
 			mHolder.thatVoteDisplay = (RelativeLayout) convertView
@@ -104,7 +104,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mHolder.mThisBar = (CircularProgressBar) convertView.findViewById(R.id.circlethisbar);
 			mHolder.mThatBar = (CircularProgressBar) convertView.findViewById(R.id.circlethatbar);
 			mColorArray = mContext.getResources().getIntArray(R.array.post_colors);    
-			mHolder.commentCounter = (TextView) convertView.findViewById(R.id.commentCount);
+			//mHolder.commentCounter = (TextView) convertView.findViewById(R.id.commentCount);
 			mHolder.mThisProgress = (ProgressBar) convertView.findViewById(R.id.this_progressBar);
 			mHolder.mThatProgress = (ProgressBar) convertView.findViewById(R.id.that_progressBar);
 			// mHolder.thatPercentage = (TextView)
@@ -119,8 +119,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					mContext.getAssets(), "fonts/WhitneyCondensed-Light.otf");
 			Typeface lightType = Typeface.createFromAsset(mContext.getAssets(),
 					"fonts/WhitneyCondensed-Medium.otf");
-			mHolder.commentImage = (ImageView) convertView
-					.findViewById(R.id.comment_button_1);
+			/*mHolder.commentImage = (ImageView) convertView
+					.findViewById(R.id.comment_button_1);*/
 			;
 			mHolder.Question.setTypeface(postTypeface);
 			mHolder.thisVot.setTypeface(postTypeface);
@@ -128,8 +128,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mHolder.ThisCaption.setTypeface(myTypeface);
 			mHolder.ThatCaption.setTypeface(myTypeface);
 			mHolder.From.setTypeface(myLightType);
-			mHolder.heartCounter.setTypeface(lightType);
-			mHolder.commentCounter.setTypeface(lightType);
+			//mHolder.heartCounter.setTypeface(lightType);
+			//mHolder.commentCounter.setTypeface(lightType);
 			
 			convertView.setTag(mHolder);
 
@@ -142,139 +142,6 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 	}
 
 	private void displayPost(int position) {
-		ParseObject message = mMessages.get(position);
-		String postId = message.getObjectId();
-		mHolder.From.setText((message.getString("senderName")));
-		mHolder.Question.setText((message.getString("questionText")));
-
-		toggleAnimation(mHolder.Question);
-		Integer thisVotes = (message.getInt(ParseConstants.KEY_THIS_VOTES));
-		Integer thatVotes = (message.getInt(ParseConstants.KEY_THAT_VOTES));
-		int totalVotes = thisVotes + thatVotes;
-		if (totalVotes == 0){
-			totalVotes = 1;
-		}
-		int thisPercentage = (thisVotes*100)/(totalVotes);
-		int thatPercentage = (thatVotes*100)/(totalVotes);
-		Integer followers = message.getInt(ParseConstants.KEY_FOLLOWERS);
-		Integer commentCount = message.getInt(ParseConstants.KEY_COMMENTS);
-		mHolder.heartCounter.setText(followers.toString());
-		mHolder.commentCounter.setText(commentCount.toString());
-		//mHolder.thisVot.setText(thisPercentage + "% (" + (message.getInt(ParseConstants.KEY_THIS_VOTES)+")"));
-		//mHolder.thatVot.setText(thatPercentage + "% (" + (message.getInt(ParseConstants.KEY_THAT_VOTES) + ")"));
-
-		int randColor =  mColorArray[message.getInt("color")];
-		mHolder.mThatBar.setTitleColor(randColor);
-		mHolder.mThatBar.setProgressColor(randColor);
-		mHolder.mThisBar.setTitleColor(randColor);
-		mHolder.mThisBar.setProgressColor(randColor);
-		
-		if (!mUserVotesMap.containsKey(postId)
-				|| mUserVotesMap.get(postId).getInt(
-						ParseConstants.KEY_USER_VOTE) == NO_SELECTION) {
-			mHolder.thisVoteDisplay.setVisibility(View.INVISIBLE);
-			mHolder.thatVoteDisplay.setVisibility(View.INVISIBLE);
-			// mHolder.extrasRow.setVisibility(View.GONE);
-			mHolder.ThisCaption.setBackgroundColor(0);
-			mHolder.ThatCaption.setBackgroundColor(0);
-			if ((mUserVotesMap.get(postId) != null) && mUserVotesMap.get(postId)
-					.getInt(ParseConstants.KEY_IS_FOLLOWER) == 1) {
-				mHolder.heartButton.setImageResource(drawable.ic_heart_liked);
-			} else {
-				mHolder.heartButton.setImageResource(drawable.icon_heart_empty);
-			}
-			
-			mHolder.ThisCaption.setTextColor(Color.BLACK);
-			mHolder.ThatCaption.setTextColor(Color.BLACK);
-			mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-			mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-
-		} else {
-			mHolder.thisVoteDisplay.setVisibility(View.VISIBLE);
-			mHolder.thatVoteDisplay.setVisibility(View.VISIBLE);
-			if ((mUserVotesMap.get(postId))
-					.getInt(ParseConstants.KEY_USER_VOTE) == THIS_IMAGE) {
-				mHolder.ThatCaption.setTextColor(Color.BLACK);
-				mHolder.ThisCaption.setTextColor(Color.WHITE);
-				mHolder.ThatCaption.setBackgroundColor(0);
-				mHolder.ThisCaption.setBackgroundColor(randColor);
-				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
-				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-			} else {
-
-				mHolder.ThatCaption.setTextColor(Color.WHITE);
-				mHolder.ThisCaption.setTextColor(Color.BLACK);
-				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
-				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-
-				//set color randomly
-				mHolder.ThatCaption.setBackgroundColor(randColor);
-				mHolder.ThisCaption.setBackgroundColor(0);
-			}
-			
-			if(postId.equals(mLastPostClicked)){
-				Log.d(postId, "I CLICKED ON THIS ONE! " + thisPercentage + " " + thatPercentage);
-	
-				animatePercentages(thisPercentage,thatPercentage);
-				mHolder.mThisBar.setTitle(thisPercentage + "%");
-				mHolder.mThatBar.setTitle(thatPercentage + "%");
-				mLastPostClicked=null;
-			}
-			else{
-				
-				
-				mHolder.mThisBar.setProgress(thisPercentage);
-				mHolder.mThatBar.setProgress(thatPercentage);
-				mHolder.mThisBar.setTitle(thisPercentage + "%");
-				mHolder.mThatBar.setTitle(thatPercentage + "%");
-			}
-
-
-			if ((mUserVotesMap.get(postId))
-					.getInt(ParseConstants.KEY_IS_FOLLOWER) == 1) {
-				mHolder.heartButton.setImageResource(drawable.ic_heart_liked);
-			} else {
-				mHolder.heartButton.setImageResource(drawable.icon_heart_empty);
-			}
-
-		}
-
-		mHolder.ThisCaption.setText(""
-				+ message.getString(ParseConstants.KEY_THIS_CAPTION));
-		mHolder.ThatCaption.setText(""
-				+ message.getString(ParseConstants.KEY_THAT_CAPTION));
-		
-		Uri thisUri;
-		Uri thatUri;
-		if(message.getString("thisUri") == null){
-			ParseFile This = message.getParseFile("this");
-			thisUri = Uri.parse(This.getUrl());
-			message.put("thisUri", thisUri.toString());
-			message.saveInBackground();
-		}
-		if(message.getString("thatUri") == null){
-			ParseFile That = message.getParseFile("that");
-			thatUri = Uri.parse(That.getUrl());
-			message.put("thatUri", thatUri.toString());
-			message.saveInBackground();
-		}
-		thisUri = Uri.parse(message.getString("thisUri"));
-		thatUri = Uri.parse(message.getString("thatUri"));
-		/*
-
-		ParseFile This = message.getParseFile("this");
-		ParseFile That = message.getParseFile("that");
-		Uri thisUri = Uri.parse(This.getUrl());
-		Uri thatUri = Uri.parse(That.getUrl());*/
-		
-		String uri = message.get(ParseConstants.KEY_FILE_THIS).toString();
-		mHolder.mThisProgress.setVisibility(View.VISIBLE);
-		Picasso.with(mContext).load(thisUri.toString()).resize(480, 853)
-				.centerCrop().into(mHolder.This);
-		mHolder.mThatProgress.setVisibility(View.VISIBLE);
-		Picasso.with(mContext).load(thatUri.toString()).resize(480, 853)
-				.centerCrop().into(mHolder.That);
-	 
 		ThisThatOnClickListener onClickListener = new ThisThatOnClickListener(
 				position) {
 			public String userId;
@@ -312,6 +179,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					}
 				}
 				postId = message.getObjectId();
+				/*
 				if (mView.getId() == R.id.heart_button_1) {
 					ParseObject curr; 
 					if(mUserVotesMap.get(postId) == null){
@@ -362,7 +230,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					intent.putExtra("userName", userName);
 					mContext.startActivity(intent);
 					
-				} else {
+				} 
+				else {*/
 					mLastPostClicked =message.getObjectId();
 					thisVotes = message.getInt(ParseConstants.KEY_THIS_VOTES);
 					thatVotes = message.getInt(ParseConstants.KEY_THAT_VOTES);
@@ -372,12 +241,55 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					int newVote = (mView.getId() == R.id.ThisPicture || mView
 							.getId() == R.id.thisLabel) ? THIS_IMAGE
 							: THAT_IMAGE;
-					updateVoteCounts(userId, postId, oldVote, newVote,
-							mMessages.get(position));
-				}
+					//Log.d(postId, "Old vote is" + oldVote);
+					/*updateVoteCounts(userId, postId, oldVote, newVote,
+							mMessages.get(position));*/
+					if(oldVote != NO_SELECTION){
+						//launch new activity
+						Intent intent = new Intent(mContext, VotesActivity.class);
+						PostItem item = new PostItem();
+						item.setSenderName((message.getString(ParseConstants.KEY_SENDER_NAME)));
+						item.setSenderId((message.getString(ParseConstants.KEY_SENDER_ID)));
+						
+						item.setObjectId(postId);
+						item.setThisCaption(message.getString(ParseConstants.KEY_THIS_CAPTION));
+						item.setThatCaption(message.getString(ParseConstants.KEY_THAT_CAPTION));
+						item.setThisVotes(message.getInt(ParseConstants.KEY_THIS_VOTES));
+						item.setThatVotes(message.getInt(ParseConstants.KEY_THAT_VOTES));
+						item.setQuestionText(message.getString(ParseConstants.KEY_QUESTION_TEXT));
+						item.setThisImage(message.getString("thisUri"));
+						item.setThatImage(message.getString("thatUri"));
+						item.setColor(mColorArray[message.getInt("color")]);
+						//String jsonPost = new Gson().toJson(item);
+						//Log.d("HI", jsonPost);
+						intent.putExtra(ParseConstants.KEY_USER_VOTE, mUserVotesMap.get(postId).getInt(ParseConstants.KEY_USER_VOTE));
+						intent.putExtra("postItem", item);
+///						intent.putExtra("thisUri", Uri.parse(message.getString("thisUri"));
+//						intent.putExtra("thatUri", Uri.parse(message.getString("thatUri"));
+						
+						/*
+						intent.putExtra("postId", postId);
+						intent.putExtra("userId", userId);
+						intent.putExtra("userName", userName);
+						intent.putExtra(ParseConstants.KEY_USER_VOTE, mUserVotesMap.get(postId).getInt(ParseConstants.KEY_USER_VOTE));
+						intent.putExtra(ParseConstants.KEY_THIS_CAPTION, message.getString(ParseConstants.KEY_THIS_CAPTION));
+						intent.putExtra(ParseConstants.KEY_THAT_CAPTION, message.getString(ParseConstants.KEY_THAT_CAPTION));
+						intent.putExtra(ParseConstants.KEY_QUESTION_TEXT, message.getString(ParseConstants.KEY_QUESTION_TEXT));
+						intent.putExtra("thisUri", message.getString("thisUri"));
+						intent.putExtra("thatUri", message.getString("thisUri"));
+						intent.putExtra(("senderName"), message.getString("senderName"));*/
+						
+						mContext.startActivity(intent);
+					}
+					else{
+						
+					updateVoteAtomically(userId,postId,oldVote,newVote, userName, mMessages.get(position));
+					
+					}
+				
 
 			}
-
+/*
 			public void updateVoteCounts(String userId, String postId,
 					int oldVote, int newVote, ParseObject message) {
 				if (oldVote == NO_SELECTION) {
@@ -442,13 +354,185 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				// update message object
 
 			}
+			*/
+			public void updateVoteAtomically(String userId, String postId,
+					int oldVote, int vote, String username, ParseObject message){
+				
+				if (vote == THIS_IMAGE) {
+					thisVotes++;
+					message.increment(ParseConstants.KEY_THIS_VOTES, 1);
+
+				} else {
+					thatVotes++;
+					message.increment(ParseConstants.KEY_THAT_VOTES, 1);
+
+				}
+				message.saveInBackground();
+				
+				ParseObject parseObject = null;
+				parseObject = mUserVotesMap.get(postId);
+
+				if (parseObject == null) {
+					parseObject = new ParseObject(
+							ParseConstants.CLASS_USER_VOTE);
+					parseObject.put(ParseConstants.KEY_USER_ID, userId);
+					parseObject.put(ParseConstants.KEY_USERNAME, username);
+					parseObject.put(ParseConstants.KEY_POST_ID, postId);
+				}
+				parseObject.put(ParseConstants.KEY_USER_VOTE, vote);
+				parseObject.saveInBackground();
+				mLastPostClicked = postId;
+				mUserVotesMap.put(postId, parseObject);
+				notifyDataSetChanged();
+
+			}
 		};
+		
+		
+		
+		
+		ParseObject message = mMessages.get(position);
+		String postId = message.getObjectId();
+		mHolder.From.setText((message.getString("senderName")));
+		mHolder.Question.setText((message.getString("questionText")));
+
+		toggleAnimation(mHolder.Question);
+		Integer thisVotes = (message.getInt(ParseConstants.KEY_THIS_VOTES));
+		Integer thatVotes = (message.getInt(ParseConstants.KEY_THAT_VOTES));
+		int totalVotes = thisVotes + thatVotes;
+		if (totalVotes == 0){
+			totalVotes = 1;
+		}
+		int thisPercentage = (thisVotes*100)/(totalVotes);
+		int thatPercentage = (thatVotes*100)/(totalVotes);
+		Integer followers = message.getInt(ParseConstants.KEY_FOLLOWERS);
+		Integer commentCount = message.getInt(ParseConstants.KEY_COMMENTS);
+	//	mHolder.heartCounter.setText(followers.toString());
+	//	mHolder.commentCounter.setText(commentCount.toString());
+		//mHolder.thisVot.setText(thisPercentage + "% (" + (message.getInt(ParseConstants.KEY_THIS_VOTES)+")"));
+		//mHolder.thatVot.setText(thatPercentage + "% (" + (message.getInt(ParseConstants.KEY_THAT_VOTES) + ")"));
+
+		int randColor =  mColorArray[message.getInt("color")];
+		mHolder.mThatBar.setTitleColor(Color.WHITE);
+		mHolder.mThatBar.setProgressColor(Color.WHITE);
+		mHolder.mThisBar.setTitleColor(Color.WHITE);
+		mHolder.mThisBar.setProgressColor(Color.WHITE);
+		
+		if (!mUserVotesMap.containsKey(postId)
+				|| mUserVotesMap.get(postId).getInt(
+						ParseConstants.KEY_USER_VOTE) == NO_SELECTION) {
+			mHolder.thisVoteDisplay.setVisibility(View.INVISIBLE);
+			mHolder.thatVoteDisplay.setVisibility(View.INVISIBLE);
+			// mHolder.extrasRow.setVisibility(View.GONE);
+			mHolder.ThisCaption.setBackgroundColor(0);
+			mHolder.ThatCaption.setBackgroundColor(0);
+			/*
+			if ((mUserVotesMap.get(postId) != null) && mUserVotesMap.get(postId)
+					.getInt(ParseConstants.KEY_IS_FOLLOWER) == 1) {
+				mHolder.heartButton.setImageResource(drawable.ic_heart_liked);
+			} else {
+				mHolder.heartButton.setImageResource(drawable.icon_heart_empty);
+			}*/
+			
+			mHolder.ThisCaption.setTextColor(Color.BLACK);
+			mHolder.ThatCaption.setTextColor(Color.BLACK);
+			mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+			mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+
+
+		} else {
+			mHolder.thisVoteDisplay.setVisibility(View.VISIBLE);
+			mHolder.thatVoteDisplay.setVisibility(View.VISIBLE);
+			if ((mUserVotesMap.get(postId))
+					.getInt(ParseConstants.KEY_USER_VOTE) == THIS_IMAGE) {
+				mHolder.ThatCaption.setTextColor(Color.BLACK);
+				mHolder.ThisCaption.setTextColor(Color.WHITE);
+				mHolder.ThatCaption.setBackgroundColor(0);
+				mHolder.ThisCaption.setBackgroundColor(randColor);
+				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
+				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+			} else {
+
+				mHolder.ThatCaption.setTextColor(Color.WHITE);
+				mHolder.ThisCaption.setTextColor(Color.BLACK);
+				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
+				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+
+				//set color randomly
+				mHolder.ThatCaption.setBackgroundColor(randColor);
+				mHolder.ThisCaption.setBackgroundColor(0);
+			}
+			
+			if(postId.equals(mLastPostClicked)){
+				
+	
+				animatePercentages(thisPercentage,thatPercentage);
+				mHolder.mThisBar.setTitle(thisPercentage + "%");
+				mHolder.mThatBar.setTitle(thatPercentage + "%");
+				mLastPostClicked=null;
+			}
+			else{
+				
+				
+				mHolder.mThisBar.setProgress(thisPercentage);
+				mHolder.mThatBar.setProgress(thatPercentage);
+				mHolder.mThisBar.setTitle(thisPercentage + "%");
+				mHolder.mThatBar.setTitle(thatPercentage + "%");
+			}
+
+/*
+			if ((mUserVotesMap.get(postId))
+					.getInt(ParseConstants.KEY_IS_FOLLOWER) == 1) {
+				mHolder.heartButton.setImageResource(drawable.ic_heart_liked);
+			} else {
+				mHolder.heartButton.setImageResource(drawable.icon_heart_empty);
+			}
+*/
+		}
+
+		mHolder.ThisCaption.setText(""
+				+ message.getString(ParseConstants.KEY_THIS_CAPTION));
+		mHolder.ThatCaption.setText(""
+				+ message.getString(ParseConstants.KEY_THAT_CAPTION));
+		
+		Uri thisUri;
+		Uri thatUri;
+		if(message.getString("thisUri") == null){
+			ParseFile This = message.getParseFile("this");
+			thisUri = Uri.parse(This.getUrl());
+			message.put("thisUri", thisUri.toString());
+			message.saveInBackground();
+		}
+		if(message.getString("thatUri") == null){
+			ParseFile That = message.getParseFile("that");
+			thatUri = Uri.parse(That.getUrl());
+			message.put("thatUri", thatUri.toString());
+			message.saveInBackground();
+		}
+		thisUri = Uri.parse(message.getString("thisUri"));
+		thatUri = Uri.parse(message.getString("thatUri"));
+		/*
+
+		ParseFile This = message.getParseFile("this");
+		ParseFile That = message.getParseFile("that");
+		Uri thisUri = Uri.parse(This.getUrl());
+		Uri thatUri = Uri.parse(That.getUrl());*/
+		
+		String uri = message.get(ParseConstants.KEY_FILE_THIS).toString();
+		mHolder.mThisProgress.setVisibility(View.VISIBLE);
+		Picasso.with(mContext).load(thisUri.toString()).resize(480, 853)
+				.centerCrop().into(mHolder.This);
+		mHolder.mThatProgress.setVisibility(View.VISIBLE);
+		Picasso.with(mContext).load(thatUri.toString()).resize(480, 853)
+				.centerCrop().into(mHolder.That);
+	 
 		mHolder.This.setOnClickListener(onClickListener);
 		mHolder.That.setOnClickListener(onClickListener);
 		mHolder.ThisCaption.setOnClickListener(onClickListener);
 		mHolder.ThatCaption.setOnClickListener(onClickListener);
-		mHolder.heartButton.setOnClickListener(onClickListener);
-		mHolder.commentImage.setOnClickListener(onClickListener);
+
+		//mHolder.heartButton.setOnClickListener(onClickListener);
+		//mHolder.commentImage.setOnClickListener(onClickListener);
 	}
 
 	public class ThisThatOnClickListener implements OnClickListener {

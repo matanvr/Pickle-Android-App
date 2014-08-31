@@ -47,5 +47,6 @@ public class BlurTransform implements Transformation {
  
         return blurredBitmap;
     }
+    
  
 }
