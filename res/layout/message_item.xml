@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/post_layout"
     xmlns:circular="http://schemas.android.com/apk/res/com.myteam.thisorthat"
     android:layout_height="wrap_content"
     android:background="#fff" >
@@ -8,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner"
         android:layout_marginTop="2dp" >
 
         <TableLayout
@@ -51,7 +53,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_marginRight="0dp"
                         android:layout_toLeftOf="@id/buttonDivider"
-                        android:background="#00000000"
+                        android:background="#fff"
                         android:ellipsize="end"
                         android:gravity="center"
                         android:singleLine="true"
@@ -65,7 +67,7 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:layout_toRightOf="@id/buttonDivider"
-                        android:background="#00000000"
+                        android:background="#fff"
                         android:ellipsize="end"
                         android:gravity="center"
                         android:singleLine="true"

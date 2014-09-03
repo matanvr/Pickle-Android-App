@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -20,7 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,12 +28,16 @@ import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
+import com.myteam.thisorthat.R.drawable;
 import com.myteam.thisorthat.adapter.NavDrawerListAdapter;
 import com.myteam.thisorthat.adapter.SectionsPagerAdapter;
 import com.myteam.thisorthat.model.NavDrawerItem;
+import com.myteam.thisorthat.util.CircularTransformation;
+import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.ParseAnalytics;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -77,6 +80,7 @@ public class MainActivity extends FragmentActivity implements
 	private ActionBarDrawerToggle mDrawerToggle;
 	private ActionBar mActionBar;
 	private TextView mTitleHome;
+	private ParseUser currentUser;
 	// nav drawer title
 	private CharSequence mDrawerTitle;
 
@@ -126,7 +130,7 @@ public class MainActivity extends FragmentActivity implements
 
 		ParseAnalytics.trackAppOpened(getIntent());
 
-		ParseUser currentUser = ParseUser.getCurrentUser();
+		currentUser = ParseUser.getCurrentUser();
 
 		if (currentUser == null) {
 			navigateToLogin();
@@ -269,6 +273,16 @@ public class MainActivity extends FragmentActivity implements
 			mActionBar.setIcon(R.drawable.pulse);
 		} else if (position == 0) {
 			mActionBar.setCustomView(R.layout.actionbar_custom_view_feed);
+			ImageView mIconMiddle = (ImageView) findViewById(R.id.pulseButton);
+			
+			
+			String id = ParseConstants.getUserPic(getUserId());
+			if(id == null){
+				Picasso.with(this).load(drawable.defaultuser).transform(new CircularTransformation()).into(mIconMiddle);
+			}else{
+				Picasso.with(this).load(id).transform(new CircularTransformation()).into(mIconMiddle);
+			}
+			
 			mMenu.getItem(0).setVisible(false);
 			mMenu.getItem(1).setVisible(true);
 			mActionBar.setIcon(R.drawable.ic_settings);
@@ -321,6 +335,7 @@ public class MainActivity extends FragmentActivity implements
 		// When the given tab is selected, switch to the corresponding page in
 		// the ViewPager.
 
+
 	}
 
 	@Override
@@ -332,6 +347,23 @@ public class MainActivity extends FragmentActivity implements
 	public void setTitle(CharSequence title) {
 		mTitle = title;
 		getActionBar().setTitle(mTitle);
+	}
+	private String getUserId(){
+		String userId = currentUser.getObjectId();
+
+		if (currentUser.get("profile") != null) {
+			JSONObject userProfile = currentUser.getJSONObject("profile");
+			try {
+				if (userProfile.getString("facebookId") != null) {
+					userId = userProfile.get("facebookId").toString();
+				}
+
+
+			} catch (JSONException er) {
+
+			}
+		}
+		return userId;
 	}
 
 }

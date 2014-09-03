@@ -11,8 +11,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -20,10 +21,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lylc.widget.circularprogressbar.example.CircularProgressBar;
+import com.myteam.thisorthat.adapter.CustomListAdapter;
 import com.myteam.thisorthat.adapter.VotesDisplayAdapter;
 import com.myteam.thisorthat.model.PostItem;
 import com.myteam.thisorthat.model.UserBubbleRow;
 import com.myteam.thisorthat.util.ParseConstants;
+import com.nirhart.parallaxscroll.views.ParallaxListView;
 import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -32,27 +35,29 @@ import com.squareup.picasso.Picasso;
 public class VotesActivity extends Activity {
 
 	int mUserVote;
-	PostItem mPost;
+	private PostItem mPost;
 	
-	String postId;
-	String userId;
-	String userName;
+	private String postId;
+	private String userId;
+	private String userName;
 	
-	ImageView This;
-	ImageView That;
-	TextView From;
-	TextView thisVot;
-	TextView thatVot;
-	TextView ThatCaption;
+	private ImageView This;
+	private ImageView That;
+	private TextView From;
+	private TextView thisVot;
+	private TextView thatVot;
+	private TextView ThatCaption;
 	
-	TextView ThisCaption ;
-	TextView Question ;
-	RelativeLayout thisVoteDisplay;
-	RelativeLayout thatVoteDisplay;
-	LinearLayout mPostItem;
-	CircularProgressBar mThisBar;
-	CircularProgressBar mThatBar;
-	ListView mVotesDisplay; 
+	
+	private ParallaxListView listView;
+	private TextView ThisCaption ;
+	private TextView Question ;
+	private RelativeLayout thisVoteDisplay;
+	private RelativeLayout thatVoteDisplay;
+	private LinearLayout mPostItem;
+	private CircularProgressBar mThisBar;
+	private CircularProgressBar mThatBar;
+	private ListView mVotesDisplay; 
 	private static final int THIS_VOTE = 1;
 	private static final int THAT_VOTE = 2;
 	
@@ -63,8 +68,22 @@ public class VotesActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_votes);
+		
+		listView = (ParallaxListView) findViewById(R.id.list_view);
+
+		CustomListAdapter adapter = new CustomListAdapter(LayoutInflater.from(this));
+
+        View view = LayoutInflater.from(this).inflate(
+                R.layout.message_item, null);
+
+		listView.addParallaxedHeaderView(view);
+
 		ActionBar actionBar = getActionBar();
-		actionBar.hide();
+	
+		actionBar.setDisplayHomeAsUpEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setIcon(R.drawable.close_post);
+		
 		This = (ImageView) findViewById(R.id.ThisPicture);
 		That = (ImageView) findViewById(R.id.ThatPicture);
 		From = (TextView) findViewById(R.id.FromLabelView);
@@ -74,7 +93,6 @@ public class VotesActivity extends Activity {
 		mThisBar = (CircularProgressBar) findViewById(R.id.circlethisbar);
 		mThatBar = (CircularProgressBar) findViewById(R.id.circlethatbar);
 		mPostItem = (LinearLayout) findViewById(R.id.message_it);
-		mVotesDisplay = (ListView) findViewById(R.id.votesListView);
 		ThisCaption = (TextView) findViewById(R.id.thisLabel);
 		Question = (TextView) findViewById(R.id.Question);
 	    thisVoteDisplay = (RelativeLayout) findViewById(R.id.thisCircle);
@@ -97,7 +115,6 @@ public class VotesActivity extends Activity {
 		From.setTypeface(lightType);
 		
 		Intent intent = getIntent();
-		//mPost = new Gson().fromJson(intent.getStringExtra("postObject"), PostItem.class);
 		mPost = (PostItem) intent.getExtras().getSerializable("postItem");
 		mUserVote = intent.getExtras().getInt(ParseConstants.KEY_USER_VOTE);
 		postId = mPost.getObjectId();
@@ -129,7 +146,7 @@ public class VotesActivity extends Activity {
 		if(mUserVote == 1){
 			ThatCaption.setTextColor(Color.BLACK);
 			ThisCaption.setTextColor(Color.WHITE);
-			ThatCaption.setBackgroundColor(0);
+			ThatCaption.setBackgroundColor(Color.WHITE);
 			ThisCaption.setBackgroundColor(postColor);
 			ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
 			ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
@@ -137,7 +154,7 @@ public class VotesActivity extends Activity {
 		else{
 			ThisCaption.setTextColor(Color.BLACK);
 			ThatCaption.setTextColor(Color.WHITE);
-			ThisCaption.setBackgroundColor(0);
+			ThisCaption.setBackgroundColor(Color.WHITE);
 			ThatCaption.setBackgroundColor(postColor);
 			ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
 			ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
@@ -149,26 +166,19 @@ public class VotesActivity extends Activity {
 		
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.votes, menu);
-		return true;
-	}
-
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
+		if (id == android.R.id.home) {
+			finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	private void showVotes(){
 		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseConstants.CLASS_USER_VOTE);
-		query.whereEqualTo("postid", postId);
+		//query.whereEqualTo("postid", postId);
 
 		
 		query.findInBackground(new FindCallback<ParseObject>() {
@@ -202,7 +212,9 @@ public class VotesActivity extends Activity {
 			VotesDisplayAdapter adapter = new VotesDisplayAdapter(rowDisplay,
 					VotesActivity.this);
 			
-			mVotesDisplay.setAdapter(adapter);
+			listView.setAdapter(adapter);
+			
+			
 
 				
 			}

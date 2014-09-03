@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 import com.lylc.widget.circularprogressbar.example.CircularProgressBar;
 import com.myteam.thisorthat.CommentsActivity;
 import com.myteam.thisorthat.R;
+import com.myteam.thisorthat.VotesActivity;
+import com.myteam.thisorthat.model.PostItem;
 import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.ParseObject;
 import com.squareup.picasso.Picasso;
@@ -48,7 +51,7 @@ public class NewsfeedGridAdapter extends ArrayAdapter<ParseObject> {
 		mContext = context;
 		mPosts = posts;
 	}
-	
+	private int [] mColorArray;
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View row = convertView;
@@ -62,8 +65,7 @@ public class NewsfeedGridAdapter extends ArrayAdapter<ParseObject> {
 			holder.thisImage = (ImageView) row.findViewById(R.id.this_pic_min);
 			holder.thatImage = (ImageView) row.findViewById(R.id.that_pic_min);
 			holder.question = (TextView) row.findViewById(R.id.question_mini_t);
-			//holder.thisVotes = (TextView) row.findViewById(R.id.this_votes_min);
-			//holder.thatVotes = (TextView) row.findViewById(R.id.that_votes_min);
+
 			holder.thisBar = (CircularProgressBar) row.findViewById(R.id.circle_this);
 			holder.thatBar = (CircularProgressBar) row.findViewById(R.id.circle_that);
 			holder.thisCaption = (TextView) row.findViewById(R.id.this_mini_caption);
@@ -80,7 +82,7 @@ public class NewsfeedGridAdapter extends ArrayAdapter<ParseObject> {
 		Typeface myTypeface = Typeface.createFromAsset(
 				mContext.getAssets(), "fonts/WhitneyCondensed-Book.otf");
 		
-
+		mColorArray = mContext.getResources().getIntArray(R.array.post_colors);    
 		
 		Picasso.with(mContext).load(Uri.parse(item.getString("thisUri"))).resize(630,528)
 		.centerCrop().into(holder.thisImage);
@@ -107,10 +109,10 @@ public class NewsfeedGridAdapter extends ArrayAdapter<ParseObject> {
 		holder.thatCaption.setText(item.getString(ParseConstants.KEY_THAT_CAPTION));
 		//holder.thisVotes.setText(Integer.toString(thisPercentage)+"%");
 		//holder.thatVotes.setText(Integer.toString(thatPercentage)+"%");
-		holder.thatBar.setTitleColor(mColorArray[item.getInt("color")]);
-		holder.thatBar.setProgressColor(mColorArray[item.getInt("color")]);
-		holder.thisBar.setTitleColor(mColorArray[item.getInt("color")]);
-		holder.thisBar.setProgressColor(mColorArray[item.getInt("color")]);
+		holder.thatBar.setTitleColor(Color.WHITE);
+		holder.thatBar.setProgressColor(Color.WHITE);
+		holder.thisBar.setTitleColor(Color.WHITE);
+		holder.thisBar.setProgressColor(Color.WHITE);
 		holder.thisBar.setTitle(thisPercentage+"%");
 		holder.thisBar.setProgress(thisPercentage);
 		holder.thatBar.setTitle(thatPercentage+"%");
@@ -134,10 +136,26 @@ public class NewsfeedGridAdapter extends ArrayAdapter<ParseObject> {
 
 		@Override
 		public void onClick(View v) {
-			Intent intent = new Intent(mContext, CommentsActivity.class);
-			intent.putExtra("postId", mPosts.get(position).getObjectId().toString());
-			intent.putExtra("userId", mPosts.get(position).getString(ParseConstants.KEY_SENDER_ID));
-			intent.putExtra("userName", mPosts.get(position).getString(ParseConstants.KEY_SENDER_NAME));
+			Intent intent = new Intent(mContext, VotesActivity.class);
+			PostItem item = new PostItem();
+			ParseObject message = mPosts.get(position);
+			String postId = message.getObjectId();
+			item.setSenderName((message.getString(ParseConstants.KEY_SENDER_NAME)));
+			item.setSenderId((message.getString(ParseConstants.KEY_SENDER_ID)));
+			
+			item.setObjectId(postId);
+			item.setThisCaption(message.getString(ParseConstants.KEY_THIS_CAPTION));
+			item.setThatCaption(message.getString(ParseConstants.KEY_THAT_CAPTION));
+			item.setThisVotes(message.getInt(ParseConstants.KEY_THIS_VOTES));
+			item.setThatVotes(message.getInt(ParseConstants.KEY_THAT_VOTES));
+			item.setQuestionText(message.getString(ParseConstants.KEY_QUESTION_TEXT));
+			item.setThisImage(message.getString("thisUri"));
+			item.setThatImage(message.getString("thatUri"));
+			item.setColor(mColorArray[message.getInt("color")]);
+			intent.putExtra(ParseConstants.KEY_USER_VOTE, 1); //TODO FIX
+			intent.putExtra("postItem", item);
+
+			
 			mContext.startActivity(intent);
 
 		}

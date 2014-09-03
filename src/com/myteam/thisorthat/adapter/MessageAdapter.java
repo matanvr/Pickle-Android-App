@@ -260,24 +260,9 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 						item.setThisImage(message.getString("thisUri"));
 						item.setThatImage(message.getString("thatUri"));
 						item.setColor(mColorArray[message.getInt("color")]);
-						//String jsonPost = new Gson().toJson(item);
-						//Log.d("HI", jsonPost);
 						intent.putExtra(ParseConstants.KEY_USER_VOTE, mUserVotesMap.get(postId).getInt(ParseConstants.KEY_USER_VOTE));
 						intent.putExtra("postItem", item);
-///						intent.putExtra("thisUri", Uri.parse(message.getString("thisUri"));
-//						intent.putExtra("thatUri", Uri.parse(message.getString("thatUri"));
-						
-						/*
-						intent.putExtra("postId", postId);
-						intent.putExtra("userId", userId);
-						intent.putExtra("userName", userName);
-						intent.putExtra(ParseConstants.KEY_USER_VOTE, mUserVotesMap.get(postId).getInt(ParseConstants.KEY_USER_VOTE));
-						intent.putExtra(ParseConstants.KEY_THIS_CAPTION, message.getString(ParseConstants.KEY_THIS_CAPTION));
-						intent.putExtra(ParseConstants.KEY_THAT_CAPTION, message.getString(ParseConstants.KEY_THAT_CAPTION));
-						intent.putExtra(ParseConstants.KEY_QUESTION_TEXT, message.getString(ParseConstants.KEY_QUESTION_TEXT));
-						intent.putExtra("thisUri", message.getString("thisUri"));
-						intent.putExtra("thatUri", message.getString("thisUri"));
-						intent.putExtra(("senderName"), message.getString("senderName"));*/
+
 						
 						mContext.startActivity(intent);
 					}
@@ -424,8 +409,8 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 			mHolder.thisVoteDisplay.setVisibility(View.INVISIBLE);
 			mHolder.thatVoteDisplay.setVisibility(View.INVISIBLE);
 			// mHolder.extrasRow.setVisibility(View.GONE);
-			mHolder.ThisCaption.setBackgroundColor(0);
-			mHolder.ThatCaption.setBackgroundColor(0);
+			mHolder.ThisCaption.setBackgroundColor(Color.WHITE);
+			mHolder.ThatCaption.setBackgroundColor(Color.WHITE);
 			/*
 			if ((mUserVotesMap.get(postId) != null) && mUserVotesMap.get(postId)
 					.getInt(ParseConstants.KEY_IS_FOLLOWER) == 1) {
@@ -447,7 +432,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					.getInt(ParseConstants.KEY_USER_VOTE) == THIS_IMAGE) {
 				mHolder.ThatCaption.setTextColor(Color.BLACK);
 				mHolder.ThisCaption.setTextColor(Color.WHITE);
-				mHolder.ThatCaption.setBackgroundColor(0);
+				mHolder.ThatCaption.setBackgroundColor(Color.WHITE);
 				mHolder.ThisCaption.setBackgroundColor(randColor);
 				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
 				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
@@ -460,7 +445,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 
 				//set color randomly
 				mHolder.ThatCaption.setBackgroundColor(randColor);
-				mHolder.ThisCaption.setBackgroundColor(0);
+				mHolder.ThisCaption.setBackgroundColor(Color.WHITE);
 			}
 			
 			if(postId.equals(mLastPostClicked)){
@@ -628,4 +613,9 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 	    });
 	}
 
+	public void refill(List<ParseObject> posts) {
+	    mMessages.clear();
+	    mMessages.addAll(posts);
+	    notifyDataSetChanged();
+	}
 }
