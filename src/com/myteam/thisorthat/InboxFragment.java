@@ -40,6 +40,7 @@ public class InboxFragment extends ListFragment {
 	public final static int FAVORITES = 1;
 	public final static int FRIENDS = 2;
 	private int mFeed;
+	private MessageAdapter mAdapter;
 	private ParseUser currentUser;
 	public static final String TAG = InboxFragment.class.getSimpleName();
 	protected OnRefreshListener mOnRefreshListener = new OnRefreshListener() {
@@ -96,10 +97,15 @@ public class InboxFragment extends ListFragment {
 									mSwipeRefreshLayout.setRefreshing(false);
 								}
 								mUserVotes = userVotes;
-								MessageAdapter adapter = new MessageAdapter(
-										getListView().getContext(), mMessages,
-										mUserVotes, NEWSFEED);
-								setListAdapter(adapter);
+								if (mAdapter == null) {
+									mAdapter = new MessageAdapter(
+											getListView().getContext(), mMessages,
+											mUserVotes, NEWSFEED);
+									setListAdapter(mAdapter);
+								} else {
+								    ((MessageAdapter)mAdapter).refill(mMessages);
+								}
+
 							}
 						}
 					});
