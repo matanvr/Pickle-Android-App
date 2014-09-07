@@ -1,5 +1,5 @@
 //TODO Need to delete this eventually
-package com.myteam.thisorthat;
+package com.myteam.thisorthat.activity;
 
 import java.util.List;
 
@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.lylc.widget.circularprogressbar.example.CircularProgressBar;
 import com.lylc.widget.circularprogressbar.example.CircularProgressBar.ProgressAnimationListener;
+import com.myteam.thisorthat.R;
 import com.myteam.thisorthat.util.BlurTransform;
 import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.FindCallback;

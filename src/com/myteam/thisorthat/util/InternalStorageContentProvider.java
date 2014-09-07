@@ -10,7 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 
-import com.myteam.thisorthat.NewPost;
+import com.myteam.thisorthat.activity.NewPost;
 
 /*
  * The solution is taken from here: http://stackoverflow.com/questions/10042695/how-to-get-camera-result-as-a-uri-in-data-folder

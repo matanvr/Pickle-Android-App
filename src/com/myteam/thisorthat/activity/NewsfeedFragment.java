@@ -1,4 +1,4 @@
-package com.myteam.thisorthat;
+package com.myteam.thisorthat.activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.myteam.thisorthat.R;
 import com.myteam.thisorthat.adapter.NewsfeedGridAdapter;
 import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.FindCallback;

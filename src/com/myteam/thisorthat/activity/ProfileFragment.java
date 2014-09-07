@@ -1,4 +1,4 @@
-package com.myteam.thisorthat;
+package com.myteam.thisorthat.activity;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.myteam.thisorthat.R;
 import com.parse.ParseObject;
 
 

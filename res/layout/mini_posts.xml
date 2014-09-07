@@ -29,51 +29,35 @@
 
    </LinearLayout>
 
-    <TextView
-        android:id="@+id/that_mini_caption"
-        android:layout_width="@dimen/mini_img_width"
-        android:layout_height="18dp"
-        android:layout_above="@+id/img_layout"
-        android:layout_alignParentRight="true"
-        android:textColor="#fff"
-        android:gravity="center"
-        android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/question_mini_t"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:background="#5f000000"
-        android:gravity="center"
-        android:text="Caption"
-        android:textColor="#fff" />
 
-    <TextView
-        android:id="@+id/this_mini_caption"
-        android:layout_width="@dimen/mini_img_width"
-        android:layout_height="18dp"
-        android:layout_above="@+id/img_layout"
-        android:layout_alignParentLeft="true"
-        android:gravity="center"
-        android:textColor="#fff"
-        android:textSize="12sp" />
+        <TextView
+            android:id="@+id/question_mini_t"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/img_layout"
+            android:background="#770f0f0f"
+            android:gravity="center"
+            android:text="Caption"
+            android:textColor="#fff" />
 
-        <com.lylc.widget.circularprogressbar.example.CircularProgressBar
-            android:id="@+id/circle_that"
+        <RelativeLayout
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:background="@drawable/display"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" >
+        
+                    <com.lylc.widget.circularprogressbar.example.CircularProgressBar
+            android:id="@+id/circle_result"
             style="@style/Widget.ProgressBar.Holo.CircularProgressBar"
-            android:layout_width="40dip"
-            android:layout_height="40dip"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true" />
-
-        <com.lylc.widget.circularprogressbar.example.CircularProgressBar
-            android:id="@+id/circle_this"
-            style="@style/Widget.ProgressBar.Holo.CircularProgressBar"
-            android:layout_width="40dip"
-            android:layout_height="40dip"
-            android:layout_alignLeft="@+id/img_layout"
-            android:layout_alignParentBottom="true" />
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+           
+            />
+        </RelativeLayout>
 
 </RelativeLayout>

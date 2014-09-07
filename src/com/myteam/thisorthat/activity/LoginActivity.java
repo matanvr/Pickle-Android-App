@@ -1,4 +1,4 @@
-package com.myteam.thisorthat;
+package com.myteam.thisorthat.activity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +25,10 @@ import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
+import com.myteam.thisorthat.R;
+import com.myteam.thisorthat.R.id;
+import com.myteam.thisorthat.R.layout;
+import com.myteam.thisorthat.R.string;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;

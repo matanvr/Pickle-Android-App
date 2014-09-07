@@ -1,4 +1,4 @@
-package com.myteam.thisorthat;
+package com.myteam.thisorthat.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.myteam.thisorthat.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;

@@ -1,7 +1,8 @@
-package com.myteam.thisorthat;
+package com.myteam.thisorthat.activity;
 
 import android.app.Application;
 
+import com.myteam.thisorthat.R;
 import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
@@ -21,8 +22,8 @@ public class ThisOrThatApplication extends Application {
 	@Override
 	public void onCreate() {
 		  Parse.initialize(this, "qEeMQNnTnwEVXk35APxR8c8C5depGkKLYPMBKhnm", "0Xjmyq5vDpl9joJegw5ogVw8KIeopLvSADj4bsJY");
-		  PushService.setDefaultPushCallback(this, MainActivity.class);
-		  ParseInstallation.getCurrentInstallation().saveInBackground();
+		//  PushService.setDefaultPushCallback(this, MainActivity.class);
+	//	  ParseInstallation.getCurrentInstallation().saveInBackground();
 		  ParseFacebookUtils.initialize(getString(R.string.app_id));
 	}
 }

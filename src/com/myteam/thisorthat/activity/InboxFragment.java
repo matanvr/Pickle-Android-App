@@ -1,6 +1,7 @@
-package com.myteam.thisorthat;
+package com.myteam.thisorthat.activity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.json.JSONException;
@@ -10,21 +11,15 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.facebook.FacebookRequestError;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.model.GraphUser;
+import com.myteam.thisorthat.R;
 import com.myteam.thisorthat.adapter.MessageAdapter;
 import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -56,8 +51,7 @@ public class InboxFragment extends ListFragment {
 
 		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(
 				ParseConstants.CLASS_DILEMMA);
-		// query.whereEqualTo(ParseConstants.KEY_RECIPIENT_IDS,
-		// ParseUser.getCurrentUser().getObjectId());
+
 
 		query.addDescendingOrder(ParseConstants.KEY_CREATED_AT);
 		query.findInBackground(new FindCallback<ParseObject>() {
@@ -65,7 +59,7 @@ public class InboxFragment extends ListFragment {
 			public void done(List<ParseObject> messages, ParseException e) {
 
 				if (e == null) {
-					// We found messages!
+					// We found posts!
 
 					mMessages = messages;
 					ParseQuery<ParseObject> userPosts = new ParseQuery<ParseObject>(
@@ -96,7 +90,10 @@ public class InboxFragment extends ListFragment {
 								if (mSwipeRefreshLayout.isRefreshing()) {
 									mSwipeRefreshLayout.setRefreshing(false);
 								}
+								
+
 								mUserVotes = userVotes;
+							//	mMessages = removeDeletedPosts(mMessages,userVotes);
 								if (mAdapter == null) {
 									mAdapter = new MessageAdapter(
 											getListView().getContext(), mMessages,
@@ -114,7 +111,24 @@ public class InboxFragment extends ListFragment {
 			}
 		});
 	}
-
+	private List<ParseObject> removeDeletedPosts(List<ParseObject> posts, List<ParseObject> votes){
+		HashSet<String> deletedPosts = new HashSet<String>();
+		List<ParseObject> newList = new ArrayList<ParseObject>();
+		for (ParseObject uv: votes){
+			if(uv.getBoolean(ParseConstants.KEY_IS_REMOVED) == true){
+				deletedPosts.add(uv.getString(ParseConstants.KEY_POST_ID));
+			}
+		}
+		if(!deletedPosts.isEmpty()){
+			for (ParseObject p : posts){
+				if(!deletedPosts.contains(p.getObjectId())){
+					newList.add(p);
+				}
+					
+			}
+		}
+		return newList;
+	}
 	private List<String> getPostIds(List<ParseObject> favs) {
 		List<String> output = new ArrayList<String>();
 		for (ParseObject i : favs) {

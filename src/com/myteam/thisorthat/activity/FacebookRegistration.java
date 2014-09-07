@@ -1,4 +1,4 @@
-package com.myteam.thisorthat;
+package com.myteam.thisorthat.activity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,6 +19,10 @@ import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.ProfilePictureView;
+import com.myteam.thisorthat.R;
+import com.myteam.thisorthat.R.id;
+import com.myteam.thisorthat.R.layout;
+import com.myteam.thisorthat.R.string;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;

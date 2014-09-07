@@ -1,4 +1,4 @@
-package com.myteam.thisorthat;
+package com.myteam.thisorthat.activity;
 
 import java.util.List;
 
@@ -25,6 +25,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.myteam.thisorthat.R;
+import com.myteam.thisorthat.R.id;
+import com.myteam.thisorthat.R.layout;
+import com.myteam.thisorthat.R.menu;
+import com.myteam.thisorthat.R.string;
 import com.myteam.thisorthat.adapter.CommentAdapter;
 import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.FindCallback;

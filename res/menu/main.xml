@@ -3,6 +3,7 @@
     
     <item android:id="@+id/action_camera" android:icon="@drawable/compose" android:title="@string/menu_camera_label" android:showAsAction="always"></item>
 	<item android:id="@+id/action_profile_settings" android:icon="@drawable/home"  android:title="@string/profile_settings" android:showAsAction="always"></item>
+	<item android:id="@+id/action_pulse" android:icon="@drawable/pulse"  android:title="@string/Newsfeed" android:showAsAction="always"></item>
 
 	
 </menu>

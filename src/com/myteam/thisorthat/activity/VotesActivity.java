@@ -1,16 +1,22 @@
-package com.myteam.thisorthat;
+package com.myteam.thisorthat.activity;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lylc.widget.circularprogressbar.example.CircularProgressBar;
+import com.myteam.thisorthat.R;
 import com.myteam.thisorthat.adapter.CustomListAdapter;
 import com.myteam.thisorthat.adapter.VotesDisplayAdapter;
 import com.myteam.thisorthat.model.PostItem;
@@ -30,6 +37,7 @@ import com.nirhart.parallaxscroll.views.ParallaxListView;
 import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
 public class VotesActivity extends Activity {
@@ -47,11 +55,12 @@ public class VotesActivity extends Activity {
 	private TextView thisVot;
 	private TextView thatVot;
 	private TextView ThatCaption;
-	
-	
+	private List<ParseObject> mVotes;
+	private ImageView mMoreOptions;
 	private ParallaxListView listView;
 	private TextView ThisCaption ;
 	private TextView Question ;
+	private ParseObject myVote;
 	private RelativeLayout thisVoteDisplay;
 	private RelativeLayout thatVoteDisplay;
 	private LinearLayout mPostItem;
@@ -97,7 +106,7 @@ public class VotesActivity extends Activity {
 		Question = (TextView) findViewById(R.id.Question);
 	    thisVoteDisplay = (RelativeLayout) findViewById(R.id.thisCircle);
 	    thatVoteDisplay = (RelativeLayout) findViewById(R.id.thatCircle);
-
+	    mMoreOptions = (ImageView) findViewById(R.id.moreOptions);
 		Typeface myTypeface = Typeface.createFromAsset(
 				getAssets(), "fonts/WhitneyCondensed-Book.otf");
 		Typeface postTypeface = Typeface.createFromAsset(
@@ -159,6 +168,36 @@ public class VotesActivity extends Activity {
 			ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
 			ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 		}
+		mMoreOptions.setOnClickListener(new View.OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				ContextThemeWrapper cw = new ContextThemeWrapper(VotesActivity.this,
+						R.style.AlertDialogTheme);
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(cw);
+				ParseObject vote = myVote;
+				if (vote == null)
+					builder.setItems(R.array.post_choices, mDialogListener);
+				else if (vote.getBoolean(ParseConstants.KEY_IS_FLAGGED)
+						&& vote.getBoolean(ParseConstants.KEY_IS_SUBSCRIBED))
+					builder.setItems(R.array.post_followed_flagged_choices,
+							mDialogListener);
+				else if (vote.getBoolean(ParseConstants.KEY_IS_FLAGGED))
+					builder.setItems(R.array.post_flagged_choices,
+							mDialogListener);
+				else if (vote.getBoolean(ParseConstants.KEY_IS_SUBSCRIBED))
+					builder.setItems(R.array.post_followed_choices,
+							mDialogListener);
+				else
+					builder.setItems(R.array.post_choices, mDialogListener);
+
+				AlertDialog dialog = builder.create();
+				dialog.show();
+				
+			}
+			
+		});
 		showVotes();
 
 		
@@ -178,12 +217,14 @@ public class VotesActivity extends Activity {
 	}
 	private void showVotes(){
 		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseConstants.CLASS_USER_VOTE);
-		//query.whereEqualTo("postid", postId);
+		query.whereEqualTo("postid", postId);
 
 		
 		query.findInBackground(new FindCallback<ParseObject>() {
 			@Override
 			public void done(List<ParseObject> votesList, com.parse.ParseException e) {
+			mVotes = votesList;
+			myVote = getMyVote(mVotes);
 			LinkedList<ParseObject> thisVotes = new LinkedList<ParseObject>();
 			LinkedList<ParseObject> thatVotes = new LinkedList<ParseObject>();
 			List<UserBubbleRow> rowDisplay = new ArrayList<UserBubbleRow>();
@@ -222,5 +263,91 @@ public class VotesActivity extends Activity {
 
 	}
 	
+	protected DialogInterface.OnClickListener mDialogListener = new DialogInterface.OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			int index = 0;
+			// find index of item to be removed;
+			ParseObject vote = myVote;
+			
+			if (vote == null) {
+				vote = new ParseObject(ParseConstants.CLASS_USER_VOTE);
+				vote.put(ParseConstants.KEY_USER_ID, getUserId());
+				vote.put(ParseConstants.KEY_USERNAME, getUsername());
+				vote.put(ParseConstants.KEY_POST_ID, postId);
+			}
+			switch (which) {
+			case 0: // Subscribe or unsubscribe
+				if (vote.getBoolean(ParseConstants.KEY_IS_SUBSCRIBED))
+					vote.put(ParseConstants.KEY_IS_SUBSCRIBED, false);
+				else
+					vote.put(ParseConstants.KEY_IS_SUBSCRIBED, true);
+				break;
+			case 1: // flag post
+				if (vote.getBoolean(ParseConstants.KEY_IS_FLAGGED))
+					vote.put(ParseConstants.KEY_IS_FLAGGED, false);
+				else
+					vote.put(ParseConstants.KEY_IS_FLAGGED, true);
+				break;
+			case 2: // remove post
+				vote.put(ParseConstants.KEY_IS_REMOVED, true);
+				finish();
+				break;
+
+			}
+			vote.saveInBackground();
+		}
+
+	};
+	private String getUsername() {
+		ParseUser currentUser = ParseUser.getCurrentUser();
+
+		String userName = currentUser.getUsername();
+
+		// facebook users only
+		if (currentUser.get("profile") != null) {
+			JSONObject userProfile = currentUser.getJSONObject("profile");
+			try {
+
+				if (userProfile.getString("name") != null) {
+					userName = userProfile.getString("name");
+				}
+
+			} catch (JSONException er) {
+
+			}
+		}
+		return userName;
+	}
+
+	private String getUserId() {
+		ParseUser currentUser = ParseUser.getCurrentUser();
+
+		String userId = currentUser.getObjectId();
+
+		// facebook users only
+		if (currentUser.get("profile") != null) {
+			JSONObject userProfile = currentUser.getJSONObject("profile");
+			try {
+
+				if (userProfile.getString("facebookId") != null) {
+					userId = userProfile.get("facebookId").toString();
+				}
+
+			} catch (JSONException er) {
+
+			}
+		}
+		return userId;
+	}
+	
+	private ParseObject getMyVote(List<ParseObject> votes){
+		ParseObject vote = null;
+		for (ParseObject v: votes){
+			if(v.getString(ParseConstants.KEY_USER_ID).equals(getUserId()))
+				vote = v;
+		}
+		return vote;
+	}
 	
 }

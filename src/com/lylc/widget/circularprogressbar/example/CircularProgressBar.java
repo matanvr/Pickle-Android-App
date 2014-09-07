@@ -32,7 +32,6 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
@@ -42,7 +41,7 @@ import com.myteam.thisorthat.R;
 public class CircularProgressBar extends ProgressBar{
 	private static final String TAG = "CircularProgressBar";
 
-	private static final int STROKE_WIDTH = 20;
+	private static final int STROKE_WIDTH = 30;
 
 	private String mTitle = "";		
 	private String mSubTitle = "";
@@ -86,7 +85,7 @@ public class CircularProgressBar extends ProgressBar{
 
 		TypedArray a = getContext().obtainStyledAttributes(attrs,
 				R.styleable.CircularProgressBar, style, 0);
-
+		
 		String color;
 		Resources res = getResources();
 
@@ -138,16 +137,20 @@ public class CircularProgressBar extends ProgressBar{
 		mBackgroundColorPaint.setStyle(Paint.Style.STROKE);
 		mBackgroundColorPaint.setStrokeWidth(mStrokeWidth);
 
-		mTitlePaint.setTextSize(50); 
+		mTitlePaint.setTextSize(45); 
 		mTitlePaint.setStyle(Style.FILL);
 		mTitlePaint.setAntiAlias(true);
-		mTitlePaint.setTypeface(Typeface.create("Roboto-Thin", Typeface.NORMAL));
+		Typeface tp= Typeface.createFromAsset(
+				getContext().getAssets(), "fonts/WhitneyCondensed-Book.otf");
+		Typeface btp= Typeface.createFromAsset(
+				getContext().getAssets(), "fonts/WhitneyCondensed-Bold.otf");
+		mTitlePaint.setTypeface(btp);
 		mTitlePaint.setShadowLayer(0.1f, 0, 1, Color.GRAY);
 
-		mSubtitlePaint.setTextSize(20); 
+		mSubtitlePaint.setTextSize(40); 
 		mSubtitlePaint.setStyle(Style.FILL);
 		mSubtitlePaint.setAntiAlias(true);
-		mSubtitlePaint.setTypeface(Typeface.create("Roboto-Thin", Typeface.BOLD));
+		mSubtitlePaint.setTypeface(tp);
 		//		mSubtitlePaint.setShadowLayer(0.1f, 0, 1, Color.GRAY);
 	}
 
@@ -176,7 +179,7 @@ public class CircularProgressBar extends ProgressBar{
 			yPos += titleHeight;
 			xPos = (int)(getMeasuredWidth()/2 - mSubtitlePaint.measureText(mSubTitle) / 2);
 
-			canvas.drawText(mSubTitle, xPos, yPos, mSubtitlePaint);
+			canvas.drawText(mSubTitle, xPos, yPos + 30, mSubtitlePaint);
 		}		
 
 		super.onDraw(canvas);
@@ -238,7 +241,7 @@ public class CircularProgressBar extends ProgressBar{
 			public void onAnimationUpdate(final ValueAnimator animation) {
 				int progress = ((Float) animation.getAnimatedValue()).intValue();
 				if(progress!=CircularProgressBar.this.getProgress()){
-					Log.d(TAG, progress + "");
+					
 					CircularProgressBar.this.setProgress(progress);
 					if(listener!=null)
 						listener.onAnimationProgress(progress);					

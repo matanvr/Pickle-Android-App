@@ -1,4 +1,4 @@
-package com.myteam.thisorthat;
+package com.myteam.thisorthat.activity;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -46,6 +46,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.myteam.thisorthat.R;
+import com.myteam.thisorthat.R.array;
+import com.myteam.thisorthat.R.id;
+import com.myteam.thisorthat.R.layout;
+import com.myteam.thisorthat.R.menu;
+import com.myteam.thisorthat.R.string;
 import com.myteam.thisorthat.util.FileHelper;
 import com.myteam.thisorthat.util.InternalStorageContentProvider;
 import com.myteam.thisorthat.util.ParseConstants;
@@ -115,7 +121,7 @@ public class NewPost extends Activity {
 	public static final int REQUEST_CODE_TAKE_PICTURE = 0x2;
 	public static final int REQUEST_CODE_CROP_IMAGE = 0x3;
 
-	public static final int REQUEST_GOOGLE_IMAGE = 0x4;
+	public static final int REQUEST_FLICKR_IMAGE = 0x4;
 	private ImageView mImageView;
 
 	private File mFileTemp;
@@ -132,14 +138,14 @@ public class NewPost extends Activity {
 				openGallery();
 				break;
 			case 2:
-				Intent googleImagesIntent = new Intent(NewPost.this,
-						GoogleImageActivity.class);
+				Intent flickrImagesIntent = new Intent(NewPost.this,
+						FlickrActivity.class);
 				if (mImageClicked == THAT_IMAGE) {
-					googleImagesIntent.putExtra("keywords", mThatTypedKeywords);
+					flickrImagesIntent.putExtra("keywords", mThatTypedKeywords);
 				} else {
-					googleImagesIntent.putExtra("keywords", mThisTypedKeywords);
+					flickrImagesIntent.putExtra("keywords", mThisTypedKeywords);
 				}
-				startActivityForResult(googleImagesIntent, REQUEST_GOOGLE_IMAGE);
+				startActivityForResult(flickrImagesIntent, REQUEST_FLICKR_IMAGE);
 				break;
 
 			}
@@ -273,7 +279,7 @@ public class NewPost extends Activity {
 			}
 
 			bitmap = BitmapFactory.decodeFile(mFileTemp.getPath());
-			bitmap = getResizedBitmap(bitmap, 602, 402); // RESIZE
+			bitmap = getResizedBitmap(bitmap, 900, 600); // RESIZE
 			if (mImageClicked == THIS_IMAGE) {
 
 				mBackgroundImageThis.setImageBitmap(bitmap);
@@ -284,7 +290,7 @@ public class NewPost extends Activity {
 				mThatBitmap = bitmap;
 			}
 			break;
-		case REQUEST_GOOGLE_IMAGE:
+		case REQUEST_FLICKR_IMAGE:
 			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
 					.permitAll().build();
 			StrictMode.setThreadPolicy(policy);
@@ -427,13 +433,12 @@ public class NewPost extends Activity {
 
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				if(s.length() <= 0){
+				if (s.length() <= 0) {
 					mShuffleThis.setVisibility(View.GONE);
-				}
-				else{
+				} else {
 					mShuffleThis.setVisibility(View.VISIBLE);
 				}
-				
+
 			}
 		});
 		mThatCaption.addTextChangedListener(new TextWatcher() {
@@ -447,16 +452,15 @@ public class NewPost extends Activity {
 
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				if(s.length() <= 0){
+				if (s.length() <= 0) {
 					mShuffleThat.setVisibility(View.GONE);
-				}
-				else{
+				} else {
 					mShuffleThat.setVisibility(View.VISIBLE);
 				}
-				
+
 			}
 		});
-		
+
 		String state = Environment.getExternalStorageState();
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
 			mFileTemp = new File(Environment.getExternalStorageDirectory(),

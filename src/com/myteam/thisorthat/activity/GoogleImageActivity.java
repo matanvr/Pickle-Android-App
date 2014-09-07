@@ -1,4 +1,4 @@
-package com.myteam.thisorthat;
+package com.myteam.thisorthat.activity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.myteam.thisorthat.R;
 import com.myteam.thisorthat.adapter.GridViewAdapter;
 import com.myteam.thisorthat.model.ImageItem;
 import com.parse.ParseObject;

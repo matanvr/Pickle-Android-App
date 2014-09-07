@@ -24,6 +24,9 @@ public final class ParseConstants {
 	public static final String KEY_FILE_TYPE = "fileType";
 	public static final String KEY_CREATED_AT = "createdAt";
 	public static final String KEY_UPDATED_AT = "updatedAt";
+	public static final String KEY_IS_REMOVED = "isRemoved";
+	public static final String KEY_IS_SUBSCRIBED = "isSubscribed";
+	public static final String KEY_IS_FLAGGED = "isFlagged";
 	
 	public static final String KEY_QUESTION_TEXT = "questionText";
 	public static final String KEY_QUESTION_ID = "questionId";
@@ -54,6 +57,15 @@ public final class ParseConstants {
 	public static boolean isNumeric(String str)
 	{
 	    return str.matches("-?\\d+(.\\d+)?");
+	}
+	public static String getUserPicLarge(String userID) {
+	    String imageURL;
+	    if(!isNumeric(userID)){
+	    	return null;
+	    }
+	    imageURL = "https://graph.facebook.com/"+userID+"/picture?type=large";
+	    Log.d("profile user", imageURL);
+	    return imageURL;
 	}
 	
 }
