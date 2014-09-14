@@ -12,7 +12,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
-    <string name="login_button_label">SIGN IN</string>
+    <string name="login_button_label">Log in</string>
     <string name="sign_up_text">Don\'t have an account? Sign up!</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="email_hint">Email</string>
@@ -38,7 +38,7 @@
     <string-array name="camera_choices">
         <item>Take Picture</item>
         <item>Choose Picture</item>
-        <item>Google Images</item>
+        <item>Flickr Images</item>
     </string-array>
     <string-array name="post_choices">
         <item>Subscribe</item>

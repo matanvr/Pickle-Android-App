@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="17"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="18" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -57,7 +57,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".SignUpActivity"
+            android:name="com.myteam.thisorthat.activity.SignUpActivity"
             android:label="@string/title_activity_sign_up"
             android:parentActivityName="com.myteam.thisorthat.activity.LoginActivity"
             android:screenOrientation="portrait" >
@@ -111,7 +111,7 @@
                 android:value="com.myteam.thisorthat.activity.NewPost" />
         </activity>
                 <activity
-            android:name=".FlickrActivity"
+            android:name="com.myteam.thisorthat.activity.FlickrActivity"
             android:label="@string/google_image_title"
             android:parentActivityName="com.myteam.thisorthat.activity.NewPost"
             android:screenOrientation="portrait" >

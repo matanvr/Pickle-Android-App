@@ -37,9 +37,9 @@ public class SettingsFragment extends Fragment {
 		
 		Typeface tp = Typeface.createFromAsset(
 				getActivity().getAssets(), "fonts/WhitneyCondensed-Book.otf");
-		mProfilePic = (ImageView) rootView.findViewById(R.id.profile_pic);
-		mUserName  = (TextView) rootView.findViewById(R.id.profile_name);
-		mLogOut = (TextView) rootView.findViewById(R.id.logout_button);
+		mProfilePic = (ImageView) rootView.findViewById(R.id.profile_pic_id);
+		mUserName  = (TextView) rootView.findViewById(R.id.profile_name_id);
+		mLogOut = (TextView) rootView.findViewById(R.id.logout_button_id);
 		mLogOut.setTypeface(tp);
 		
 		mUserName.setTypeface(tp);
@@ -48,7 +48,7 @@ public class SettingsFragment extends Fragment {
 		if(id == null){
 			Picasso.with(getActivity()).load(drawable.defaultuser).transform(new CircularTransformation()).into(mProfilePic);
 		}else{
-			Picasso.with(getActivity()).load(id).transform(new CircularTransformation()).resize(80,80).into(mProfilePic);
+			Picasso.with(getActivity()).load(id).resize(180,180).transform(new CircularTransformation()).into(mProfilePic);
 		}
 		mLogOut.setOnClickListener(new View.OnClickListener() {
 			

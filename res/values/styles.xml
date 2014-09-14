@@ -52,7 +52,7 @@
    
 
     <style name="ActionBar.Solid.Theme.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">#250054</item>
+        <item name="android:textColor">#000</item>
     </style>
     
     
@@ -95,7 +95,7 @@
     </style>
     
         <style name= "AuthBackground">
-        <item name="android:background">@drawable/background_fill</item>
+        <item name="android:background">#fff</item>
     </style>
 
     <style name="AuthBackgroundImage">

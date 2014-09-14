@@ -122,36 +122,31 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
-
+		ParseAnalytics.trackAppOpened(getIntent());
 		mActionBar = getActionBar();
-		mActionBar.hide();
 		mActionBar.setIcon(R.drawable.pulse);
 		mActionBar.setCustomView(R.layout.actionbar_custom_view_home);
 		
 		mActionBar.setDisplayShowCustomEnabled(true);
 		mActionBar.setHomeButtonEnabled(true);
-
-		ParseAnalytics.trackAppOpened(getIntent());
-
+		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		currentUser = ParseUser.getCurrentUser();
 
+		setTitleFont();
+		mTitle = mDrawerTitle = getTitle();
 		if (currentUser == null) {
 			navigateToLogin();
 		}
-
-		mActionBar.show();
-		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-
-		setTitleFont();
-
-		mTitle = mDrawerTitle = getTitle();
-		
-		if(ParseFacebookUtils.isLinked(currentUser))
+		else if(ParseFacebookUtils.isLinked(currentUser))
 			prepareFacebookUser();
 		else
 			startTabs();
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the app.
+
+
+
+		
+
+
 
 
 	}
