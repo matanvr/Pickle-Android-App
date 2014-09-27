@@ -35,7 +35,7 @@ public class FlickrActivity extends Activity {
 	private static final String FLICKR_BASE_URL = "https://api.flickr.com/services/rest/?method=";
 	private static final String FLICKR_PHOTOS_SEARCH_STRING = "flickr.photos.search";
 	private static final String FLICKR_GET_SIZES_STRING = "flickr.photos.getSizes";
-	private static final int FLICKR_PHOTOS_SEARCH_ID = 1;
+	public static final int FLICKR_PHOTOS_SEARCH_ID = 1;
 	private static final int FLICKR_GET_SIZES_ID = 2;
 	private static final int NUMBER_OF_PHOTOS = 20;
 	
@@ -55,7 +55,7 @@ public class FlickrActivity extends Activity {
 	private String strSearch = null;
 	
 	
-	private static String createURL(int methodId, String parameter) {
+	public static String createURL(int methodId, String parameter) {
 		String method_type = "";
 		String url = null;
 		switch (methodId) {
@@ -83,12 +83,8 @@ public class FlickrActivity extends Activity {
 			   URL url;
 			   try {
 				   url =new URL(createURL(FLICKR_PHOTOS_SEARCH_ID, strSearch));
-				  // url = new URL("https://ajax.googleapis.com/ajax/services/search/images?" +
-				   	//"v=1.0&q="+strSearch+"&rsz=8&imgtype=photo"); //&key=ABQIAAAADxhJjHRvoeM2WF3nxP5rCBRcGWwHZ9XQzXD3SWg04vbBlJ3EWxR0b0NVPhZ4xmhQVm3uUBvvRF-VAA&userip=192.168.0.172");
-			   
+				
 			   URLConnection connection = url.openConnection();
-			   //connection.addRequestProperty("Referer", "http://google.com");
-			   System.out.println(url);
 			   String line;
 			   StringBuilder builder = new StringBuilder();
 			   BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -165,7 +161,7 @@ public class FlickrActivity extends Activity {
 
  //helper method, to construct the url from the json object. You can define the size of the image that you want, with the size parameter. 
  //  Be aware that not all images on flickr are available in all sizes.
-   private String constructFlickrImgUrl(JSONObject input, Enum size) throws JSONException {
+   public static String constructFlickrImgUrl(JSONObject input, Enum size) throws JSONException {
            String FARMID = input.getString("farm");
            String SERVERID = input.getString("server");
            String SECRET = input.getString("secret");
@@ -206,7 +202,7 @@ public class FlickrActivity extends Activity {
 			   
 				
 				bean.setUrl(constructFlickrImgUrl(obj, size._m));
-				bean.setBigUrl(constructFlickrImgUrl(obj, size._m));
+				bean.setBigUrl(constructFlickrImgUrl(obj, size._z));
 			
 				
 				listImages.add(bean);
@@ -251,8 +247,8 @@ protected void onCreate(Bundle savedInstanceState) {
 
    }
 
-   enum size {
-       _s , _t ,_m
+   public static enum size {
+       _s , _t ,_m,_z
 };
 	
 

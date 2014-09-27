@@ -16,7 +16,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/app_name"
         android:textColor="@android:color/black"
-        android:textSize="40sp"
+        android:textSize="50sp"
         android:textStyle="bold" />
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/subtitle"
         android:textColor="@android:color/black"
-        android:textSize="13sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -78,14 +78,15 @@
         android:textColor="#fff" />
 
           <TextView
-              android:id="@+id/signUpText"
+              android:id="@+id/OR"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_below="@+id/loginButton"
               android:layout_centerHorizontal="true"
-              android:layout_marginTop="21dp"
-              android:text="@string/sign_up_text"
-              android:textColor="@android:color/black" />
+              android:text="OR"
+              android:padding="10dp"
+              android:textColor="#000"
+              android:textSize="20sp" />
 
           <Button
               android:id="@+id/facebookLogin"
@@ -93,11 +94,20 @@
               android:layout_height="wrap_content"
               android:layout_alignLeft="@+id/loginButton"
               android:layout_alignRight="@+id/loginButton"
-              android:layout_below="@+id/signUpText"
-              android:layout_marginTop="30dp"
+              android:layout_below="@+id/OR"
               android:background="#3b5999"
               android:padding="10dp"
               android:text="Login with Facebook"
               android:textColor="#fff" />
+
+          <TextView
+              android:id="@+id/signUpText"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/facebookLogin"
+              android:layout_centerHorizontal="true"
+              android:layout_marginTop="18dp"
+              android:text="@string/sign_up_text"
+              android:textColor="@android:color/black" />
 
 </RelativeLayout>

@@ -32,11 +32,7 @@ public class GridViewAdapter extends ArrayAdapter<ImageItem> {
 	     }
 
 	     @Override
-	     public void onClick(View v) {
-	    
-	    	 	System.out.println("HI");
-
-	    	 
+	     public void onClick(View v) {	 
 
 	     }
 

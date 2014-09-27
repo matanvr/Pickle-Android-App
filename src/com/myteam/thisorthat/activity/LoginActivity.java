@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,13 +40,16 @@ import com.parse.ParseUser;
 
 public class LoginActivity extends Activity {
 
-	protected EditText mUsername;
-	protected EditText mPassword;
-	protected Button mLoginButton;
+	private EditText mUsername;
+	private EditText mPassword;
+	private Button mLoginButton;
 	private Button loginButton;
 	private Dialog progressDialog;
-	protected TextView mSignUpTextView;
-	protected static final String TAG = LoginActivity.class.getSimpleName();
+	private TextView mSignUpTextView;
+	private TextView logoText;
+	private TextView sloganText;
+	private TextView orText;
+	private static final String TAG = LoginActivity.class.getSimpleName();
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -61,7 +65,12 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 		ActionBar actionBar = getActionBar();
 		actionBar.hide();
+		Typeface tf = Typeface.createFromAsset(
+				getAssets(), "fonts/WhitneyCondensed-Book.otf");
+		
 		loginButton = (Button) findViewById(R.id.facebookLogin);
+		logoText = (TextView) findViewById(R.id.title);
+		sloganText = (TextView) findViewById(R.id.subtitle);
 		loginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -81,6 +90,17 @@ public class LoginActivity extends Activity {
 		mUsername = (EditText)findViewById(R.id.usernameField);
 		mPassword = (EditText)findViewById(R.id.passwordField);
 		mLoginButton = (Button)findViewById(R.id.loginButton);
+		orText = (TextView) findViewById(R.id.OR);
+		logoText.setTypeface(tf);
+		sloganText.setTypeface(tf);
+		mUsername.setTypeface(tf);
+		mPassword.setTypeface(tf);
+		mSignUpTextView.setTypeface(tf);
+		mLoginButton.setTypeface(tf);
+		loginButton.setTypeface(tf);
+		orText.setTypeface(tf);
+		
+		
 		mLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

@@ -47,11 +47,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myteam.thisorthat.R;
-import com.myteam.thisorthat.R.array;
-import com.myteam.thisorthat.R.id;
-import com.myteam.thisorthat.R.layout;
-import com.myteam.thisorthat.R.menu;
-import com.myteam.thisorthat.R.string;
 import com.myteam.thisorthat.util.FileHelper;
 import com.myteam.thisorthat.util.InternalStorageContentProvider;
 import com.myteam.thisorthat.util.ParseConstants;
@@ -598,23 +593,18 @@ public class NewPost extends Activity {
 			// TODO Auto-generated method stub
 
 			URL url;
-			try {
-				String strSearch;
-				if (mImageClicked == THIS_IMAGE) {
-					strSearch = mThisTypedKeywords;
-				} else {
-					strSearch = mThatTypedKeywords;
-				}
+			String strSearch;
+			if (mImageClicked == THIS_IMAGE) {
+				strSearch = mThisTypedKeywords;
+			} else {
+				strSearch = mThatTypedKeywords;
+			}
 
-				strSearch = Uri.encode(strSearch);
-				url = new URL(
-						"https://ajax.googleapis.com/ajax/services/search/images?"
-								+ "v=1.0&q=" + strSearch
-								+ "&rsz=8&imgtype=photo"); // &key=ABQIAAAADxhJjHRvoeM2WF3nxP5rCBRcGWwHZ9XQzXD3SWg04vbBlJ3EWxR0b0NVPhZ4xmhQVm3uUBvvRF-VAA&userip=192.168.0.172");
+			strSearch = Uri.encode(strSearch);
+			try {
+				url = new URL(FlickrActivity.createURL(FlickrActivity.FLICKR_PHOTOS_SEARCH_ID, strSearch));
 
 				URLConnection connection = url.openConnection();
-				connection.addRequestProperty("Referer", "http://google.com");
-				System.out.println(url);
 				String line;
 				StringBuilder builder = new StringBuilder();
 				BufferedReader reader = new BufferedReader(
@@ -623,7 +613,9 @@ public class NewPost extends Activity {
 					builder.append(line);
 				}
 
-				json = new JSONObject(builder.toString());
+				String output = (builder.toString()).replace("jsonFlickrApi(",
+						"").replace(")", "");
+				json = new JSONObject(output);
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -637,6 +629,7 @@ public class NewPost extends Activity {
 			return null;
 		}
 
+
 		@Override
 		protected void onPostExecute(Void result) {
 			// TODO Auto-generated method stub
@@ -647,12 +640,13 @@ public class NewPost extends Activity {
 			}
 
 			try {
-				JSONObject responseObject = json.getJSONObject("responseData");
-				JSONArray resultArray = responseObject.getJSONArray("results");
+				JSONObject photos = json.getJSONObject("photos");
+				JSONArray resultArray = photos.getJSONArray("photo");
+			   
 				Random random = new Random();
 
 				int index = random.nextInt(resultArray.length());
-				String url = resultArray.getJSONObject(index).getString("url");
+				String url = FlickrActivity.constructFlickrImgUrl(resultArray.getJSONObject(index), FlickrActivity.size._z);
 				StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
 						.permitAll().build();
 				StrictMode.setThreadPolicy(policy);
@@ -690,4 +684,28 @@ public class NewPost extends Activity {
 			dialog = ProgressDialog.show(NewPost.this, "", "Please wait...");
 		}
 	}
+	   public enum size {
+	       _s , _t ,_m,_z
+	};
+	   public static String constructFlickrImgUrl(JSONObject input, Enum size) throws JSONException {
+           String FARMID = input.getString("farm");
+           String SERVERID = input.getString("server");
+           String SECRET = input.getString("secret");
+           String ID = input.getString("id");
+    
+           StringBuilder sb = new StringBuilder();
+    
+           sb.append("http://farm");
+           sb.append(FARMID);
+           sb.append(".static.flickr.com/");
+           sb.append(SERVERID);
+           sb.append("/");
+           sb.append(ID);
+           sb.append("_");
+           sb.append(SECRET);
+           sb.append(size.toString());                    
+           sb.append(".jpg");
+    
+           return sb.toString();
+   }
 }

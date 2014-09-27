@@ -1,26 +1,20 @@
 package com.myteam.thisorthat.activity;
 
-import java.util.ArrayList;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.facebook.FacebookRequestError;
@@ -29,42 +23,17 @@ import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
 import com.myteam.thisorthat.R;
-import com.myteam.thisorthat.R.drawable;
-import com.myteam.thisorthat.adapter.NavDrawerListAdapter;
 import com.myteam.thisorthat.adapter.SectionsPagerAdapter;
-import com.myteam.thisorthat.model.NavDrawerItem;
-import com.myteam.thisorthat.util.CircularTransformation;
-import com.myteam.thisorthat.util.ParseConstants;
 import com.parse.ParseAnalytics;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
-import com.squareup.picasso.Picasso;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 
-	/**
-	 * Slide menu item click listener
-	 * */
-
-	/*
-	 * private class SlideMenuClickListener implements
-	 * ListView.OnItemClickListener {
-	 * 
-	 * @Override public void onItemClick(AdapterView<?> parent, View view, int
-	 * position, long id) { // display view for selected nav drawer item
-	 * displayView(position); } }
-	 */
 
 	public static final String TAG = MainActivity.class.getSimpleName();
-	public static final int TAKE_PHOTO_REQUEST = 0;
-	public static final int TAKE_VIDEO_REQUEST = 1;
-	public static final int PICK_PHOTO_REQUEST = 2;
 
-	public static final int PICK_VIDEO_REQUEST = 3;
-	public static final int MEDIA_TYPE_IMAGE = 4;
-
-	public static final int MEDIA_TYPE_VIDEO = 5;
 	private int MENU_HOME = 2;
 	private int MENU_SUBSCRIBE = 1;
 	private int MENU_SETTINGS = 0;
@@ -74,26 +43,15 @@ public class MainActivity extends FragmentActivity implements
 	protected Uri mMediaUri;
 
 	protected Menu mMenu;
-	private DrawerLayout mDrawerLayout;
-	private ListView mDrawerList;
-	private TextView mFriends;
-	private TextView mExplore;
-	private ActionBarDrawerToggle mDrawerToggle;
+
 	private ActionBar mActionBar;
 	private TextView mTitleHome;
 	private ParseUser currentUser;
-	// nav drawer title
-	private CharSequence mDrawerTitle;
+
 	private ImageView mIconMiddle; 
 	// used to store app title
 	private CharSequence mTitle;
-	// slide menu items
-	private String[] navMenuTitles;
 
-	private TypedArray navMenuIcons;
-	private ArrayList<NavDrawerItem> navDrawerItems;
-
-	private NavDrawerListAdapter adapter;
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -133,7 +91,6 @@ public class MainActivity extends FragmentActivity implements
 		currentUser = ParseUser.getCurrentUser();
 
 		setTitleFont();
-		mTitle = mDrawerTitle = getTitle();
 		if (currentUser == null) {
 			navigateToLogin();
 		}
@@ -264,7 +221,7 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	private void updateMenu(int position) {
-		if (position == 2) {
+		if (position == MENU_HOME) {
 			getActionBar().setDisplayShowHomeEnabled(true);
 			mActionBar.setCustomView(R.layout.actionbar_custom_view_home);
 			setTitleFont();
@@ -273,7 +230,7 @@ public class MainActivity extends FragmentActivity implements
 			mMenu.getItem(2).setVisible(false);
 			mActionBar.setIcon(R.drawable.pulse);
 			CURRENT_MENU = MENU_HOME;
-		} else if (position == 1) {
+		} else if (position == MENU_SUBSCRIBE) {
 			mActionBar.setCustomView(R.layout.actionbar_custom_view_feed);
 			mIconMiddle = (ImageView) findViewById(R.id.pulseButton);
 			
@@ -287,11 +244,10 @@ public class MainActivity extends FragmentActivity implements
 			CURRENT_MENU = MENU_SUBSCRIBE;
 
 		}
-		else if(position == 0){
+		else if(position == MENU_SETTINGS){
 			
 			
-			
-			getActionBar().setDisplayShowHomeEnabled(false);
+			mActionBar.setIcon(R.color.transparent);
 			
 			mMenu.getItem(0).setVisible(false);
 			mMenu.getItem(1).setVisible(false);

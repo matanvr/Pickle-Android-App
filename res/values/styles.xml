@@ -16,17 +16,14 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-    
-        <style name="CodeFont" parent="@android:style/TextAppearance.Medium">
+
+    <style name="CodeFont" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">#FFFFFF</item>
-       
         <item name="android:textStyle">bold</item>
     </style>
-    
-        
-        
+
     <style name="Theme.Theme" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_theme</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Theme</item>
@@ -37,9 +34,6 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_theme</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_theme</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Theme</item>
-      
-        
-        
     </style>
 
     <style name="ActionBar.Solid.Theme" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
@@ -48,14 +42,12 @@
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_theme</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Theme</item>
         <item name="android:titleTextStyle">@style/ActionBar.Solid.Theme.TitleTextStyle</item>
+        <item name="android:icon">@android:color/transparent</item>
     </style>
-   
 
     <style name="ActionBar.Solid.Theme.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">#000</item>
     </style>
-    
-    
 
     <style name="ActionBar.Transparent.Theme" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@drawable/ab_transparent_theme</item>
@@ -63,7 +55,7 @@
     </style>
 
     <style name="PopupMenu.Theme" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_theme</item>	
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_theme</item>
     </style>
 
     <style name="DropDownListView.Theme" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
@@ -79,11 +71,11 @@
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_theme</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_theme</item>
     </style>
-    
+
     <style name="ProgressBar.Theme" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_theme</item>
     </style>
-    
+
     <style name="ActionButton.CloseMode.Theme" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_theme</item>
     </style>
@@ -93,8 +85,8 @@
         <item name="android:popupMenuStyle">@style/PopupMenu.Theme</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Theme</item>
     </style>
-    
-        <style name= "AuthBackground">
+
+    <style name="AuthBackground">
         <item name="android:background">#fff</item>
     </style>
 
@@ -103,9 +95,9 @@
         <item name="android:layout_width">match_parent </item>
         <item name="android:layout_height"> match_parent </item>
         <item name="android:layout_alignParentLeft"> true</item>
-        <item name="android:src" > @drawable/background </item>
+        <item name="android:src"> @drawable/background </item>
     </style>
-        
+
     <style name="GridImage">
         <item name="android:adjustViewBounds">true</item>
         <item name="android:scaleType">fitXY</item>
@@ -114,10 +106,9 @@
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_alignParentTop">true</item>
     </style>
-    
-    
+
     <style name="Widget"></style>
-    
+
     <style name="Widget.ProgressBar.CircularProgressBar" parent="Widget">
         <item name="android:indeterminateOnly">false</item>
         <item name="android:adjustViewBounds">true</item>
@@ -132,9 +123,9 @@
         <item name="hasShadow">false</item>
         <item name="strokeWidth">5</item>
     </style>
-    
+
     <style name="AlertDialogTheme" parent="android:Theme.Dialog">
-    <item name="android:textSize">15sp</item>
-</style>
-    
+        <item name="android:textSize">15sp</item>
+    </style>
+
 </resources>
