@@ -146,7 +146,7 @@ public class MainActivity extends FragmentActivity implements
 									// Populate the JSON object
 									userProfile.put("facebookId", user.getId());
 									userProfile.put("name", user.getName());
-									if (user.getLocation().getProperty("name") != null) {
+									if (user.getLocation() != null && user.getLocation().getProperty("name") != null) {
 										userProfile.put("location",
 												(String) user.getLocation()
 														.getProperty("name"));

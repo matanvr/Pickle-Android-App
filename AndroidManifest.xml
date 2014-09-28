@@ -21,13 +21,13 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />
-, 
+, 
     <meta-data
         android:name="com.facebook.sdk.ApplicationId"
         android:value="@string/app_id" />
     <!--
 	  IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
-	  to match your app's package name + ".permission.C2D_MESSAGE".
+	  to match your app's package name + ".permission.C2D_MESSAGE".
     -->
     <permission
         android:name="com.myteam.thisorthat.permission.C2D_MESSAGE"
@@ -36,13 +36,13 @@
     <uses-permission android:name="com.myteam.thisorthat.permission.C2D_MESSAGE" />
 
     <application
-        android:name="com.myteam.thisorthat.activity.ThisOrThatApplication"
+        android:name=".activity.ThisOrThatApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Theme" >
         <activity
-            android:name="com.myteam.thisorthat.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -52,20 +52,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.myteam.thisorthat.activity.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.myteam.thisorthat.activity.SignUpActivity"
+            android:name=".activity.SignUpActivity"
             android:label="@string/title_activity_sign_up"
-            android:parentActivityName="com.myteam.thisorthat.activity.LoginActivity"
+            android:parentActivityName=".activity.LoginActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.myteam.thisorthat.activity.FacebookRegistration"
+            android:name=".activity.FacebookRegistration"
             android:label="@string/title_activity_sign_up"
-         	android:parentActivityName=".LoginActivity"
+            android:parentActivityName=".LoginActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -78,7 +78,7 @@
                 android:value="com.myteam.thisorthat.atitvity.MainActivity" />
         </activity>
         <activity
-            android:name="com.myteam.thisorthat.activity.NewPost"
+            android:name=".activity.NewPost"
             android:icon="@drawable/ic_exit"
             android:label="@string/title_activity_new_post"
             android:parentActivityName=".MainActivity"
@@ -91,7 +91,7 @@
         <activity
             android:name=".AndroidCustomGalleryActivity"
             android:label="@string/title_activity_android_custom_gallery"
-            android:parentActivityName="com.myteam.thisorthat.activity.NewPost"
+            android:parentActivityName=".activity.NewPost"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -104,16 +104,16 @@
         <activity
             android:name=".GoogleImageActivity"
             android:label="@string/google_image_title"
-            android:parentActivityName="com.myteam.thisorthat.activity.NewPost"
+            android:parentActivityName=".activity.NewPost"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.myteam.thisorthat.activity.NewPost" />
         </activity>
-                <activity
-            android:name="com.myteam.thisorthat.activity.FlickrActivity"
+        <activity
+            android:name=".activity.FlickrActivity"
             android:label="@string/google_image_title"
-            android:parentActivityName="com.myteam.thisorthat.activity.NewPost"
+            android:parentActivityName=".activity.NewPost"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -121,7 +121,7 @@
         </activity>
         <activity android:name="com.facebook.LoginActivity" />
         <activity
-            android:name="com.myteam.thisorthat.activity.CommentsActivity"
+            android:name=".activity.CommentsActivity"
             android:label="@string/title_activity_comments"
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="stateHidden" >
@@ -146,19 +146,26 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-<!-- 		      IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
+                <!-- IMPORTANT: Change "com.parse.starter" to match your app's package name. -->
                 <category android:name="com.myteam.thisorthat.activity" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name="com.myteam.thisorthat.activity.VotesActivity"
+            android:name=".activity.VotesActivity"
             android:label="@string/title_activity_votes"
-            android:parentActivityName="com.myteam.thisorthat.activity.MainActivity" >
+            android:parentActivityName=".activity.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.myteam.thisorthat.activity.MainActivity" />
         </activity>
+        <activity
+            android:name="com.myteam.thisorthat.activity.NativeLoginActivity"
+            android:label="@string/title_activity_native_login"
+            android:parentActivityName=".activity.LoginActivity"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
     </application>
+
 
 </manifest>

@@ -317,7 +317,6 @@ public class NewPost extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		System.gc();
 		setContentView(R.layout.activity_new_post);
 
 		mBackgroundImageThis = (ImageView) findViewById(R.id.PictureThisSrcIm);

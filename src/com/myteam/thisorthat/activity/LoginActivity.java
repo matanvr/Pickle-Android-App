@@ -40,15 +40,14 @@ import com.parse.ParseUser;
 
 public class LoginActivity extends Activity {
 
-	private EditText mUsername;
-	private EditText mPassword;
 	private Button mLoginButton;
+	private Button mSignUpButton;
 	private Button loginButton;
 	private Dialog progressDialog;
-	private TextView mSignUpTextView;
+
 	private TextView logoText;
 	private TextView sloganText;
-	private TextView orText;
+
 	private static final String TAG = LoginActivity.class.getSimpleName();
 	
 	@Override
@@ -68,7 +67,7 @@ public class LoginActivity extends Activity {
 		Typeface tf = Typeface.createFromAsset(
 				getAssets(), "fonts/WhitneyCondensed-Book.otf");
 		
-		loginButton = (Button) findViewById(R.id.facebookLogin);
+		loginButton = (Button) findViewById(R.id.facebookLoginButton);
 		logoText = (TextView) findViewById(R.id.title);
 		sloganText = (TextView) findViewById(R.id.subtitle);
 		loginButton.setOnClickListener(new View.OnClickListener() {
@@ -77,9 +76,9 @@ public class LoginActivity extends Activity {
 				onLoginButtonClicked();
 			}
 		});
+		mSignUpButton = (Button) findViewById(R.id.signup);
 
-		mSignUpTextView = (TextView)findViewById(R.id.signUpText);
-		mSignUpTextView.setOnClickListener(new View.OnClickListener() {
+		mSignUpButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
@@ -87,67 +86,23 @@ public class LoginActivity extends Activity {
 			}
 		});
 		
-		mUsername = (EditText)findViewById(R.id.usernameField);
-		mPassword = (EditText)findViewById(R.id.passwordField);
+
 		mLoginButton = (Button)findViewById(R.id.loginButton);
-		orText = (TextView) findViewById(R.id.OR);
-		logoText.setTypeface(tf);
-		sloganText.setTypeface(tf);
-		mUsername.setTypeface(tf);
-		mPassword.setTypeface(tf);
-		mSignUpTextView.setTypeface(tf);
-		mLoginButton.setTypeface(tf);
-		loginButton.setTypeface(tf);
-		orText.setTypeface(tf);
-		
 		
 		mLoginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String username = mUsername.getText().toString();
-				String password = mPassword.getText().toString();
-				
-				username = username.trim();
-				password = password.trim();
-				
-				if (username.isEmpty() || password.isEmpty()) {
-					AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-					builder.setMessage(R.string.login_error_message)
-						.setTitle(R.string.login_error_title)
-						.setPositiveButton(android.R.string.ok, null);
-					AlertDialog dialog = builder.create();
-					dialog.show();
-				}
-				else {
-					// Login
-					setProgressBarIndeterminateVisibility(true);
-					
-					ParseUser.logInInBackground(username, password, new LogInCallback() {
-						@Override
-						public void done(ParseUser user, ParseException e) {
-							setProgressBarIndeterminateVisibility(false);
-							
-							if (e == null) {
-								// Success!
-								ThisOrThatApplication.updateParseInstallation(user);
-								Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-								intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-								startActivity(intent);
-							}
-							else {
-								AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-								builder.setMessage(e.getMessage())
-									.setTitle(R.string.login_error_title)
-									.setPositiveButton(android.R.string.ok, null);
-								AlertDialog dialog = builder.create();
-								dialog.show();
-							}
-						}
-					});
-				}
+				Intent intent = new Intent(LoginActivity.this, NativeLoginActivity.class);
+				startActivity(intent);
 			}
 		});
+		logoText.setTypeface(tf);
+		sloganText.setTypeface(tf);
+		mSignUpButton.setTypeface(tf);
+
+		mLoginButton.setTypeface(tf);
+		loginButton.setTypeface(tf);
+		
 	}
 
 	private void onLoginButtonClicked() {
