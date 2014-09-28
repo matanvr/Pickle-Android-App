@@ -35,6 +35,7 @@ public class NewsfeedFragment extends Fragment {
 	private GridView mGridView;
 	private ParseUser mCurrentUser;
 	private String mUserId;
+	private List<ParseObject> userVotes;
 	SwipeRefreshLayout mSwipeRefreshLayout;
 	public static final String TAG = NewsfeedFragment.class.getSimpleName();
 
@@ -115,6 +116,7 @@ public class NewsfeedFragment extends Fragment {
 			public void done(List<ParseObject> userVotes, ParseException e) {
 
 				if (e == null) {
+					NewsfeedFragment.this.userVotes = userVotes;
 					ParseQuery <ParseObject> postQ = new ParseQuery<ParseObject>(ParseConstants.CLASS_DILEMMA);
 					postQ.whereContainedIn(ParseConstants.KEY_OBJECT_ID, getPostIds(userVotes));
 					postQ.addDescendingOrder(ParseConstants.KEY_UPDATED_AT);
@@ -140,14 +142,18 @@ public class NewsfeedFragment extends Fragment {
 										post.put("thatUri", thatUri.toString());
 										post.saveInBackground();
 									}
+									
 
 									
 								}
+								
+								
+								
 								if (mSwipeRefreshLayout.isRefreshing()) {
 									mSwipeRefreshLayout.setRefreshing(false);
 								}
 								NewsfeedGridAdapter adapter = new NewsfeedGridAdapter(mContext, R.layout.mini_posts,
-										mMessages);
+										mMessages, NewsfeedFragment.this.userVotes);
 
 								mGridView.setAdapter(adapter);
 							}
@@ -172,7 +178,7 @@ public class NewsfeedFragment extends Fragment {
 		}
 		return postIds;
 	}
-	
+	/*
 	public void getAllPosts() {
 
 		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(
@@ -207,7 +213,7 @@ public class NewsfeedFragment extends Fragment {
 						
 					}
 					NewsfeedGridAdapter adapter = new NewsfeedGridAdapter(mContext, R.layout.mini_posts,
-							mMessages);
+							mMessages,userVotes);
 
 					mGridView.setAdapter(adapter);
 					
@@ -218,7 +224,7 @@ public class NewsfeedFragment extends Fragment {
 		});
 	}
 
-
+*/
 
 
 }

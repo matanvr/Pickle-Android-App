@@ -1,5 +1,6 @@
 package com.myteam.thisorthat.adapter;
 
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -18,7 +19,6 @@ import android.widget.TextView;
 
 import com.lylc.widget.circularprogressbar.example.CircularProgressBar;
 import com.myteam.thisorthat.R;
-import com.myteam.thisorthat.activity.CommentsActivity;
 import com.myteam.thisorthat.activity.VotesActivity;
 import com.myteam.thisorthat.model.PostItem;
 import com.myteam.thisorthat.util.ParseConstants;
@@ -44,12 +44,18 @@ public class NewsfeedGridAdapter extends ArrayAdapter<ParseObject> {
 	private List<ParseObject> mPosts; 
 	private Context mContext;
 	private int mLayoutResourceId;
+	private HashMap <String,ParseObject> userVotesMap;
+	
 	public NewsfeedGridAdapter(Context context, int layoutResourceId,
-			List <ParseObject> posts) {
+			List <ParseObject> posts, List<ParseObject> userVotes) {
 		super(context, layoutResourceId, posts);
 		mLayoutResourceId = layoutResourceId;
 		mContext = context;
 		mPosts = posts;
+		userVotesMap = new HashMap<String,ParseObject>();
+		for (ParseObject uv : userVotes){
+			userVotesMap.put(uv.getString(ParseConstants.KEY_POST_ID), uv);
+		}
 	}
 	private int [] mColorArray;
 	@Override
@@ -67,9 +73,7 @@ public class NewsfeedGridAdapter extends ArrayAdapter<ParseObject> {
 			holder.question = (TextView) row.findViewById(R.id.question_mini_t);
 
 			holder.thisBar = (CircularProgressBar) row.findViewById(R.id.circle_result);
-			//holder.thatBar = (CircularProgressBar) row.findViewById(R.id.circle_that);
-			//holder.thisCaption = (TextView) row.findViewById(R.id.this_mini_caption);
-			//holder.thatCaption = (TextView) row.findViewById(R.id.that_mini_caption);
+
 			
 			row.setTag(holder);
 		} else {
@@ -97,20 +101,11 @@ public class NewsfeedGridAdapter extends ArrayAdapter<ParseObject> {
 		int thatPercentage = (thatVotes*100)/totalVotes;
 		
 		holder.question.setTypeface(postTypeface);
-		//holder.thisVotes.setTypeface(postTypeface);
-		//holder.thatVotes.setTypeface(postTypeface);
-		//holder.thisCaption.setTypeface(myTypeface);
-		//holder.thatCaption.setTypeface(myTypeface);
+
 		int [] mColorArray = mContext.getResources().getIntArray(R.array.post_colors);
-		//holder.thisCaption.setBackgroundColor(mColorArray[item.getInt("color")]);
-		//holder.thatCaption.setBackgroundColor(mColorArray[item.getInt("color")]);
+
 		holder.question.setText(item.getString(ParseConstants.KEY_QUESTION_TEXT));
-	//	holder.thisCaption.setText(item.getString(ParseConstants.KEY_THIS_CAPTION));
-	//	holder.thatCaption.setText(item.getString(ParseConstants.KEY_THAT_CAPTION));
-		//holder.thisVotes.setText(Integer.toString(thisPercentage)+"%");
-		//holder.thatVotes.setText(Integer.toString(thatPercentage)+"%");
-	//	holder.thatBar.setTitleColor(Color.WHITE);
-		//holder.thatBar.setProgressColor(Color.WHITE);
+
 		int displayPercentage = thisPercentage;
 		String displayCaption = item.getString(ParseConstants.KEY_THIS_CAPTION);
 		if(thisPercentage < thatPercentage){
@@ -121,11 +116,7 @@ public class NewsfeedGridAdapter extends ArrayAdapter<ParseObject> {
 		holder.thisBar.setSubTitleColor(Color.WHITE);
 		holder.thisBar.setProgressColor(Color.WHITE);
 		holder.thisBar.setSubTitle(displayPercentage+"%");
-		holder.thisBar.setProgress(displayPercentage);
-	//	holder.thatBar.setSubTitle(thatPercentage+"%");
 		holder.thisBar.setTitle(displayCaption);
-		//holder.thatBar.setTitle(item.getString(ParseConstants.KEY_THAT_CAPTION));
-		//holder.thatBar.setProgress(thatPercentage);
 		holder.thisImage.setOnClickListener(new ItemOnClickListener(position));
 		holder.thatImage.setOnClickListener(new ItemOnClickListener(position));
 
@@ -149,6 +140,7 @@ public class NewsfeedGridAdapter extends ArrayAdapter<ParseObject> {
 			PostItem item = new PostItem();
 			ParseObject message = mPosts.get(position);
 			String postId = message.getObjectId();
+			int userVote = userVotesMap.get(postId).getInt(ParseConstants.KEY_USER_VOTE);
 			item.setSenderName((message.getString(ParseConstants.KEY_SENDER_NAME)));
 			item.setSenderId((message.getString(ParseConstants.KEY_SENDER_ID)));
 			
@@ -161,7 +153,7 @@ public class NewsfeedGridAdapter extends ArrayAdapter<ParseObject> {
 			item.setThisImage(message.getString("thisUri"));
 			item.setThatImage(message.getString("thatUri"));
 			item.setColor(mColorArray[message.getInt("color")]);
-			intent.putExtra(ParseConstants.KEY_USER_VOTE, 1); //TODO FIX
+			intent.putExtra(ParseConstants.KEY_USER_VOTE, userVote); //TODO FIX
 			intent.putExtra("postItem", item);
 
 			

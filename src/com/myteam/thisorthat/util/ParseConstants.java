@@ -44,6 +44,7 @@ public final class ParseConstants {
 	public static final String KEY_COMMENTS  = "comments";
 	public static final String KEY_COMMENT_ID = "commentId";
 	public static final String KEY_COMMENT_TEXT = "commentText";
+	public static final String KEY_POST_COLOR = "color";
 	
 	public static String getUserPic(String userID) {
 	    String imageURL;

@@ -92,14 +92,11 @@ public class NewPost extends Activity {
 	public static final int GOOGLE_IMAGE_REQUEST = 6;
 	public static final String QUESTION_TEXT = "QuestionText";
 	public static final String ANONYMOUS = "Anonymous";
-	private String mThatUri;
-	private String mThisUri;
 	private String mThisTypedKeywords;
 	private String mThatTypedKeywords;
 	private Bitmap mThisBitmap;
 	private Bitmap mThatBitmap;
-	private Uri PhotoId;
-	private int mImageAngle;
+
 	private TextView mSendPost;
 	private ImageView mClosePost;
 	private ImageView mShuffleThis;
@@ -117,7 +114,7 @@ public class NewPost extends Activity {
 	public static final int REQUEST_CODE_CROP_IMAGE = 0x3;
 
 	public static final int REQUEST_FLICKR_IMAGE = 0x4;
-	private ImageView mImageView;
+
 
 	private File mFileTemp;
 
@@ -182,7 +179,7 @@ public class NewPost extends Activity {
 				.toString());
 		message.put(ParseConstants.KEY_THAT_CAPTION, mThatCaption.getText()
 				.toString());
-
+		message.put(ParseConstants.KEY_POST_COLOR, (new Random()).nextInt(4));
 		if (mThisBitmap == null || mThatBitmap == null) {
 			return null;
 		}
@@ -473,23 +470,6 @@ public class NewPost extends Activity {
 		return true;
 	}
 
-	/*
-	 * @Override public boolean onOptionsItemSelected(MenuItem item) { int
-	 * itemId = item.getItemId();
-	 * 
-	 * switch(itemId) { case R.id.action_next: //go to recipients ParseObject
-	 * message = createMessage(); if (message == null) { // error
-	 * AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	 * builder.setMessage(R.string.error_selecting_file)
-	 * .setTitle(R.string.error_selecting_file_title)
-	 * .setPositiveButton(android.R.string.ok, null); AlertDialog dialog =
-	 * builder.create(); dialog.show(); } else { send(message); finish(); }
-	 * break;
-	 * 
-	 * }
-	 * 
-	 * return super.onOptionsItemSelected(item); }
-	 */
 
 	@Override
 	protected void onPause() {
@@ -666,8 +646,7 @@ public class NewPost extends Activity {
 					mThatBitmap = photo; // save bitmap
 				}
 
-				// SetListViewAdapter(listImages);
-				// System.out.println("Result array length => "+resultArray.length());
+
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

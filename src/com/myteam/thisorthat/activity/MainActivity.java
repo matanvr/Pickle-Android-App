@@ -228,6 +228,7 @@ public class MainActivity extends FragmentActivity implements
 			mMenu.getItem(0).setVisible(true);
 			mMenu.getItem(1).setVisible(false);
 			mMenu.getItem(2).setVisible(false);
+			getActionBar().setHomeButtonEnabled(true); 
 			mActionBar.setIcon(R.drawable.pulse);
 			CURRENT_MENU = MENU_HOME;
 		} else if (position == MENU_SUBSCRIBE) {
@@ -237,6 +238,7 @@ public class MainActivity extends FragmentActivity implements
 			
 			mIconMiddle.setImageResource(R.drawable.pulse);
 			getActionBar().setDisplayShowHomeEnabled(true);
+			getActionBar().setHomeButtonEnabled(true); 
 			mMenu.getItem(0).setVisible(false);
 			mMenu.getItem(1).setVisible(true);
 			mMenu.getItem(2).setVisible(false);
@@ -247,8 +249,8 @@ public class MainActivity extends FragmentActivity implements
 		else if(position == MENU_SETTINGS){
 			
 			
-			mActionBar.setIcon(R.color.transparent);
-			
+			mActionBar.setIcon(R.drawable.ic_action_space);
+			getActionBar().setHomeButtonEnabled(false); 
 			mMenu.getItem(0).setVisible(false);
 			mMenu.getItem(1).setVisible(false);
 			mMenu.getItem(2).setVisible(true);
