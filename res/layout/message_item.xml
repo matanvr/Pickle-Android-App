@@ -3,21 +3,19 @@
     android:layout_width="match_parent"
     android:id="@+id/post_layout"
     xmlns:circular="http://schemas.android.com/apk/res/com.myteam.thisorthat"
-    android:layout_height="wrap_content"
-    android:background="#fff" >
+    android:layout_height="wrap_content" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner"
+
         android:layout_marginTop="2dp" >
 
         <TableLayout
             android:id="@+id/tableLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/rounded_corner" >
+            android:layout_alignParentLeft="true">
 
             <TableRow
                 android:id="@+id/tableRow1"
@@ -35,7 +33,7 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:background="#F1F3F7" >
+                     >
 
                     <View
                         android:id="@+id/buttonDivider"
@@ -74,7 +72,7 @@
                         android:text="THAT"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="#000" />
-
+<!--  
                     <View
                         android:id="@+id/view1"
                         android:layout_width="wrap_content"
@@ -85,8 +83,8 @@
                         android:layout_marginRight="3dp"
                         android:layout_toRightOf="@+id/thisLabel"
                         android:background="@drawable/button_custom"
-                        android:visibility="invisible" />
-
+                        android:visibility="invisible" />-->
+<!--  
                     <View
                         android:id="@+id/view5"
                         android:layout_width="wrap_content"
@@ -98,7 +96,7 @@
                         android:layout_marginRight="3dp"
                         android:layout_toLeftOf="@+id/thatLabel"
                         android:background="@drawable/button_custom"
-                        android:visibility="invisible" />
+                        android:visibility="invisible" />-->
                 </RelativeLayout>
             </TableRow>
 
@@ -118,13 +116,7 @@
                         android:layout_width="180dp"
                         android:layout_height="320dp"
                         android:alpha="1" >
-     <ProgressBar
-                            android:id="@+id/this_progressBar"
-                            style="?android:attr/progressBarStyleLarge"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true" />
+     
                         <ImageView
                             android:id="@+id/ThisPicture"
                             android:layout_width="180dp"
@@ -148,19 +140,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginBottom="30dp"
                             android:gravity="left" >
-
-                            <TextView
-                                android:id="@+id/thisVote"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginLeft="10dp"
-                                android:gravity="center|left"
-                                android:text="21"
-                                android:visibility="invisible"
-                                android:textColor="#fff"
-                                android:textSize="25sp"
-                                android:textStyle="bold" />
                                                     <com.lylc.widget.circularprogressbar.example.CircularProgressBar
                             android:id="@+id/circlethisbar"
                             style="@style/Widget.ProgressBar.Holo.CircularProgressBar"
@@ -193,13 +172,6 @@
                         android:layout_height="320dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentTop="true" >
-<ProgressBar
-                            android:id="@+id/that_progressBar"
-                            style="?android:attr/progressBarStyleLarge"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true" />
                         <ImageView
                             android:id="@+id/ThatPicture"
                             android:layout_width="180dp"
@@ -225,19 +197,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginBottom="30dp"
                             android:gravity="right" >
-
-                            <TextView
-                                android:id="@+id/that_Votes"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginRight="10dp"
-                                android:gravity="center|right"
-                                android:text="21"
-                                android:visibility="invisible"
-                                android:textColor="#fff"
-                                android:textSize="25sp"
-                                android:textStyle="bold" />
 
                             <com.lylc.widget.circularprogressbar.example.CircularProgressBar
                                 android:id="@+id/circlethatbar"

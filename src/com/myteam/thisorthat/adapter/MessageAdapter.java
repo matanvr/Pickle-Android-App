@@ -107,10 +107,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					R.array.post_colors);
 			mHolder.moreOptions = (ImageView) convertView
 					.findViewById(R.id.moreOptions);
-			mHolder.mThisProgress = (ProgressBar) convertView
-					.findViewById(R.id.this_progressBar);
-			mHolder.mThatProgress = (ProgressBar) convertView
-					.findViewById(R.id.that_progressBar);
+
 
 			Typeface myTypeface = Typeface.createFromAsset(
 					mContext.getAssets(), "fonts/WhitneyCondensed-Book.otf");
@@ -122,8 +119,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 					"fonts/WhitneyCondensed-Medium.otf");
 
 			mHolder.Question.setTypeface(postTypeface);
-			mHolder.thisVot.setTypeface(postTypeface);
-			mHolder.thatVot.setTypeface(postTypeface);
+
 			mHolder.ThisCaption.setTypeface(myTypeface);
 			mHolder.ThatCaption.setTypeface(myTypeface);
 			mHolder.From.setTypeface(myLightType);
@@ -367,10 +363,10 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 		thatUri = Uri.parse(message.getString("thatUri"));
 
 		String uri = message.get(ParseConstants.KEY_FILE_THIS).toString();
-		mHolder.mThisProgress.setVisibility(View.VISIBLE);
+		//mHolder.mThisProgress.setVisibility(View.VISIBLE);
 		Picasso.with(mContext).load(thisUri.toString()).resize(480, 853)
 				.centerCrop().into(mHolder.This);
-		mHolder.mThatProgress.setVisibility(View.VISIBLE);
+		//mHolder.mThatProgress.setVisibility(View.VISIBLE);
 		Picasso.with(mContext).load(thatUri.toString()).resize(480, 853)
 				.centerCrop().into(mHolder.That);
 
@@ -430,7 +426,7 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 
 	public void toggleAnimation(TextView textView) {
 		float dest = 1;
-		if (mHolder.thisVot.getAlpha() > 0) {
+		if (mHolder.mThisBar.getAlpha() > 0) {
 			dest = 0;
 		}
 		ObjectAnimator animation3 = ObjectAnimator.ofFloat(textView, "alpha",

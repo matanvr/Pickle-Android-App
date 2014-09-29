@@ -52,8 +52,6 @@ public class VotesActivity extends Activity {
 	private ImageView This;
 	private ImageView That;
 	private TextView From;
-	private TextView thisVot;
-	private TextView thatVot;
 	private TextView ThatCaption;
 	private List<ParseObject> mVotes;
 	private ImageView mMoreOptions;
@@ -96,8 +94,7 @@ public class VotesActivity extends Activity {
 		This = (ImageView) findViewById(R.id.ThisPicture);
 		That = (ImageView) findViewById(R.id.ThatPicture);
 		From = (TextView) findViewById(R.id.FromLabelView);
-		thisVot = (TextView) findViewById(R.id.thisVote);
-		thatVot = (TextView) findViewById(R.id.that_Votes);
+
 		ThatCaption = (TextView)findViewById(R.id.thatLabel);
 		mThisBar = (CircularProgressBar) findViewById(R.id.circlethisbar);
 		mThatBar = (CircularProgressBar) findViewById(R.id.circlethatbar);
@@ -117,8 +114,7 @@ public class VotesActivity extends Activity {
 				"fonts/WhitneyCondensed-Light.otf");
 
 		Question.setTypeface(postTypeface);
-		thisVot.setTypeface(myTypeface);
-		thatVot.setTypeface(myTypeface);
+
 		ThisCaption.setTypeface(myTypeface);
 		ThatCaption.setTypeface(myTypeface);
 		From.setTypeface(lightType);
