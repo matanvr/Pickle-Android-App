@@ -108,7 +108,7 @@ public class NewsfeedGridAdapter extends ArrayAdapter<ParseObject> {
 
 		int displayPercentage = thisPercentage;
 		String displayCaption = item.getString(ParseConstants.KEY_THIS_CAPTION);
-		if(thisPercentage < thatPercentage){
+		if(thisPercentage <= thatPercentage){
 			displayCaption = item.getString(ParseConstants.KEY_THAT_CAPTION);
 			displayPercentage = thatPercentage;
 		}
@@ -117,6 +117,7 @@ public class NewsfeedGridAdapter extends ArrayAdapter<ParseObject> {
 		holder.thisBar.setProgressColor(Color.WHITE);
 		holder.thisBar.setSubTitle(displayPercentage+"%");
 		holder.thisBar.setTitle(displayCaption);
+		holder.thisBar.setProgress(displayPercentage);
 		holder.thisImage.setOnClickListener(new ItemOnClickListener(position));
 		holder.thatImage.setOnClickListener(new ItemOnClickListener(position));
 
