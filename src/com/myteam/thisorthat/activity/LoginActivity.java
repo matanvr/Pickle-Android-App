@@ -107,7 +107,7 @@ public class LoginActivity extends Activity {
 
 	private void onLoginButtonClicked() {
 		LoginActivity.this.progressDialog = ProgressDialog.show(
-				LoginActivity.this, "", "Logging in...", true);
+				LoginActivity.this, "", "Get Ready to Pickle...", true);
 		List<String> permissions = Arrays.asList("public_profile", "email",
 				"user_friends");
 		ParseFacebookUtils.logIn(permissions, this, new LogInCallback() {
