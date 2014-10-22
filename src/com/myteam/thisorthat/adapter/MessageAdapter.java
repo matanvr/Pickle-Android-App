@@ -311,13 +311,13 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
 				mHolder.ThisCaption.setTextColor(Color.WHITE);
 				mHolder.ThatCaption.setBackgroundColor(Color.WHITE);
 				mHolder.ThisCaption.setBackgroundColor(randColor);
-				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
+				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 			} else {
 
 				mHolder.ThatCaption.setTextColor(Color.WHITE);
 				mHolder.ThisCaption.setTextColor(Color.BLACK);
-				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
+				mHolder.ThatCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 				mHolder.ThisCaption.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 
 				// set color randomly

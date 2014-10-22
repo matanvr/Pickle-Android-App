@@ -37,7 +37,7 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import com.myteam.thisorthat.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.CheckBox;
@@ -254,7 +254,7 @@ public class NewPost extends Activity {
 
 			} catch (Exception e) {
 
-				Log.e(TAG, "Error while creating temp file", e);
+				Log.d(TAG, "Error while creating temp file");
 			}
 
 			break;
@@ -559,7 +559,7 @@ public class NewPost extends Activity {
 			startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
 		} catch (ActivityNotFoundException e) {
 
-			Log.d(TAG, "cannot take picture", e);
+			Log.d(TAG, "cannot take picture");
 		}
 	}
 

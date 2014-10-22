@@ -52,7 +52,7 @@ public final class ParseConstants {
 	    	return null;
 	    }
 	    imageURL = "https://graph.facebook.com/"+userID+"/picture?type=normal";
-	    Log.d("profile user", imageURL);
+
 	    return imageURL;
 	}
 	public static boolean isNumeric(String str)
@@ -65,7 +65,6 @@ public final class ParseConstants {
 	    	return null;
 	    }
 	    imageURL = "https://graph.facebook.com/"+userID+"/picture?type=large";
-	    Log.d("profile user", imageURL);
 	    return imageURL;
 	}
 	
