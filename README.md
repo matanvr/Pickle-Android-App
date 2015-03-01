@@ -10,3 +10,6 @@ Or maybe you're just bored? Browse through your news feed and vote on your frien
 As friends, its everyone's duty to help each other out in their times of need.
 
 If you're in a pickle, Pickle it! Theres no decision too tough to make when you have your friends rallying behind you. Let Social Voting do the work for you!
+
+
+![alt tag](https://github.com/matanvr/Pickle-Android-App/blob/master/github-page/pickle.gif)
